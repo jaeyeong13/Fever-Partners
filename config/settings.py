@@ -34,17 +34,23 @@ DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = []
 
+CUSTOM_APPS = [
 
-# Application definition
+]
 
-INSTALLED_APPS = [
+THIRD_PARTY_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
 ]
+
+# Application definition
+
+INSTALLED_APPS = CUSTOM_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -123,6 +129,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+    # 다른 앱의 정적 파일 경로도 추가할 수 있음
+    # os.path.join(BASE_DIR, 'other_app/static'),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
