@@ -35,7 +35,9 @@ DEBUG = env("DEBUG")
 ALLOWED_HOSTS = []
 
 CUSTOM_APPS = [
-
+    "apps.user_management",
+    "apps.group_management",
+    "apps.goal_management",
 ]
 
 THIRD_PARTY_APPS = [
@@ -116,9 +118,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ko-kr"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Seoul"
 
 USE_I18N = True
 
@@ -129,12 +131,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
-
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
     # 다른 앱의 정적 파일 경로도 추가할 수 있음
     # os.path.join(BASE_DIR, 'other_app/static'),
 ]
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
