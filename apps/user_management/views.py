@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import *
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login,logout, authenticate
+from .models import User
+from apps.alarm.models import Alarm
 
 def start(request):
     return render(request, "user_management/start.html")
@@ -22,6 +24,10 @@ def user_login(request):
             return render(request, 'user_management/login.html', {'error': 'Invalid email or password'})
 
     return render(request, 'user_management/login.html')
+
+def user_logout(request):
+    logout(request)
+    return redirect('/')
 
 def user_signup(request):
     return render(request, "user_management/signup.html")
@@ -52,3 +58,31 @@ def user_nickname(request):
 
 def main(request):
     return render(request, "user_management/main.html")
+
+def detail(request, pk):
+    user = User.objects.get(id=pk)
+    rooms_masters = user.rooms_managed.all()
+    rooms_members = user.rooms_joined.all()
+    alarms = Alarm.objects.all()
+    ctx = {
+        'user':user,
+        'rooms_members':rooms_members,
+        'rooms_masters':rooms_masters,
+        'alarms':alarms,
+    }
+    return render(request, 'user_management/user_detail.html', ctx)
+
+def update(request, pk):
+    user = User.objects.get(id=pk)
+    if request.method == "POST":
+        user.nickname = request.POST["nickname"]
+        user.profile = request.POST["profile"]
+        #user.profile_image = request.POST["profile_image"]
+        user.region = request.POST["region"]
+        user.region_detail = request.POST["region_detail"]
+        user.save()
+        return redirect(f"/detail/{pk}")
+    ctx = {
+        "user": user
+    }
+    return render(request, 'user_management/user_update.html', ctx)
