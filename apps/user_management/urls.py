@@ -10,5 +10,5 @@ urlpatterns = [
     path("signup/email/", views.user_signup_email, name="signup_email"),
     path("nickname/", views.user_nickname, name="nickname"),
     path("main/", views.main, name="main"), 
-    path('detail/<int:pk>', views.detail, name='detail'),
+    path('detail/<int:pk>/', views.detail, name='detail'),
 ]
