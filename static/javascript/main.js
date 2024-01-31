@@ -1,6 +1,6 @@
 function loadSubtags(id) {
     const tag_container = document.getElementById('detail-tag-container');
-    fetch('/get_subtags/'+id)
+    fetch('goal/get_subtags/'+id)
     .then(response => response.json())
     .then(json => {
         tag_container.innerHTML = json.result;
