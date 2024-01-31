@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("apps.user_management.urls")),
+    path("rooms/", include("apps.rooms.urls")),
 ]
 
 # 개발 중에만 사용 (production에서는 웹 서버에서 처리하도록 하자)
