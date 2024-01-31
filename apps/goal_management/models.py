@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 class Tag(models.Model):
     tag_name = models.CharField(max_length=10)
@@ -15,7 +15,7 @@ class ActivityTag(models.Model):
         return self.tag_name
 
 class Goal(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag, default=None)
     activityTags = models.ManyToManyField(ActivityTag, default=None)
     title = models.CharField(max_length=50)
