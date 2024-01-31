@@ -12,4 +12,5 @@ urlpatterns = [
     path("nickname/", views.user_nickname, name="nickname"),
     path("main/", views.main, name="main"), 
     path('detail/<int:pk>/', views.detail, name='detail'),
+    path('update/<int:pk>/', views.update, name='update'),
 ]

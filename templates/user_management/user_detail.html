@@ -21,6 +21,7 @@
     <div>{{user.region}}</div>
     <div>{{user.region_detail}}</div>
 
+    <a href={% url "user_management:update" user.id %}>개인정보 변경</a>
     <a href={% url "user_management:logout" %}>로그아웃</a>
   </body>
 </html>

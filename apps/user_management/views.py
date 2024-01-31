@@ -64,3 +64,18 @@ def detail(request, pk):
         'user':user
     }
     return render(request, 'user_management/user_detail.html', ctx)
+
+def update(request, pk):
+    user = User.objects.get(id=pk)
+    if request.method == "POST":
+        user.nickname = request.POST["nickname"]
+        user.profile = request.POST["profile"]
+        #user.profile_image = request.POST["profile_image"]
+        user.region = request.POST["region"]
+        user.region_detail = request.POST["region_detail"]
+        user.save()
+        return redirect(f"/detail/{pk}")
+    ctx = {
+        "user": user
+    }
+    return render(request, 'user_management/user_update.html', ctx)
