@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{%static 'css/reset.css'%}">
+    <link rel="stylesheet" href="{%static 'css/tag_selection.css'%}">
+    <script src="{%static 'javascript/main.js'%}" defer></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id='center-wrap'>
+        {% block content %}
+        {% endblock content %}
+    </div>
+</body>
+</html>
