@@ -16,12 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('user/', include('apps.user_management.urls')),
+    path('', include('apps.user_management.urls')),
 ]
 
 # 개발 중에만 사용 (production에서는 웹 서버에서 처리하도록 하자)
