@@ -27,6 +27,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     profile_image = models.ImageField(upload_to='profile_images/%Y/%m/%d/', null=True, blank=True)
     region = models.CharField(max_length=30, null=True, blank=True)
     region_detail = models.CharField(max_length=30, null=True, blank=True)
+    username = models.CharField(max_length=30, unique=False, null=True, blank=True)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

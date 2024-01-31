@@ -1,27 +1,29 @@
 from django.shortcuts import render, redirect
 from .forms import *
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, logout
 
 def start(request):
     return render(request, "user_management/start.html")
 
 def user_login(request):
     if request.method == "POST":
-        email = request.POST.get('email')
-        password = request.POST.get('password')
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get("email")
+            raw_password = form.cleaned_data.get("password")
+            user = User.objects.get(email=email)
+            
+            if user.check_password(raw_password):
+                    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 
-        # 사용자 인증
-        user = authenticate(request, email=email, password=password)
+    else:
+        msg = None
+        form = LoginForm()
+    return render(request, "user_management/login.html", {"form": form})
 
-        if user is not None:
-            # 사용자가 인증되었을 때 로그인
-            login(request, user)
-            return redirect('user_management:main')
-        else:
-            # 인증 실패 시 처리
-            return render(request, 'user_management/login.html', {'error': 'Invalid email or password'})
-
-    return render(request, 'user_management/login.html')
+def user_logout(request):
+    logout(request)
+    return redirect("user_management:start")
 
 def user_signup(request):
     return render(request, "user_management/signup.html")
@@ -34,10 +36,14 @@ def user_signup_email(request):
         }
         return render(request, "user_management/signup_email.html", ctx)
     form = CustomUserCreationForm(request.POST)
+    error_data = form.errors.as_data()
     if form.is_valid():
         user = form.save()
-        login(request, user) # 회원가입한 사용자를 자동으로 로그인
+        login(request, user, backend='django.contrib.auth.backends.ModelBackend') # 회원가입한 사용자를 자동으로 로그인
         return redirect("user_management:nickname") # 회원가입 성공 시 리다이렉트
+    else:
+        print(error_data)
+        return redirect("user_management:signup_email")
     
 def user_nickname(request):
     if request.method == 'POST':
