@@ -1,1 +1,47 @@
-안녕
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room List</title>
+</head>
+<body>
+    <ul>
+        {% for room in room_list %}
+            <strong>Name:</strong> {{ room.name }} <br>
+            <strong>Master:</strong> {{ room.master }} <br>
+            <strong>Members:</strong>
+            <ul>
+                {% for member in room.members.all %}
+                    <li>{{ member }}</li>
+                {% endfor %}
+            </ul>
+            <strong>Tags:</strong> {{ room.tags }} <br>
+            <strong>Rule:</strong> {{ room.rule }} <br>
+            {% if user.is_authenticated %}
+                {% if user == room.master %}
+                    <strong>Members' Images:</strong>
+                    <ul>
+                        {% for member in room.members.all %}
+                            {% for image in member.authentication_images.all %}
+                                <li>
+                                    <img src="{{ image.image.url }}" alt="{{ member.nickname }}'s image"><br>
+                                    {{ member.nickname }}'s image {{ image.is_authenticated }}
+                                </li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                {% elif user in room.members.all %}
+                    유저: {{ user.nickname }}
+                    <form action="{% url 'rooms:upload_image' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="room_id" value="{{ room.id }}">
+                        <input type="file" name="image">
+                        <button type="submit">Upload Image</button>
+                    </form>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </ul>
+</body>
+</html>
