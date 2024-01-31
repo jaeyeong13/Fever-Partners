@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import *
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login,logout, authenticate
 from .models import User
 
 def start(request):
@@ -23,6 +23,10 @@ def user_login(request):
             return render(request, 'user_management/login.html', {'error': 'Invalid email or password'})
 
     return render(request, 'user_management/login.html')
+
+def user_logout(request):
+    logout(request)
+    return redirect('/')
 
 def user_signup(request):
     return render(request, "user_management/signup.html")
