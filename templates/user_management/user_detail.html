@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}" />
+  </head>
+  <body>
+    <div><img src="/media/{{user.profile_image}}/" alt="프로필 이미지" /></div>
+    <div>{{user.nickname}}</div>
+    <div>{{user.profile}}</div>
+    <div>{{user.region}}</div>
+    <div>{{user.region_detail}}</div>
+    <!-- 로그인된 유저와 같다면 => 수정하기 버튼
+    참여중인 그룹(그룹 모델 생성) -->
+  </body>
+</html>
