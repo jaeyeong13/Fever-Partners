@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/reset.css' %}" />
     <link rel="stylesheet" href="{% static 'css/detail.css' %}" />
   </head>
-  <body>
+  <br>
     <div>
       <img
         src="/media/{{user.profile_image}}/"
@@ -21,7 +21,30 @@
     <div>{{user.region}}</div>
     <div>{{user.region_detail}}</div>
 
+    <!-- <a href={% url "user_management:logout" %}>받은 알림</a></br> -->
+    <strong>받은 알림</strong>
+    {% for alm in alarms %}
+    <p> [초대알람] {{alm.alarm_to}}에게서 그룹 가입 제안이 왔습니다. </p>
+    <a href="">수락</a>
+    <form action="{% url 'alarm:delete' alm.id %}" method="post">
+      {% csrf_token %}
+      <button type="submit">거절</button>
+    </form>
+    <br>
+    {% endfor %}
+    <!-- 모델 연결되면 링크로 이을 예정 -->
+    <strong>그룹장으로 참여 중인 방</strong>
+    {% for rooms_master in rooms_masters %}
+    <p>{{rooms_master.name}}</p>
+    {% endfor %}
+
+    <strong>멤버로 참여 중인 방</strong>
+    {% for rooms_member in rooms_members %}
+    <p>{{rooms_member.name}}</p>
+    {% endfor %}
+
     <a href={% url "user_management:update" user.id %}>개인정보 변경</a>
+    <br>
     <a href={% url "user_management:logout" %}>로그아웃</a>
   </body>
 </html>

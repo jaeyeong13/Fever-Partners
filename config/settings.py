@@ -39,6 +39,7 @@ CUSTOM_APPS = [
     "apps.group_management",
     "apps.goal_management",
     "apps.rooms",
+    "apps.alarm",
 ]
 
 THIRD_PARTY_APPS = [

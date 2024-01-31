@@ -22,12 +22,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-<<<<<<< HEAD
-    path('', include('apps.user_management.urls')),
-=======
     path("", include("apps.user_management.urls")),
     path("rooms/", include("apps.rooms.urls")),
->>>>>>> 469c9492e90634e9053579bd465ca67fc797db0d
+    path("alarm/", include("apps.alarm.urls")),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # 개발 중에만 사용 (production에서는 웹 서버에서 처리하도록 하자)

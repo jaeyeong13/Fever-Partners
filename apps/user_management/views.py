@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import *
 from django.contrib.auth import login,logout, authenticate
 from .models import User
+from apps.alarm.models import Alarm
 
 def start(request):
     return render(request, "user_management/start.html")
@@ -60,8 +61,14 @@ def main(request):
 
 def detail(request, pk):
     user = User.objects.get(id=pk)
+    rooms_masters = user.rooms_managed.all()
+    rooms_members = user.rooms_joined.all()
+    alarms = Alarm.objects.all()
     ctx = {
-        'user':user
+        'user':user,
+        'rooms_members':rooms_members,
+        'rooms_masters':rooms_masters,
+        'alarms':alarms,
     }
     return render(request, 'user_management/user_detail.html', ctx)
 
