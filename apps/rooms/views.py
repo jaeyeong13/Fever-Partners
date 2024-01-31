@@ -21,3 +21,4 @@ def upload_image(request):
                 auth_image.save()
                 return redirect('rooms:detail')
     return HttpResponseBadRequest()
+
