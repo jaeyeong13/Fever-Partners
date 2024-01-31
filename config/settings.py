@@ -144,3 +144,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# 기본적으로 사용할 유저.
+AUTH_USER_MODEL = 'user_management.User'
