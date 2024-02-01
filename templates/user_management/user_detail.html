@@ -10,11 +10,19 @@
   </head>
   <br>
     <div>
+      {% if user.profile_image.url != '' %}
       <img
         src="/media/{{user.profile_image}}/"
         alt="프로필 이미지"
         class="profile-image"
       />
+      {% else %}
+      <img
+        src="{% static 'image/noimage.png' %}"
+        alt="프로필 이미지"
+        class="profile-image"
+      />
+      {% endif %}
     </div>
     <div>{{user.nickname}}님, 안녕하세요!</div>
     <div>{{user.profile}}</div>
