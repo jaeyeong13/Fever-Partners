@@ -25,6 +25,8 @@ urlpatterns = [
     path('goal/', include('apps.goal_management.urls')),
     path("rooms/", include("apps.rooms.urls")),
     path("alarm/", include("apps.alarm.urls")),
+    path("accounts/", include("allauth.urls")),
+    path('accounts/', include('allauth.socialaccount.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -50,7 +50,29 @@ THIRD_PARTY_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    # 소셜 로그인
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.naver',
 ]
+
+# 백앤드에서 인증처리 관련
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',    
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'naver': {'APP': {
+                        'client_id': env("NAVER_CLIENT_ID"),
+                        'secret': env("NAVER_CLIENT_SECRET"),
+                        'key': ''
+                }},
+}
+
+LOGIN_REDIRECT_URL = '/main'   # social login redirect
+ACCOUNT_LOGOUT_REDIRECT_URL = '/main'  # logout redirect
 
 # Application definition
 
@@ -64,6 +86,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
