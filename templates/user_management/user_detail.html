@@ -33,7 +33,7 @@
     <div>받은 알림</div>
     <hr>
     {% for alm in alarms %}
-    <p> [초대알람] {{alm.alarm_to}}에게서 그룹 가입 제안이 왔습니다. </p>
+    <p> [초대알람] {{alm.alarm_from}}에게서 그룹 가입 제안이 왔습니다. </p>
     <a href="">수락</a>
     <form action="{% url 'alarm:delete' alm.id %}" method="post">
       {% csrf_token %}

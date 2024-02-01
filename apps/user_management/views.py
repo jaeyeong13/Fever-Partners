@@ -66,12 +66,14 @@ def user_nickname(request):
 def main(request):
     return render(request, "user_management/main.html")
 
+#유저 정보(user detail)
 @login_required
 def detail(request):
     user = request.user
     rooms_masters = user.rooms_managed.all()
     rooms_members = user.rooms_joined.all()
-    alarms = Alarm.objects.all()
+    # 현재 로그인된 사용자와 연결된 알람만 가져오기
+    alarms = Alarm.objects.filter(alarm_to=user)
     ctx = {
         'user':user,
         'rooms_members':rooms_members,
@@ -86,9 +88,11 @@ def update(request):
     if request.method == "POST":
         user.nickname = request.POST["nickname"]
         user.profile = request.POST["profile"]
-        #user.profile_image = request.POST["profile_image"]
         user.region = request.POST["region"]
         user.region_detail = request.POST["region_detail"]
+        #이미지
+        user.profile_image = request.FILES['profile_image']
+
         user.save()
         return redirect(f"/detail/")
     ctx = {
