@@ -3,6 +3,7 @@ from .forms import *
 from django.contrib.auth import login,logout
 from .models import User
 from apps.alarm.models import Alarm
+from django.contrib.auth.decorators import login_required
 
 def start(request):
     return render(request, "user_management/start.html")
@@ -65,8 +66,9 @@ def user_nickname(request):
 def main(request):
     return render(request, "user_management/main.html")
 
-def detail(request, pk):
-    user = User.objects.get(id=pk)
+@login_required
+def detail(request):
+    user = request.user
     rooms_masters = user.rooms_managed.all()
     rooms_members = user.rooms_joined.all()
     alarms = Alarm.objects.all()
@@ -78,8 +80,9 @@ def detail(request, pk):
     }
     return render(request, 'user_management/user_detail.html', ctx)
 
-def update(request, pk):
-    user = User.objects.get(id=pk)
+@login_required
+def update(request):
+    user = request.user
     if request.method == "POST":
         user.nickname = request.POST["nickname"]
         user.profile = request.POST["profile"]
@@ -87,7 +90,7 @@ def update(request, pk):
         user.region = request.POST["region"]
         user.region_detail = request.POST["region_detail"]
         user.save()
-        return redirect(f"/detail/{pk}")
+        return redirect(f"/detail/")
     ctx = {
         "user": user
     }

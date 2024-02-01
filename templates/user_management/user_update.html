@@ -1,6 +1,6 @@
 <h1>프로필 수정하기</h1>
 
-<form action="/update/{{user.id}}/" method="post">
+<form action="/update/" method="post">
   {% csrf_token %}
   <input name="nickname" placeholder="닉네임" value="{{user.nickname}}" />
   <br />
