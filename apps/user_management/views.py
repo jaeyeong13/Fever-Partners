@@ -90,8 +90,8 @@ def update(request):
         user.profile = request.POST["profile"]
         user.region = request.POST["region"]
         user.region_detail = request.POST["region_detail"]
-        #이미지
-        user.profile_image = request.FILES['profile_image']
+        if 'profile_image' in request.FILES:
+            user.profile_image = request.FILES['profile_image']
 
         user.save()
         return redirect(f"/detail/")
