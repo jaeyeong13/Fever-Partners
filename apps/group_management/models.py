@@ -14,3 +14,5 @@ class Room(models.Model):
     cert_required = models.BooleanField(default=False)
     cert_detail = models.TextField(null=True)
     penalty_value = models.PositiveIntegerField(default=0)
+    favor_offline = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
