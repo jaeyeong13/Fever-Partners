@@ -21,6 +21,8 @@ def create_room(request):
         cert_required = request.POST.get('cert_required')
         cert_detail = request.POST.get('cert_detail', '')
         penalty = request.POST.get('penalty', 0)
+        favor_offline_str = request.POST.get('favor_offline', 'False')
+        favor_offline = favor_offline_str == 'True'
 
         # 서버사이드 validation
         # if not goal_id or not title or not detail:
@@ -32,7 +34,8 @@ def create_room(request):
             title = title,
             detail = detail,
             master=request.user,
-            cert_required = bool(cert_required)
+            cert_required = bool(cert_required),
+            favor_offline = favor_offline
         )
 
         if bool(cert_required):
@@ -48,7 +51,7 @@ def create_room(request):
         my_goal.is_in_group = True
         my_goal.save()
 
-        return redirect('group_management:recommendation_page')  # 적절한 리다이렉트 URL로 변경
+        return redirect('group_management:recommendation_page')
     
     else:
         return HttpResponseBadRequest()
