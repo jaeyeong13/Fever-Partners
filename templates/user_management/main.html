@@ -6,9 +6,33 @@
     <title>Document</title>
 </head>
 <body>
-    메인 페이지입니다.
-    {% if user.is_authenticated %}
-    <a href="{% url 'user_management:logout' %}">로그아웃</a>
-    {% endif %}
+    <header>
+        <h1>헤더입니다</h1>
+        {% if user.is_authenticated %}
+        <a href="{% url 'user_management:logout' %}">로그아웃</a>
+        {% endif %}
+        <a href="">알림</a>
+        <a href="">내 정보</a>
+    </header>
+    <main>
+        <div>어서오세요 {{ user.nickname }}님</div>
+        <div>
+            <p>활동요약</p>
+            <p>
+                지금까지 {{ goal_count }}개의 목표를 등록하고
+            </p>
+            <p>
+                {{ goal_complete }}개의 목표를 달성
+            </p>
+        </div>
+        <div>
+            <p>
+                My Fuel Gage: {{ user.fuel }}
+            </p>
+        </div>
+    </main>
+    <footer>
+        <h1>풋터입니다.</h1>
+    </footer>
 </body>
 </html>

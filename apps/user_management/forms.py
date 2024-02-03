@@ -8,10 +8,10 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ["email"]
 
 
-class UserNicknameForm(UserChangeForm):
+class UserUpdateForm(UserChangeForm):
     class Meta:
         model = User
-        fields = ["nickname"]
+        fields = ["nickname", "profile", "profile_image", "region", "region_detail"]
 
 
 class LoginForm(forms.Form):
