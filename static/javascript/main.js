@@ -67,3 +67,60 @@ function validateForm() {
         goalDetailsWarning.innerHTML === '' &&
         meetingPreferenceWarning.innerHTML === '';
 }
+
+document.getElementById('cert_required').addEventListener('change', function () {
+    var certFields = document.getElementById('cert_fields');
+    certFields.style.display = this.checked ? 'block' : 'none';
+});
+
+function validateGroupForm() {
+    const goalSelect = document.getElementById('goal');
+    const titleInput = document.getElementById('title');
+    const detailTextarea = document.getElementById('detail');
+    const certRequiredCheckbox = document.getElementById('cert_required');
+    const penaltyInput = document.getElementById('penalty');
+    const certDetail = document.getElementById('cert_detail');
+
+    const goalWarning = document.getElementById('goal-warning');
+    const titleWarning = document.getElementById('title-warning');
+    const detailWarning = document.getElementById('detail-warning');
+    const penaltyWarning = document.getElementById('penalty-warning');
+    const certDetailWarning = document.getElementById('cert-detail-warning');
+
+    goalWarning.innerHTML = '';
+    titleWarning.innerHTML = '';
+    detailWarning.innerHTML = '';
+    penaltyWarning.innerHTML = '';
+    certDetailWarning.innerHTML = '';
+
+    if (goalSelect.value === '') {
+        goalWarning.innerHTML = '목표를 선택하세요.';
+    }
+
+    if (titleInput.value.trim() === '') {
+        titleWarning.innerHTML = '방의 제목을 입력하세요.';
+    }
+
+    if (detailTextarea.value.trim() === '') {
+        detailWarning.innerHTML = '세부사항을 입력하세요.';
+    }
+
+    // 토글 버튼이 On인 경우에만 추가 validation 수행
+    if (certRequiredCheckbox.checked) {
+
+        if (certDetail.value.trim() === ''){
+            certDetailWarning.innerHTML = '인증 세부사항을 간단히 적어주세요!(인증주기, 인증시간 등)';
+        }
+
+        if (penaltyInput.value === '') {
+            penaltyWarning.innerHTML = '벌금을 입력하세요.';
+        }
+    }
+
+    // 유효성 검사 통과 여부 반환 : false이면 폼 제출X
+    return goalWarning.innerHTML === '' &&
+        titleWarning.innerHTML === '' &&
+        detailWarning.innerHTML === '' &&
+        penaltyWarning.innerHTML === '' &&
+        certDetailWarning.innerHTML === '';
+}

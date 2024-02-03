@@ -21,3 +21,4 @@ class Goal(models.Model):
     title = models.CharField(max_length=50)
     content = models.TextField()
     favor_offline = models.BooleanField(default=False)
+    is_in_group = models.BooleanField(default=False)
