@@ -1,6 +1,6 @@
 from django_elasticsearch_dsl import Document, fields
 from django_elasticsearch_dsl.registries import registry
-from .models import Goal
+from .models import *
 
 @registry.register_document
 class GoalDocument(Document):
@@ -9,11 +9,11 @@ class GoalDocument(Document):
         settings = {'number_of_shards': 1, 'number_of_replicas': 0}
 
     tags = fields.NestedField(properties={
-        'name': fields.TextField(),
+        'tag_name': fields.KeywordField(),
     })
 
     activityTags = fields.NestedField(properties={
-        'name': fields.TextField(),
+        'tag_name': fields.KeywordField(),
     })
 
     class Django:
@@ -23,3 +23,23 @@ class GoalDocument(Document):
             'title',
             'content',
         ]
+
+@registry.register_document
+class TagDocument(Document):
+    class Index:
+        name = 'tags'
+
+    tag_name = fields.TextField()
+
+    class Django:
+        model = Tag
+
+@registry.register_document
+class ActivityTagDocument(Document):
+    class Index:
+        name = 'activity_tags'
+
+    tag_name = fields.TextField()
+
+    class Django:
+        model = ActivityTag

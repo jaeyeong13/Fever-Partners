@@ -22,6 +22,8 @@ def create_room(request):
         cert_required = request.POST.get('cert_required')
         cert_detail = request.POST.get('cert_detail', '')
         penalty = request.POST.get('penalty', 0)
+        favor_offline_str = request.POST.get('favor_offline', 'False')
+        favor_offline = favor_offline_str == 'True'
 
         # 서버사이드 validation
         # if not goal_id or not title or not detail:
@@ -33,7 +35,8 @@ def create_room(request):
             title = title,
             detail = detail,
             master=request.user,
-            cert_required = bool(cert_required)
+            cert_required = bool(cert_required),
+            favor_offline = favor_offline
         )
 
         if bool(cert_required):
@@ -63,24 +66,11 @@ from elasticsearch_dsl import Search
 from .models import *
 
 def recommend_member(request, room_id):
-    room = Room.objects.get(pk=room_id)
-    tags = [tag.id for tag in room.tags.all()]
-    activity_tags = [tag.id for tag in room.activityTags.all()]
 
-    s = Search(using='default', index='goals').query(
-        'bool',
-        should=[
-            {'terms': {'tags.id': tags}, 'boost': 2},
-            {'terms': {'activityTags.id': activity_tags}, 'boost': 2},
-            {'match': {'title': {'query': room.title, 'boost': 3}}},
-            {'match': {'content': {'query': room.detail}}},
-            {'match': {'favor_offline': {'query': True, 'boost': 2}}},  # favor_offline 매칭 시 가중치 부여
-        ]
-    ).filter('term', is_in_group=False)
-    response = s[:5].execute()
+    s = Search(index='goals')
+    response = s.execute()
 
-    goal_instances = []
     for hit in response:
-        goal_instances.append(Goal.objects.get(pk=hit.meta.id))
-
-    print(goal_instances)
+        print(hit)
+    
+    return render(request, 'group_management/member_recom.html')
