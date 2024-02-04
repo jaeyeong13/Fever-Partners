@@ -56,7 +56,7 @@ def user_nickname(request):
         form = UserNicknameForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return render(request, "goal_management/goal_creation.html") 
+            return redirect('user_management:main')  # nickname 설정 후 메인 페이지로 이동
     else:
         form = UserNicknameForm(instance=None)
 
