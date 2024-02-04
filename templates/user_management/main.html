@@ -30,9 +30,15 @@
                 My Fuel Gage: {{ user.fuel }}
             </p>
         </div>
+        <div>
+            <a href="{% url 'goal_management:start_goal_creation' %}">새 목표 등록</a>
+            <a href="">새 그룹 개설</a>
+        </div>
     </main>
     <footer>
-        <h1>풋터입니다.</h1>
+        <a href="{% url 'goal_management:goal_list' %}">My Goal</a>
+        <a href="">Group</a>
+        <a href="">미정</a>
     </footer>
 </body>
 </html>
