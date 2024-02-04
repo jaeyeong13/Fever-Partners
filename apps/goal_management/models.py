@@ -22,3 +22,4 @@ class Goal(models.Model):
     content = models.TextField()
     favor_offline = models.BooleanField(default=False)
     is_in_group = models.BooleanField(default=False)
+    is_completed = models.BooleanField(default=False)

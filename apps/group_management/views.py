@@ -67,10 +67,28 @@ from .models import *
 
 def recommend_member(request, room_id):
 
-    s = Search(index='goals')
-    response = s.execute()
+    room = Room.objects.get(pk=room_id)
+    tags = [tag.tag_name for tag in room.tags.all()]
+    activity_tags = [tag.tag_name for tag in room.activityTags.all()]
 
-    for hit in response:
-        print(hit)
-    
-    return render(request, 'group_management/member_recom.html')
+    tag_queries = [{'terms': {'tags.tag_name': [tag], 'boost': 2}} for tag in tags]
+    activity_tag_queries = [{'terms': {'activityTags.tag_name': [tag], 'boost': 2}} for tag in activity_tags]
+
+    s = Search(index='goals').query(
+        'bool',
+        should=[
+            *tag_queries,
+            *activity_tag_queries,
+            {'match': {'title': {'query': room.title, 'boost': 3}}},
+            {'match': {'favor_offline': {'query': room.favor_offline, 'boost': 2}}},
+        ]
+    )   
+
+    response = s.execute()
+    goals = [Goal.objects.get(id=hit.meta.id) for hit in response]
+    scores = [hit.meta.score for hit in response]
+    cnt = {
+        'goals' : goals,
+        'scores' : scores,
+    }
+    return render(request, 'group_management/member_recom.html', cnt)

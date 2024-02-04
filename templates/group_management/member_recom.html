@@ -7,5 +7,11 @@
 </head>
 <body>
     유저 추천 페이지입니다.
+    {% for goal in goals %}
+    <div>{{goal.title}}</div>
+    {% endfor %}
+    {% for score in scores %}
+    <div>{{score}}</div>
+    {% endfor %}
 </body>
 </html>
