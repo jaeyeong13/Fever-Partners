@@ -4,20 +4,22 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
-        <style>
-            .signup_form > ul {
-                display: none;
-            }
-
-            .signup_form span {
-                display: none;
-            }
-        </style>
     </head>
     <body>
         <form action="" method="POST" class="signup_form">
             {% csrf_token %}
-            {{ form.as_p }}
+            <div>
+                <span>이메일</span>
+                {{ form.email }}
+            </div>
+            <div>
+                <span>비밀번호</span>
+                {{ form.password1 }}
+            </div>
+            <div>
+                <span>비밀번호 확인</span>
+                {{ form.password2 }}
+            </div>
             <button type="submit">회원가입</button>
         </form>
     </body>

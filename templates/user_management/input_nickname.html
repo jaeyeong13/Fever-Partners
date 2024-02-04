@@ -4,24 +4,30 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
-        <style>
-            .nickname_form > p:nth-of-type(2)  {
-                display: none;
-            }
-
-            .nickname_form div {
-                display: none;
-            }
-
-            .nickname_form span {
-                display: none;
-            }
-        </style>
     </head>
     <body>
         <form action="" method="POST" class="nickname_form">
             {% csrf_token %}
-            {{ form.as_p }}
+            <div>
+                <span>닉네임</span>
+                {{ form.nickname }}
+            </div>
+            <div>
+                <span>소개글</span>
+                {{ form.profile }}
+            </div>
+            <div>
+                <span>사진</span>
+                {{ form.profile_image }}
+            </div>
+            <div>
+                <span>거주지역</span>
+                {{ form.region }}
+            </div>
+            <div>
+                <span>거주지역 세부</span>
+                {{ form.region_detail }}
+            </div>
             <button type="submit">완료</button>
         </form>
     </body>

@@ -71,8 +71,8 @@ SOCIALACCOUNT_PROVIDERS = {
                 }},
 }
 
-LOGIN_REDIRECT_URL = '/main'   # social login redirect
-ACCOUNT_LOGOUT_REDIRECT_URL = '/main'  # logout redirect
+LOGIN_REDIRECT_URL = '/update/start'   # social login redirect
+ACCOUNT_LOGOUT_REDIRECT_URL = '/start'  # logout redirect
 
 # Application definition
 
