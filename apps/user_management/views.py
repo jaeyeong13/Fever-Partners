@@ -17,11 +17,11 @@ def user_login(request):
             
             if user.check_password(raw_password):
                     login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-
+            return render(request, "user_management/main.html", {"form": form})
     else:
         msg = None
         form = LoginForm()
-    return render(request, "user_management/main.html", {"form": form})
+    return render(request, "user_management/login.html", {"form": form})
 
 def user_logout(request):
     logout(request)
