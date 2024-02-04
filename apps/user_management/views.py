@@ -26,6 +26,7 @@ def user_login(request):
 
 # 소셜 회원가입 시 회원정보 입력
 def user_update_start(request):
+    print(1)
     if request.method == 'POST':
         form = UserUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
