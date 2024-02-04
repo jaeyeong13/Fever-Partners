@@ -1,0 +1,35 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.toggle-container {
+    margin-bottom: 10px;
+}
+
+.toggle-label {
+    cursor: pointer;
+    background-color: #ccc;
+    width: 50px;
+    height: 25px;
+    border-radius: 15px;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-checkbox:checked + .toggle-label {
+    background-color: #4CAF50;
+}
+
+.toggle-label:before {
+    content: 'OFF';
+    color: white;
+    transition: transform 0.3s;
+}
+
+.toggle-checkbox:checked + .toggle-label:before {
+    content: 'ON';
+}
