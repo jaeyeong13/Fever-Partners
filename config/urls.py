@@ -20,13 +20,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.shortcuts import render
 
-def base_view(request):
-    return render(request, 'base.html')
-
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", base_view),
-    path("user/", include("apps.user_management.urls")),
+    path("", include("apps.user_management.urls")),
     path('goal/', include('apps.goal_management.urls')),
     path('group/', include('apps.group_management.urls')),
     path("rooms/", include("apps.rooms.urls")),
