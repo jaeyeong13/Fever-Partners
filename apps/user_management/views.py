@@ -21,7 +21,7 @@ def user_login(request):
     else:
         msg = None
         form = LoginForm()
-    return render(request, "user_management/login.html", {"form": form})
+    return render(request, "user_management/main.html", {"form": form})
 
 def user_logout(request):
     logout(request)
