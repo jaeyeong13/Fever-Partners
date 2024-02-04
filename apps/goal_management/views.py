@@ -63,3 +63,4 @@ def create_goal(request):
     
     # GET 요청으로 접근한 경우 예외처리 추후에 추가
     # return redirect()
+

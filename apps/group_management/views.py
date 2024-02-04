@@ -4,6 +4,7 @@ from .models import *
 from apps.goal_management.models import Goal
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseBadRequest
+from django.urls import reverse
 
 def start_creation(request):
     goals = Goal.objects.filter(user = request.user).filter(is_in_group = False)
@@ -48,7 +49,8 @@ def create_room(request):
         my_goal.is_in_group = True
         my_goal.save()
 
-        return redirect('group_management:recommendation_page')  # 적절한 리다이렉트 URL로 변경
+        url = reverse('group_management:recommendation_page', kwargs={'room_id': room.pk})
+        return redirect(url)
     
     else:
         return HttpResponseBadRequest()
@@ -56,3 +58,29 @@ def create_room(request):
 # 임시로 작성해둠
 def show_user_list(request):
     return render(request, 'group_management/member_recom.html')
+
+from elasticsearch_dsl import Search
+from .models import *
+
+def recommend_member(request, room_id):
+    room = Room.objects.get(pk=room_id)
+    tags = [tag.id for tag in room.tags.all()]
+    activity_tags = [tag.id for tag in room.activityTags.all()]
+
+    s = Search(using='default', index='goals').query(
+        'bool',
+        should=[
+            {'terms': {'tags.id': tags}, 'boost': 2},
+            {'terms': {'activityTags.id': activity_tags}, 'boost': 2},
+            {'match': {'title': {'query': room.title, 'boost': 3}}},
+            {'match': {'content': {'query': room.detail}}},
+            {'match': {'favor_offline': {'query': True, 'boost': 2}}},  # favor_offline 매칭 시 가중치 부여
+        ]
+    ).filter('term', is_in_group=False)
+    response = s[:5].execute()
+
+    goal_instances = []
+    for hit in response:
+        goal_instances.append(Goal.objects.get(pk=hit.meta.id))
+
+    print(goal_instances)
