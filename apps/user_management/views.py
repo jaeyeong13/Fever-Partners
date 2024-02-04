@@ -18,7 +18,7 @@ def user_login(request):
             
             if user.check_password(raw_password):
                     login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-
+            return render(request, "user_management/main.html", {"form": form})
     else:
         msg = None
         form = LoginForm()
@@ -57,7 +57,7 @@ def user_nickname(request):
         form = UserNicknameForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('user_management:main')  # nickname 설정 후 메인 페이지로 이동
+            return render(request, "goal_management/goal_creation.html") 
     else:
         form = UserNicknameForm(instance=None)
 

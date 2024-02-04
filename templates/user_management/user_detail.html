@@ -34,7 +34,7 @@
         </div>
       </div>
       <!-- <a href={% url "user_management:logout" %}>받은 알림</a></br> -->
-      <div>받은 알림</div>
+      <div class="bold-text">받은 알림</div>
       {% for alm in alarms %}
       <p> [초대알람] {{alm.alarm_from}}에게서 그룹 가입 제안이 왔습니다. </p>
       <a href="">수락</a>
@@ -44,16 +44,19 @@
       </form>
       {% endfor %}
       <!-- 모델 연결되면 링크로 이을 예정 -->
-      <div>그룹장으로 참여 중인 방</div>
+      <div class="bold-text">그룹장으로 참여 중인 방</div>
       {% for rooms_master in rooms_masters %}
       <p>{{rooms_master.name}}</p>
       {% endfor %}
-      <div>멤버로 참여 중인 방</div>
+      <div class="bold-text">멤버로 참여 중인 방</div>
       {% for rooms_member in rooms_members %}
       <p>{{rooms_member.name}}</p>
       {% endfor %}
       <a href={% url "user_management:update" %}>개인정보 변경</a>
+      <br>
       <a href={% url "user_management:logout" %}>로그아웃</a>
+      <br>
+      <a href="">회원탈퇴[구현하세요]</a>
     </div>
   </body>
 </html>
