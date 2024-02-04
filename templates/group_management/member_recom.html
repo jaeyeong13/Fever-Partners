@@ -6,6 +6,19 @@
     <title>Document</title>
 </head>
 <body>
-    유저 추천 페이지입니다.
+    <div>나의목표</div>
+    <div>추천된 유저 List</div>
+    {% for user in users %}
+        <div>
+        {% if user.profile_image %}
+        <img src="{{ user.profile_image.url }}" alt="Profile Image" style="width:100px">
+        {% else %}
+        <p>No profile image available.</p>
+        {% endif %}
+        <p>{{ user.nickname }}<p>
+        <p>{{ user.profile }}</p>
+        <button>가입제안</button>
+        </div>
+    {% endfor %}
 </body>
 </html>

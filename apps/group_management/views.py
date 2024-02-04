@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from apps.goal_management.models import Goal
+from apps.user_management.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseBadRequest
 
@@ -58,4 +59,9 @@ def create_room(request):
     
 # 임시로 작성해둠
 def show_user_list(request):
-    return render(request, 'group_management/member_recom.html')
+    # 현재 로그인된 사용자 정보 가져오기
+    current_user = request.user
+    # is_superuser가 False이고 현재 로그인된 사용자가 아닌 사용자 정보 가져오기
+    users = User.objects.filter(is_superuser=False).exclude(pk=current_user.pk)
+    
+    return render(request, 'group_management/member_recom.html', {'users': users})
