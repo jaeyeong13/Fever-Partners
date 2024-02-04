@@ -62,7 +62,7 @@ def create_room(request):
 def show_user_list(request):
     return render(request, 'group_management/member_recom.html')
 
-from elasticsearch_dsl import Search
+from elasticsearch_dsl import Search, Q
 from .models import *
 
 def recommend_member(request, room_id):
@@ -71,24 +71,38 @@ def recommend_member(request, room_id):
     tags = [tag.tag_name for tag in room.tags.all()]
     activity_tags = [tag.tag_name for tag in room.activityTags.all()]
 
-    tag_queries = [{'terms': {'tags.tag_name': [tag], 'boost': 2}} for tag in tags]
-    activity_tag_queries = [{'terms': {'activityTags.tag_name': [tag], 'boost': 2}} for tag in activity_tags]
+    tag_ids = [1, 5]
+    activity_tags_ids = [1,2]
 
-    s = Search(index='goals').query(
-        'bool',
-        should=[
-            *tag_queries,
-            *activity_tag_queries,
-            {'match': {'title': {'query': room.title, 'boost': 3}}},
-            {'match': {'favor_offline': {'query': room.favor_offline, 'boost': 2}}},
-        ]
-    )   
+    queries = []
+    queries2 = []
+
+    must_query = Q('nested', path='tags', query=Q('terms', **{'tags.tag_id': tag_ids}), boost=0)
+    queries.append(must_query)
+
+    for tag_id in tag_ids:
+        tag_query = Q('nested', path='tags', query=Q('terms', **{'tags.tag_id': [tag_id]}), boost=2)
+        queries2.append(tag_query)
+
+    for activity_tag_id in activity_tags_ids:
+        activity_tag_query = Q('nested', path='activityTags', query=Q('terms', **{'activityTags.tag_id': [activity_tag_id]}), boost=2)
+        queries2.append(activity_tag_query)
+
+    offline_boost_query = Q('match', favor_offline={'query': False, 'boost': 3})
+    queries2.append(offline_boost_query)
+
+    combined_query = Q('bool', must=queries, should=queries2)
+    
+    s = Search(index='goals').query(combined_query)
 
     response = s.execute()
+
+    print(response)
     goals = [Goal.objects.get(id=hit.meta.id) for hit in response]
     scores = [hit.meta.score for hit in response]
     cnt = {
         'goals' : goals,
         'scores' : scores,
+        'room' : room
     }
     return render(request, 'group_management/member_recom.html', cnt)

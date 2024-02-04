@@ -1,3 +1,4 @@
+# search_indexes.py
 from django_elasticsearch_dsl import Document, fields
 from django_elasticsearch_dsl.registries import registry
 from .models import *
@@ -9,11 +10,11 @@ class GoalDocument(Document):
         settings = {'number_of_shards': 1, 'number_of_replicas': 0}
 
     tags = fields.NestedField(properties={
-        'tag_name': fields.KeywordField(),
+        'tag_id': fields.Integer(),
     })
 
     activityTags = fields.NestedField(properties={
-        'tag_name': fields.KeywordField(),
+        'tag_id': fields.Integer(),
     })
 
     class Django:
@@ -24,12 +25,18 @@ class GoalDocument(Document):
             'content',
         ]
 
+    def prepare_tags(self, instance):
+        return [{'tag_id': tag.pk} for tag in instance.tags.all()]
+
+    def prepare_activityTags(self, instance):
+        return [{'tag_id': tag.pk} for tag in instance.activityTags.all()]
+
 @registry.register_document
 class TagDocument(Document):
     class Index:
         name = 'tags'
 
-    tag_name = fields.TextField()
+    tag_id = fields.Integer()
 
     class Django:
         model = Tag
@@ -39,7 +46,7 @@ class ActivityTagDocument(Document):
     class Index:
         name = 'activity_tags'
 
-    tag_name = fields.TextField()
+    tag_id = fields.Integer()
 
     class Django:
         model = ActivityTag
