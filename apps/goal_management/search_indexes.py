@@ -9,6 +9,10 @@ class GoalDocument(Document):
         name = 'goals'
         settings = {'number_of_shards': 1, 'number_of_replicas': 0}
 
+    user = fields.ObjectField(properties={
+        'id': fields.IntegerField(),
+    })
+
     tags = fields.NestedField(properties={
         'tag_id': fields.Integer(),
     })
@@ -23,6 +27,8 @@ class GoalDocument(Document):
             'favor_offline',
             'title',
             'content',
+            'is_in_group',
+            'is_completed',
         ]
 
     def prepare_tags(self, instance):

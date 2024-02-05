@@ -68,32 +68,38 @@ from .models import *
 def recommend_member(request, room_id):
 
     room = Room.objects.get(pk=room_id)
-    tags = [tag.tag_name for tag in room.tags.all()]
-    activity_tags = [tag.tag_name for tag in room.activityTags.all()]
+    tag_ids = [tag.id for tag in room.tags.all()]
+    activity_tags_ids = [tag.id for tag in room.activityTags.all()]
 
-    tag_ids = [1, 5]
-    activity_tags_ids = [1,2]
+    must_queries = []
+    should_queries = []
+    must_not_queries = []
 
-    queries = []
-    queries2 = []
+    # 최소조건 명시 : 분류 태그 중 하나는 같아야 함(사실 이는 원시태그로 한정되긴 함)
+    # group에 가입되지 않은 목표여야 함 
+    at_least = Q('nested', path='tags', query=Q('terms', **{'tags.tag_id': tag_ids}), boost=0)
+    in_group_check_query = Q('term', is_in_group = False)
+    must_queries.append(at_least)
+    must_queries.append(in_group_check_query)
 
-    must_query = Q('nested', path='tags', query=Q('terms', **{'tags.tag_id': tag_ids}), boost=0)
-    queries.append(must_query)
-
+    # 가중 조건 : 검색결과에 점수를 추가적으로 부여하는 로직들
     for tag_id in tag_ids:
-        tag_query = Q('nested', path='tags', query=Q('terms', **{'tags.tag_id': [tag_id]}), boost=2)
-        queries2.append(tag_query)
+        tag_query = Q('nested', path='tags', query=Q('terms', **{'tags.tag_id': [tag_id]}), boost=3)
+        should_queries.append(tag_query)
 
     for activity_tag_id in activity_tags_ids:
-        activity_tag_query = Q('nested', path='activityTags', query=Q('terms', **{'activityTags.tag_id': [activity_tag_id]}), boost=2)
-        queries2.append(activity_tag_query)
+        activity_tag_query = Q('nested', path='activityTags', query=Q('terms', **{'activityTags.tag_id': [activity_tag_id]}), boost=3)
+        should_queries.append(activity_tag_query)
 
-    offline_boost_query = Q('match', favor_offline={'query': False, 'boost': 3})
-    queries2.append(offline_boost_query)
+    offline_boost_query = Q('term', favor_offline={'value': room.favor_offline, 'boost': 2})
+    should_queries.append(offline_boost_query)
 
-    combined_query = Q('bool', must=queries, should=queries2)
+    master_detecting_query = Q('term', **{'user.id': room.master.pk})
+    must_not_queries.append(master_detecting_query)
+
+    final_query = Q('bool', must=must_queries, should=should_queries, must_not=must_not_queries)
     
-    s = Search(index='goals').query(combined_query)
+    s = Search(index='goals').query(final_query)
 
     response = s.execute()
 
