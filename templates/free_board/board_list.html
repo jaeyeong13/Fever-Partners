@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% if post_list %}
+    {% for post in post_list %}
+      <li><a href="{% url 'free_board:detail' post.id %}">{{ post.title }}</a></li>
+    {% endfor %}
+  {% else %}
+    <p>아직 작성된 포스트가 없습니다.</p>
+  {% endif %}
+  <br>
+  <a href="{% url 'free_board:create_post' %}" class="btn btn-primary">
+    글 쓰기
+  </a>
+  <br>
+{% endblock %}
