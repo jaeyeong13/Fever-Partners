@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.core.validators import MinValueValidator
+import random
+import string
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -51,3 +54,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
         db_table = "User"
+
+    def save(self, *args, **kwargs):
+        if not self.nickname:
+            self.nickname = self.generate_random_nickname()
+        super().save(*args, **kwargs)
+
+    def generate_random_nickname(self):
+        return ''.join(random.choice(string.ascii_lowercase) for _ in range(8))
