@@ -1,0 +1,10 @@
+<p>그룹 활동 페이지</p>
+{% for auth in authentication %}
+<p>인증!</p>
+<div>{{auth.start}}~{{auth.end}} 사이에 인증하세요.</div>
+<a href="{% url 'group_management:create_authentication' room.pk %}"
+  >인증하러 가기</a
+>
+<br />
+{% endfor %}
+<a href="{% url 'group_management:verify' room.pk %}">인증 수락 탭</a>

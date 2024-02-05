@@ -1,0 +1,9 @@
+<form
+  action="{% url 'group_management:create_authentication' pk %}"
+  method="post"
+  enctype="multipart/form-data"
+>
+  {%csrf_token%} {{form.as_p}}
+  <input type="hidden" name="room_id" value="{{ room.id }}" />
+  <button type="submit">인증하기</button>
+</form>

@@ -1,0 +1,9 @@
+<p>인증 확인 창</p>
+{% for auth in memberAuthentication %}
+<div>
+  <p>{{ auth.user }}의 인증!</p>
+  <p>{{ auth.content }}</p>
+  <p>수락</p>
+  <p>거절</p>
+</div>
+{% endfor %}
