@@ -64,3 +64,23 @@ def create_goal(request):
     # GET 요청으로 접근한 경우 예외처리 추후에 추가
     # return redirect()
 
+def goal_list(request):
+    user = request.user
+    goals = user.goal.all()
+    ctx = {
+        "goals": goals,
+    }
+    return render(request, "goal_management/goal_list.html", ctx)
+
+# 사용자의 목표 수정
+def goal_update(request, pk):
+    goal = Goal.objects.get(id=pk)
+    tags = Tag.objects.filter(parent_tag__isnull=True).order_by('tag_name')
+    actTags = ActivityTag.objects.all()
+    ctx = {
+        "goal": goal,
+        "pk": pk,
+        'tags':tags,
+        'actTags':actTags,
+    }
+    return render(request, "goal_management/goal_update.html", ctx)

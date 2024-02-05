@@ -15,7 +15,7 @@ class ActivityTag(models.Model):
         return self.tag_name
 
 class Goal(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='goal')
     tags = models.ManyToManyField(Tag, default=None)
     activityTags = models.ManyToManyField(ActivityTag, default=None)
     title = models.CharField(max_length=50)
