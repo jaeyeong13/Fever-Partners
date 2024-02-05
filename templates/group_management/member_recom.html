@@ -6,7 +6,35 @@
     <title>Document</title>
 </head>
 <body>
-    <div>나의목표</div>
+    <div>내가 개설한 그룹</div>
+    <h1>{{ room.title }}</h1>
+    <p><strong>Detail:</strong> {{ room.detail }}</p>
+    <p><strong>Master:</strong> {{ room.master.nickname }}</p>
+    <p><strong>Members:</strong></p>
+    <ul>
+        {% for member in room.members.all %}
+            <li>{{ member.nickname }}</li>
+        {% endfor %}
+    </ul>
+    <p><strong>Tags:</strong></p>
+    <ul>
+        {% for tag in room.tags.all %}
+            <li>{{ tag.name }}</li>
+        {% endfor %}
+    </ul>
+    <p><strong>Activity Tags:</strong></p>
+    <ul>
+        {% for activity_tag in room.activityTags.all %}
+            <li>{{ activity_tag.name }}</li>
+        {% endfor %}
+    </ul>
+    <p><strong>Cert Required:</strong> {% if room.cert_required %}Yes{% else %}No{% endif %}</p>
+    {% if room.cert_detail %}
+        <p><strong>Cert Detail:</strong> {{ room.cert_detail }}</p>
+    {% endif %}
+    <p><strong>Penalty Value:</strong> {{ room.penalty_value }}</p>
+    <p><strong>Favor Offline:</strong> {% if room.favor_offline %}Yes{% else %}No{% endif %}</p>
+    <p><strong>Is Active:</strong> {% if room.is_active %}Yes{% else %}No{% endif %}</p>
     <div>추천된 유저 List</div>
     {% for user in users %}
         <div>
@@ -17,8 +45,14 @@
         {% endif %}
         <p>{{ user.nickname }}<p>
         <p>{{ user.profile }}</p>
-        <button>가입제안</button>
+        <form action="{% url 'group_management:suggest_join' room.pk %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="user_id" value="{{ user.id }}">
+            <input type="hidden" name="room_id" value="{{ room.id }}">
+            <button type="submit">가입제안</button>
+        </form>
         </div>
     {% endfor %}
+    <a href="/main">메인화면으로 이동</a>
 </body>
 </html>
