@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>{{user.nickname}}님이 속한 방이에요!</div>
+    <br>
+    {% for room in rooms %}
+    <a href="{%url 'group_activity:main_page' room.pk %} ">{{room.title}}</a>
+    <br>
+    {% endfor %}
+</body>
+</html>
