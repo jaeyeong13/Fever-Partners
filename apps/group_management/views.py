@@ -59,3 +59,9 @@ def create_room(request):
 # 임시로 작성해둠
 def show_user_list(request):
     return render(request, 'group_management/member_recom.html')
+
+def show_group_list(request):
+    user = request.user
+    rooms = Room.objects.filter(members__in = [user])
+
+    return render(request, 'group_management/group_list.html', {'rooms': rooms})
