@@ -27,11 +27,13 @@
             <td colspan="3">아직 작성된 포스트가 없습니다.</td>
           </tr>
         {% endif %}
-        <br>
-        <a href="{% url 'free_board:create_post' %}" class="btn btn-primary">
-          글 쓰기
-        </a>
       </tbody>
     </table>
+    <!-- 버튼을 테이블 아래, 오른쪽 하단에 배치 -->
+    <div class="text-right">
+      <a href="{% url 'free_board:create_post' %}" class="btn btn-primary">
+        글 작성하러 가기
+      </a>
+    </div>
   </div>
 {% endblock %}

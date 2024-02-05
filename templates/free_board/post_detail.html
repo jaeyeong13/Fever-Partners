@@ -41,6 +41,16 @@
     {% endfor %}
     <form action="{% url 'free_board:create_comment' post.id %}" method="post" class="my-3">
     {% csrf_token %}
+    {% if form.errors %}
+      <div class="alert alert-danger" role="alert">
+        {% for field in form %}
+          {% if field.errors %}
+            <strong>{{ field.label }}</strong>
+            {{ field.errors }}
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
       <div class="form-group">
         <textarea name="content" id="content" cols="30" rows="10"></textarea>
       </div>
