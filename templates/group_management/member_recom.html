@@ -19,13 +19,13 @@
     <p><strong>Tags:</strong></p>
     <ul>
         {% for tag in room.tags.all %}
-            <li>{{ tag.name }}</li>
+            <li>{{ tag.tag_name }}</li>
         {% endfor %}
     </ul>
     <p><strong>Activity Tags:</strong></p>
     <ul>
         {% for activity_tag in room.activityTags.all %}
-            <li>{{ activity_tag.name }}</li>
+            <li>{{ activity_tag.tag_name }}</li>
         {% endfor %}
     </ul>
     <p><strong>Cert Required:</strong> {% if room.cert_required %}Yes{% else %}No{% endif %}</p>
@@ -35,7 +35,10 @@
     <p><strong>Penalty Value:</strong> {{ room.penalty_value }}</p>
     <p><strong>Favor Offline:</strong> {% if room.favor_offline %}Yes{% else %}No{% endif %}</p>
     <p><strong>Is Active:</strong> {% if room.is_active %}Yes{% else %}No{% endif %}</p>
-    <div>추천된 유저 List</div>
+    
+    <br>
+    
+    <strong>추천된 유저 List</strong>
 
     {% for goal in goals %}
     
@@ -47,6 +50,16 @@
             {% endif %}
             <p>{{ goal.user.nickname }}<p>
             <p>{{ goal.user.profile }}</p>
+            <strong>목표 태그: </strong>
+            {% for tag in goal.tags.all %}
+                <span>{{tag}}</span>
+            {% endfor %}
+            <strong>활동 태그: </strong>
+            {% for tag in goal.activityTags.all %}
+                <span>{{tag}}</span>
+            {% endfor %}
+            <div>{{ goal.title }}</div>
+            <br>
             <form action="{% url 'group_management:suggest_join' room.pk %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="user_id" value="{{ goal.user.id }}">

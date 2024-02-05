@@ -57,7 +57,8 @@ def create_room(request):
 
         url = reverse('group_management:recommendation_page', kwargs={'room_id': room.pk})
         return redirect(url)
-        return redirect(f'/group_management/recommendation_page/{room.id}')
+    
+        # return redirect(f'/group_management/recommendation_page/{room.id}')
     
     else:
         return HttpResponseBadRequest()
@@ -105,7 +106,8 @@ def recommend_member(request, room_id):
     
     s = Search(index='goals').query(final_query)
     response = s.execute()
-
+    hit_ids = [hit.meta.id for hit in response]
+    print(hit_ids)
     goals = [Goal.objects.get(id=hit.meta.id) for hit in response]
     cnt = {
         'goals' : goals,
