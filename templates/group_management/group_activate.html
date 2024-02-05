@@ -7,4 +7,6 @@
 >
 <br />
 {% endfor %}
+{% if master %}
 <a href="{% url 'group_management:verify' room.pk %}">인증 수락 탭</a>
+{% endif %}

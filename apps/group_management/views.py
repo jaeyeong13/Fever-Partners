@@ -65,18 +65,23 @@ def show_user_list(request):
 def activate(request, pk):
     room = get_object_or_404(Room, id=pk)
     authentication = Authentication.objects.filter(room=room)
+    master = False
+    if room.master == request.user:
+        master = True
     ctx = {
         'room': room,
-        'authentication': authentication
+        'authentication': authentication,
+        'master':master,
     }
     return render(request, 'group_management/group_activate.html', ctx)
 
 def create_authentication(request, pk):
     if request.method == 'GET':
         form = MemberAuthenticationForm()
+
         ctx = {
             'form': form,
-            'pk': pk
+            'pk': pk,
             }
         return render(request, 'group_management/create_authentication.html', ctx)
 
@@ -91,8 +96,10 @@ def create_authentication(request, pk):
     return redirect('group_management:activate', pk=room.id)
 
 #그룹장이 인증확인 창으로 이동
+@login_required
 def verify(request, pk):
     memberAuthentication = MemberAuthentication.objects.filter(room=pk)
+    
     ctx = {
         'memberAuthentication':memberAuthentication,
     }
