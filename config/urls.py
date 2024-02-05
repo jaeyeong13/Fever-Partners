@@ -29,6 +29,7 @@ urlpatterns = [
     path("alarm/", include("apps.alarm.urls")),
     path("accounts/", include("allauth.urls")),
     path('accounts/', include('allauth.socialaccount.urls')),
+    path('group_activity/', include("apps.group_activity.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
