@@ -108,6 +108,7 @@ def detail(request, pk):
 
 def update(request, pk):
     user = User.objects.get(id=pk)
+    # Tony: 아래 중 하나라도 빈 값이면??
     if request.method == "POST":
         user.nickname = request.POST["nickname"]
         user.profile = request.POST["profile"]

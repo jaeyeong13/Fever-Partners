@@ -17,6 +17,7 @@ class ActivityTag(models.Model):
 class Goal(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='goal')
     tags = models.ManyToManyField(Tag, default=None)
+    # Tony: CamelCase 형식이 아니라 snake_head 형식으로 해야합니다.
     activityTags = models.ManyToManyField(ActivityTag, default=None)
     title = models.CharField(max_length=50)
     content = models.TextField()
