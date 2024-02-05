@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>title: {{ post.title }}</h1>
+
+  <div>
+    content: {{ post.content }}
+  </div>
+
+  <h5>댓글({{ post.comments.count }})</h5> <!-- 여기를 수정했습니다. -->
+  <div>
+    <ul>
+      {% for comment in post.comments.all %} <!-- 여기도 수정했습니다. -->
+        <li>{{ comment.content }} - {{ comment.author.username }}</li> <!-- 작성자 표시 추가 -->
+      {% endfor %}
+    </ul>
+  </div>
+  <form action="{% url 'free_board:create_comment' post.id %}" method="post">
+  {% csrf_token %}
+    <textarea name="content" id="content" cols="30" rows="10"></textarea>
+    <input type="submit" value="댓글 등록">
+  </form>
+{% endblock %}
