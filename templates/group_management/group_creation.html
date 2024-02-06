@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class='temp-space'>Header+Introbox</div>
+<form method="POST" action="{%url 'group_management:create_room'%}" class="form-container" onsubmit="return validateGroupForm()">
+    {% csrf_token %}
+    <div class='field-title'>기준이 될 방의 목표를 설정하세요!</div>
+    <div id="goal-warning" class="warning"></div>
+    <div>*이 부분 차후에 수정될 예정*</div>
+    <select name="goal" id="goal">
+        {% for goal in goals %}
+            <option value="{{ goal.id }}">{{ goal.title }}</option>
+        {% endfor %}
+    </select>
+
+    <div class='field-title'>방의 제목을 지어보세요.</div>
+    <input type="text" name="title" id="title">
+    <div id="title-warning" class="warning"></div>
+
+    <div class='field-title'>세부사항을 적어주세요!</div>
+    <textarea name="detail" id="detail"></textarea>
+    <div id="detail-warning" class="warning"></div>
+    
+    <div class='field-title'>대면활동을 하실 계획이 있으신가요?</div>
+    <select name="favor_offline" id="favor_offline">
+        <option value="True">대면활동 있어요</option>
+        <option value="False">온라인 선호해요</option>
+    </select>
+
+    <div class='field-title'>인증 활동을 필수로 하실 건가요?</div>
+    <div class="toggle-container">
+        <input type="checkbox" id="cert_required" name="cert_required" class="toggle-checkbox">
+        <label for="cert_required" class="toggle-label"></label>
+
+        <!-- on일때만 나타나는 하위 필드 -->
+        <div id="cert_fields" style="display: none;">
+            <div class='field-title'>인증에 대한 디테일한 설명</div>
+            <textarea name="cert_detail" id="cert_detail"></textarea>
+            <div id='cert-detail-warning' class="warning"></div>
+            <div class='field-title'>벌금 설정</div>
+            <input type="number" name="penalty" id="penalty" min="0" max="5000">
+            <div id="penalty-warning" class="warning"></div>
+        </div>            
+    </div>
+    <button type="submit">제출</button>
+</form>
+{% endblock content %}

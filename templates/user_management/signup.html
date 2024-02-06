@@ -1,0 +1,9 @@
+{% load socialaccount %}
+
+<a href="{% url 'user_management:signup_email' %}">이메일로 시작하기</a>
+<div>구글로 시작하기</div>
+<div>카카오로 시작하기</div>
+<form action="{% provider_login_url 'naver'%}" method="POST">
+    {% csrf_token %}
+    <button type="submit">네이버로 시작하기</button>
+</form>

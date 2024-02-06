@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <form action="" method="POST" class="nickname_form">
+            {% csrf_token %}
+            <div>
+                <span>닉네임</span>
+                {{ form.nickname }}
+            </div>
+            <div>
+                <span>소개글</span>
+                {{ form.profile }}
+            </div>
+            <div>
+                <span>사진</span>
+                {{ form.profile_image }}
+            </div>
+            <div>
+                <span>거주지역</span>
+                {{ form.region }}
+            </div>
+            <div>
+                <span>거주지역 세부</span>
+                {{ form.region_detail }}
+            </div>
+            <button type="submit">완료</button>
+        </form>
+    </body>
+</html>

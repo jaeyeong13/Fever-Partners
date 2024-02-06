@@ -38,9 +38,14 @@ CUSTOM_APPS = [
     "apps.user_management",
     "apps.group_management",
     "apps.goal_management",
+    "apps.rooms",
+    "apps.alarm",
+    "apps.free_board",
+    "apps.group_activity",
 ]
 
 THIRD_PARTY_APPS = [
+    "bootstrap4",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -48,7 +53,36 @@ THIRD_PARTY_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    # 소셜 로그인
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.naver',
+    'django_elasticsearch_dsl',
 ]
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'http://localhost:9200',
+    },
+}
+
+# 백앤드에서 인증처리 관련
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',    
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'naver': {'APP': {
+                        'client_id': env("NAVER_CLIENT_ID"),
+                        'secret': env("NAVER_CLIENT_SECRET"),
+                        'key': ''
+                }},
+}
+
+LOGIN_REDIRECT_URL = '/update/start'   # social login redirect
+ACCOUNT_LOGOUT_REDIRECT_URL = '/start'  # logout redirect
 
 # Application definition
 
@@ -62,6 +96,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -144,3 +179,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# 기본적으로 사용할 유저.
+AUTH_USER_MODEL = 'user_management.User'
