@@ -167,6 +167,7 @@ cython_debug/
 # Migration file
 apps/*/migrations/*
 !apps/*/migrations/__init__.py
+apps/*/migrations/0001_initial.py
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
