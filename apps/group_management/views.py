@@ -126,3 +126,9 @@ def verify(request, pk):
         'memberAuthentication':memberAuthentication,
     }
     return render(request, 'group_management/verifying_auth.html', ctx)
+
+def show_group_list(request):
+    user = request.user
+    rooms = Room.objects.filter(members__in = [user])
+
+    return render(request, 'group_management/group_list.html', {'rooms': rooms})
