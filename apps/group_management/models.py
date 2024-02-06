@@ -32,3 +32,10 @@ class MemberAuthentication(models.Model):
     is_auth = models.BooleanField(default=False)
     content = models.CharField(max_length=100, null=True)
     image = models.ImageField(upload_to='authentication_images/', null=True)
+
+#인증 로그
+class AuthenticationLog(models.Model):
+    room = models.ForeignKey(Room, related_name='log_auth_room', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='log_auth_user', on_delete=models.CASCADE)
+    authentication = models.ForeignKey(Authentication, related_name='log_auth', on_delete=models.CASCADE)
+    created_date = models.DateTimeField(auto_created=True, auto_now_add=True)

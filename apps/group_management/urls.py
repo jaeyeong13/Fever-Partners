@@ -11,5 +11,6 @@ urlpatterns = [
     path('authentication/<int:pk>', create_authentication, name='create_authentication'),
     path('auth/<int:pk>', create_auth, name='create_auth'),
     path('verify/<int:pk>/', verify, name='verify'),
-    path('group_list/', show_group_list, name='group_list')
+    path('group_list/', show_group_list, name='group_list'),
+    #path('auth_log/', auth_log, name='auth_log'),
 ]

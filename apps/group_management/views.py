@@ -61,6 +61,12 @@ def create_room(request):
 def show_user_list(request):
     return render(request, 'group_management/member_recom.html')
 
+def show_group_list(request):
+    user = request.user
+    rooms = Room.objects.filter(members__in = [user])
+
+    return render(request, 'group_management/group_list.html', {'rooms': rooms})
+
 #그룹 활동 페이지로..(임시작성)
 def activate(request, pk):
     room = get_object_or_404(Room, id=pk)
@@ -127,8 +133,8 @@ def verify(request, pk):
     }
     return render(request, 'group_management/verifying_auth.html', ctx)
 
-def show_group_list(request):
-    user = request.user
-    rooms = Room.objects.filter(members__in = [user])
-
-    return render(request, 'group_management/group_list.html', {'rooms': rooms})
+#def auth_log(request):
+#    # 인증 없애고
+#    auth = MemberAuthentication.objects.get()
+#    # 로그 생성하고
+#    # verify로 ㄱㄱ
