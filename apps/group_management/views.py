@@ -4,7 +4,7 @@ from .models import *
 from apps.goal_management.models import Goal
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseBadRequest
-from .forms import MemberAuthenticationForm
+from .forms import AuthenticationForm, MemberAuthenticationForm
 
 def start_creation(request):
     goals = Goal.objects.filter(user = request.user).filter(is_in_group = False)
@@ -75,6 +75,28 @@ def activate(request, pk):
     }
     return render(request, 'group_management/group_activate.html', ctx)
 
+#그룹장이 방에 인증 틀을 생성하는 것
+def create_auth(request, pk):
+    if request.method == 'GET':
+        form = AuthenticationForm()
+
+        ctx = {
+            'form': form,
+            'pk': pk,
+            }
+        return render(request, 'group_management/create_auth.html', ctx)
+
+    # POST일때
+    form = AuthenticationForm(request.POST)
+    room = get_object_or_404(Room, id=pk)
+    
+    form.instance.room = room
+    form.instance.user = request.user
+    form.save()
+
+    return redirect('group_management:activate', pk=room.id)
+
+#그룹장이 올린 인증 틀에 멤버들이 인증을 생성하는 것
 def create_authentication(request, pk):
     if request.method == 'GET':
         form = MemberAuthenticationForm()
