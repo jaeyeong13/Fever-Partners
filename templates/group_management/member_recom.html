@@ -6,6 +6,69 @@
     <title>Document</title>
 </head>
 <body>
-    유저 추천 페이지입니다.
+    <div>내가 개설한 그룹</div>
+    <h1>{{ room.title }}</h1>
+    <p><strong>Detail:</strong> {{ room.detail }}</p>
+    <p><strong>Master:</strong> {{ room.master.nickname }}</p>
+    <p><strong>Members:</strong></p>
+    <ul>
+        {% for member in room.members.all %}
+            <li>{{ member.nickname }}</li>
+        {% endfor %}
+    </ul>
+    <p><strong>Tags:</strong></p>
+    <ul>
+        {% for tag in room.tags.all %}
+            <li>{{ tag.tag_name }}</li>
+        {% endfor %}
+    </ul>
+    <p><strong>Activity Tags:</strong></p>
+    <ul>
+        {% for activity_tag in room.activityTags.all %}
+            <li>{{ activity_tag.tag_name }}</li>
+        {% endfor %}
+    </ul>
+    <p><strong>Cert Required:</strong> {% if room.cert_required %}Yes{% else %}No{% endif %}</p>
+    {% if room.cert_detail %}
+        <p><strong>Cert Detail:</strong> {{ room.cert_detail }}</p>
+    {% endif %}
+    <p><strong>Penalty Value:</strong> {{ room.penalty_value }}</p>
+    <p><strong>Favor Offline:</strong> {% if room.favor_offline %}Yes{% else %}No{% endif %}</p>
+    <p><strong>Is Active:</strong> {% if room.is_active %}Yes{% else %}No{% endif %}</p>
+    
+    <br>
+    
+    <strong>추천된 유저 List</strong>
+
+    {% for goal in goals %}
+    
+        <div>
+            {% if goal.user.profile_image %}
+            <img src="{{ goal.user.profile_image.url }}" alt="Profile Image" style="width:100px">
+            {% else %}
+            <p>No profile image available.</p>
+            {% endif %}
+            <p>{{ goal.user.nickname }}<p>
+            <p>{{ goal.user.profile }}</p>
+            <strong>목표 태그: </strong>
+            {% for tag in goal.tags.all %}
+                <span>{{tag}}</span>
+            {% endfor %}
+            <strong>활동 태그: </strong>
+            {% for tag in goal.activityTags.all %}
+                <span>{{tag}}</span>
+            {% endfor %}
+            <div>{{ goal.title }}</div>
+            <br>
+            <form action="{% url 'group_management:suggest_join' room.pk %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="user_id" value="{{ goal.user.id }}">
+                <input type="hidden" name="room_id" value="{{ room.id }}">
+                <button type="submit">가입제안</button>
+            </form>
+        </div>
+
+    {% endfor %}
+    <a href="/main">메인화면으로 이동</a>
 </body>
 </html>
