@@ -40,10 +40,12 @@ CUSTOM_APPS = [
     "apps.goal_management",
     "apps.rooms",
     "apps.alarm",
+    "apps.free_board",
     "apps.group_activity",
 ]
 
 THIRD_PARTY_APPS = [
+    "bootstrap4",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -56,7 +58,14 @@ THIRD_PARTY_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.naver',
+    'django_elasticsearch_dsl',
 ]
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'http://localhost:9200',
+    },
+}
 
 # 백앤드에서 인증처리 관련
 AUTHENTICATION_BACKENDS = [

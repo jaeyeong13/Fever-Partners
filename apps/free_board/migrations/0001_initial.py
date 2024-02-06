@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="AuthenticationImage",
+            name="Comment",
             fields=[
                 (
                     "id",
@@ -21,16 +21,12 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("image", models.ImageField(upload_to="authentication_images/")),
-                ("uploaded_at", models.DateTimeField(auto_now_add=True)),
-                (
-                    "is_authenticated",
-                    models.BooleanField(default=False, verbose_name="인증여부"),
-                ),
+                ("content", models.TextField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
             ],
         ),
         migrations.CreateModel(
-            name="Room",
+            name="Post",
             fields=[
                 (
                     "id",
@@ -41,9 +37,10 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("name", models.CharField(max_length=100)),
-                ("tags", models.CharField(max_length=100)),
-                ("rule", models.CharField(max_length=100)),
+                ("title", models.CharField(max_length=200, null=True)),
+                ("content", models.TextField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
             ],
         ),
     ]

@@ -13,13 +13,15 @@ def user_login(request):
     if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
+            print('Is valid')
             email = form.cleaned_data.get("email")
             raw_password = form.cleaned_data.get("password")
             user = User.objects.get(email=email)
             
             if user.check_password(raw_password):
-                    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                    return redirect("user_management:main")
+                print('Is valid2')
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                return redirect("user_management:main")
     # GET
     else:
         form = LoginForm()
@@ -27,7 +29,6 @@ def user_login(request):
 
 # 소셜 회원가입 시 회원정보 입력
 def user_update_start(request):
-    print(1)
     if request.method == 'POST':
         form = UserUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
