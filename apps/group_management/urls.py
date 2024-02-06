@@ -10,10 +10,6 @@ urlpatterns = [
     path('member_recommendation/<int:room_id>', recommend_member, name='recommendation_page'),
     path('suggest_join/<int:room_id>', suggest_join, name='suggest_join'),
     path('member_recommendation/', show_user_list, name='recommendation_page'),
-    path('activate/<int:pk>/', activate, name='activate'),
-    path('authentication/<int:pk>', create_authentication, name='create_authentication'),
-    path('auth/<int:pk>', create_auth, name='create_auth'),
-    path('verify/<int:pk>/', verify, name='verify'),
     path('group_list/', show_group_list, name='group_list'),
     #path('auth_log/', auth_log, name='auth_log'),
 ]

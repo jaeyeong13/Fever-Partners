@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from apps.goal_management.models import Goal
@@ -7,7 +6,6 @@ from apps.alarm.models import Alarm
 from apps.group_management.models import Room 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseBadRequest
-from .forms import AuthenticationForm, MemberAuthenticationForm
 from django.urls import reverse
 
 def start_creation(request):
@@ -140,75 +138,3 @@ def show_group_list(request):
     rooms = Room.objects.filter(members__in = [user])
 
     return render(request, 'group_management/group_list.html', {'rooms': rooms})
-
-#그룹 활동 페이지로..(임시작성)
-def activate(request, pk):
-    room = get_object_or_404(Room, id=pk)
-    authentication = Authentication.objects.filter(room=room)
-    master = False
-    if room.master == request.user:
-        master = True
-    ctx = {
-        'room': room,
-        'authentication': authentication,
-        'master':master,
-    }
-    return render(request, 'group_management/group_activate.html', ctx)
-
-#그룹장이 방에 인증 틀을 생성하는 것
-def create_auth(request, pk):
-    if request.method == 'GET':
-        form = AuthenticationForm()
-
-        ctx = {
-            'form': form,
-            'pk': pk,
-            }
-        return render(request, 'group_management/create_auth.html', ctx)
-
-    # POST일때
-    form = AuthenticationForm(request.POST)
-    room = get_object_or_404(Room, id=pk)
-    
-    form.instance.room = room
-    form.instance.user = request.user
-    form.save()
-
-    return redirect('group_management:activate', pk=room.id)
-
-#그룹장이 올린 인증 틀에 멤버들이 인증을 생성하는 것
-def create_authentication(request, pk):
-    if request.method == 'GET':
-        form = MemberAuthenticationForm()
-
-        ctx = {
-            'form': form,
-            'pk': pk,
-            }
-        return render(request, 'group_management/create_authentication.html', ctx)
-
-    # POST일때
-    form = MemberAuthenticationForm(request.POST, request.FILES)
-    room = get_object_or_404(Room, id=pk)
-    
-    form.instance.room = room
-    form.instance.user = request.user
-    form.save()
-
-    return redirect('group_management:activate', pk=room.id)
-
-#그룹장이 인증확인 창으로 이동
-@login_required
-def verify(request, pk):
-    memberAuthentication = MemberAuthentication.objects.filter(room=pk)
-    
-    ctx = {
-        'memberAuthentication':memberAuthentication,
-    }
-    return render(request, 'group_management/verifying_auth.html', ctx)
-
-#def auth_log(request):
-#    # 인증 없애고
-#    auth = MemberAuthentication.objects.get()
-#    # 로그 생성하고
-#    # verify로 ㄱㄱ

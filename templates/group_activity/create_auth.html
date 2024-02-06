@@ -1,6 +1,6 @@
 <p>인증 만들기(그룹장)</p>
 <form
-  action="{% url 'group_management:create_auth' pk %}"
+  action="{% url 'group_activity:create_auth' pk %}"
   method="post"
 >
   {%csrf_token%} {{form.as_p}}
