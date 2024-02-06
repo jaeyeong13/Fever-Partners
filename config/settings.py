@@ -38,7 +38,6 @@ CUSTOM_APPS = [
     "apps.user_management",
     "apps.group_management",
     "apps.goal_management",
-    "apps.rooms",
     "apps.alarm",
 ]
 
