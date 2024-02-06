@@ -24,7 +24,7 @@
     <div id='group-introbox'>그룹 소개 문구 공간</div>
     <div>
         <a href="">멤버</a>
-        <a href="">인증 공간</a>
+        <a href="{% url 'group_activity:activate' room_id %}">인증 공간</a>
         <a href="">활동 현황</a>
         <a href="{% url 'free_board:list' %}">자유게시판</a>
     </div>

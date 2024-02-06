@@ -5,7 +5,10 @@ from django.contrib.auth.decorators import login_required
 from .forms import AuthenticationForm, MemberAuthenticationForm
 
 def show_activity_main(request, room_id):
-    return render(request, 'group_activity/group_activity_base.html')
+    ctx = {
+        'room_id':room_id,
+    }
+    return render(request, 'group_activity/group_activity_base.html', ctx)
 
 #그룹 활동 페이지로..(임시작성)
 def activate(request, pk):
