@@ -18,14 +18,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.shortcuts import render
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("apps.user_management.urls")),
     path('goal/', include('apps.goal_management.urls')),
     path('group/', include('apps.group_management.urls')),
-    path("rooms/", include("apps.rooms.urls")),
     path("alarm/", include("apps.alarm.urls")),
     path("accounts/", include("allauth.urls")),
     path('accounts/', include('allauth.socialaccount.urls')),
