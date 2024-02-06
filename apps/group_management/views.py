@@ -134,3 +134,8 @@ def suggest_join(request, room_id):
         return redirect(f'/group/member_recommendation/{room.id}')
     else:
         return redirect('/')  # POST 요청이 아닌 경우 홈페이지로 리다이렉트
+def show_group_list(request):
+    user = request.user
+    rooms = Room.objects.filter(members__in = [user])
+
+    return render(request, 'group_management/group_list.html', {'rooms': rooms})
