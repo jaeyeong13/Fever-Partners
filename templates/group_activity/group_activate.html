@@ -1,14 +1,15 @@
-<p>그룹 활동 페이지</p>
-
-<strong>현재 활성화 된 인증</strong>
-{% for auth in authentication %}
-<div>시간: {{auth.start}}~{{auth.end}}</div>
-<a href="{% url 'group_activity:create_authentication' room.pk %}"
-  >인증하기</a
->
-<br />
-{% endfor %}
-{% if master %}
-<a href="{% url 'group_activity:create_auth' room.pk %}">인증 개설</a>
-<a href="{% url 'group_activity:verify' room.pk %}">인증 수락 탭</a>
-{% endif %}
+{% extends 'group_activity/group_activity_base.html' %}
+{% block content %}
+  <strong>현재 활성화 된 인증</strong>
+  {% for auth in authentication %}
+  <div>시간: {{auth.start}}~{{auth.end}}</div>
+  <a href="{% url 'group_activity:create_authentication' room.pk %}"
+    >인증하기</a
+  >
+  <br />
+  {% endfor %}
+  {% if master %}
+  <a href="{% url 'group_activity:create_auth' room.pk %}">인증 개설</a>
+  <a href="{% url 'group_activity:verify' room.pk %}">인증 수락 탭</a>
+  {% endif %}
+{% endblock content %}

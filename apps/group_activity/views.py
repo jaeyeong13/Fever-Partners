@@ -21,6 +21,7 @@ def activate(request, pk):
         'room': room,
         'authentication': authentication,
         'master':master,
+        'room_id':pk,
     }
     return render(request, 'group_activity/group_activate.html', ctx)
 
