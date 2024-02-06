@@ -1,0 +1,7 @@
+{% extends "group_administration/group_admin_base.html" %}
+
+{% block content %}
+{% for member in members.all %}
+    <div>{{member.nickname}}</div>
+{% endfor %}
+{% endblock content %}
