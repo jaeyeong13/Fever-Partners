@@ -102,6 +102,6 @@ def show_log(request, pk):
     
     ctx = {
         'auth_log':auth_log,
-        'room_id':pk
+        'room_id':pk,
     }
     return render(request, 'group_activity/show_log.html', ctx)
