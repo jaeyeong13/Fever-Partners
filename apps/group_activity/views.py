@@ -98,9 +98,10 @@ def refuse_auth_log(request, pk):
 
 #현황(인증로그) 창으로 이동
 def show_log(request, pk):
-    auth_log = MemberAuthentication.objects.filter(room=pk)
+    auth_log = MemberAuthentication.objects.filter(room=pk).order_by('-created_date')
     
     ctx = {
         'auth_log':auth_log,
+        'room_id':pk
     }
     return render(request, 'group_activity/show_log.html', ctx)
