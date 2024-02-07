@@ -1,4 +1,6 @@
-<p>인증 확인 창</p>
+{% extends 'group_administration/group_admin_base.html' %}
+{% block content %}
+
 {% for auth in memberAuthentication %}
 <div>
   <p>[{{ auth.user }}님의 활동인증]</p>
@@ -7,3 +9,5 @@
   <a href="{% url 'group_activity:refuse_auth_log' auth.id %}">거절</a>
 </div>
 {% endfor %}
+
+{% endblock %}

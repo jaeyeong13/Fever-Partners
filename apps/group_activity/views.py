@@ -74,6 +74,7 @@ def verify(request, pk):
     
     ctx = {
         'memberAuthentication':memberAuthentication,
+        'room_id':pk,
     }
     return render(request, 'group_activity/verifying_auth.html', ctx)
 
@@ -101,6 +102,5 @@ def show_log(request, pk):
     
     ctx = {
         'auth_log':auth_log,
-        'room_id':pk,
     }
     return render(request, 'group_activity/show_log.html', ctx)

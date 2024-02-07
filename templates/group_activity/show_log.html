@@ -2,13 +2,15 @@
 {% block content %}
 {% for auth in auth_log %}
   <div>
-      <p>유저: {{ auth.user }}</p>
+      <p>{{ auth.user }}님이 인증을 
+        {% if auth.is_auth == True %}
+          성공했습니다.
+        {% else %}
+          실패했습니다.
+        {% endif %}
+      </p>
       <p>인증시각: {{ auth.created_date }}</p>
-      {% if auth.is_auth == True %}
-        <p>인증되었습니다</p>
-      {% else %}
-        <p>인증 실패했습니다</p>
-      {% endif %}
+      <hr>
   </div>
 {% endfor %}
 {% endblock content %}

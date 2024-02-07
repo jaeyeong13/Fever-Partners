@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from apps.group_management.models import Room
-from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
+import datetime
 
 User = get_user_model()
 
@@ -10,8 +10,8 @@ User = get_user_model()
 class Authentication(models.Model):
     room = models.ForeignKey(Room, related_name='room', on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE)
-    start = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(24)])
-    end = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(24)])
+    start = models.TimeField('인증시작', default=datetime.time(0, 0))
+    end = models.TimeField('인증종료', default=datetime.time(0, 0))
 
 #그룹에서 하는 인증
 class MemberAuthentication(models.Model):
@@ -22,10 +22,3 @@ class MemberAuthentication(models.Model):
     image = models.ImageField(upload_to='authentication_images/', null=True)
     is_completed = models.BooleanField(default=False)
     created_date = models.DateTimeField(default=timezone.now)
-
-#인증 로그
-#class AuthenticationLog(models.Model):
-#    room = models.ForeignKey(Room, related_name='log_auth_room', on_delete=models.CASCADE)
-#    user = models.ForeignKey(User, related_name='log_auth_user', on_delete=models.CASCADE)
-#    authentication = models.ForeignKey(Authentication, related_name='log_auth', on_delete=models.CASCADE)
-#    created_date = models.DateTimeField(auto_created=True, auto_now_add=True)
