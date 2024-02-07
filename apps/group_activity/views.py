@@ -70,15 +70,37 @@ def create_authentication(request, pk):
 #그룹장이 인증확인 창으로 이동
 @login_required
 def verify(request, pk):
-    memberAuthentication = MemberAuthentication.objects.filter(room=pk)
+    memberAuthentication = MemberAuthentication.objects.filter(room=pk).filter(is_completed=False)
     
     ctx = {
         'memberAuthentication':memberAuthentication,
     }
     return render(request, 'group_activity/verifying_auth.html', ctx)
 
-#def auth_log(request):
-#    # 인증 없애고
-#    auth = MemberAuthentication.objects.get()
-#    # 로그 생성하고
-#    # verify로 ㄱㄱㄱ
+#인증 수락을 눌렀을 때
+def accept_auth_log(request, pk):
+    memberAuthentication = MemberAuthentication.objects.get(id=pk)
+    memberAuthentication.is_auth = True
+    memberAuthentication.is_completed = True
+    memberAuthentication.save()
+
+    return redirect('group_activity:verify', memberAuthentication.room.id)
+
+#겹치는 코드가 많아서 합칠 수 있을 거 같은데..
+#인증 거절을 눌렀을 때
+def refuse_auth_log(request, pk):
+    memberAuthentication = MemberAuthentication.objects.get(id=pk)
+    memberAuthentication.is_completed = True
+    memberAuthentication.save()
+
+    return redirect('group_activity:verify', memberAuthentication.room.id)
+
+#현황(인증로그) 창으로 이동
+def show_log(request, pk):
+    auth_log = MemberAuthentication.objects.filter(room=pk)
+    
+    ctx = {
+        'auth_log':auth_log,
+        'room_id':pk,
+    }
+    return render(request, 'group_activity/show_log.html', ctx)

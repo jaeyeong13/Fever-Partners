@@ -9,4 +9,7 @@ urlpatterns = [
     path('authentication/<int:pk>', create_authentication, name='create_authentication'),
     path('auth/<int:pk>', create_auth, name='create_auth'),
     path('verify/<int:pk>/', verify, name='verify'),
+    path('accept_auth_log/<int:pk>', accept_auth_log, name='accept_auth_log'),
+    path('refuse_auth_log/<int:pk>', refuse_auth_log, name='refuse_auth_log'),
+    path('show_log/<int:pk>', show_log, name='show_log'),
 ]

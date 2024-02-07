@@ -1,0 +1,14 @@
+{% extends 'group_activity/group_activity_base.html' %}
+{% block content %}
+{% for auth in auth_log %}
+  <div>
+      <p>유저: {{ auth.user }}</p>
+      <p>인증시각: {{ auth.created_date }}</p>
+      {% if auth.is_auth == True %}
+        <p>인증되었습니다</p>
+      {% else %}
+        <p>인증 실패했습니다</p>
+      {% endif %}
+  </div>
+{% endfor %}
+{% endblock content %}

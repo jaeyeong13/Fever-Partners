@@ -3,7 +3,7 @@
 <div>
   <p>[{{ auth.user }}님의 활동인증]</p>
   <p>{{ auth.content }}</p>
-  <a href="">수락</a>
-  <a href="">거절</a>
+  <a href="{% url 'group_activity:accept_auth_log' auth.id %}">수락</a>
+  <a href="{% url 'group_activity:refuse_auth_log' auth.id %}">거절</a>
 </div>
 {% endfor %}
