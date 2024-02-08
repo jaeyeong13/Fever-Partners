@@ -195,3 +195,14 @@ function GoalDeletionConfirm(goal_id) {
       }
     });
 }
+
+// 필요할 때 쓰려고 미리 만들어둠
+function saveTempInfoToSession(infoName, tempInfo) {
+  sessionStorage.setItem(infoName, tempInfo);
+}
+
+function getTempInfoFromSession(infoName) {
+  const tempInfo = sessionStorage.getItem(infoName);
+  sessionStorage.removeItem(infoName);
+  return tempInfo;
+}

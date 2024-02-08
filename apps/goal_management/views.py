@@ -24,7 +24,8 @@ def get_subtags(request, id):
     return JsonResponse({'result':html_content.decode('utf-8')})
 
 def show_branching_point(request):
-    return render(request, 'goal_management/branching_point.html')
+    # 해당 페이지에 직접 접근하는 경우/goal_id가 없기 때문에 페이지 로딩X -> 예외처리
+    return HttpResponseNotFound('잘못된 접근 방식입니다.')
 
 @login_required
 def create_goal(request):
@@ -62,7 +63,7 @@ def create_goal(request):
             selected_subtag = Tag.objects.get(id=selected_subtag_id)
             goal.tags.add(selected_subtag)
 
-        return redirect('goal_management:show_branching_point')
+        return render(request, 'goal_management/branching_point.html', {'goal_id':goal.pk})
     
     # GET 요청으로 접근한 경우 예외처리 추후에 추가
     # return redirect()
