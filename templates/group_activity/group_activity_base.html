@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>그룹 활동 페이지</title>
+    <style>
+        #group-introbox {
+            display: flex;
+            align-items: center;
+            height: 100px;
+            width: 500px;
+            border: 1px solid black;
+        }
+
+        #group-activity-content {
+            width: 500px;
+            height: 400px;
+        }
+    </style>
+</head>
+<body> 
+    <header>HEADER</header>
+    <div id='group-introbox'>그룹 소개 문구 공간</div>
+    <div>
+        <a href="">멤버</a>
+        <a href="">인증 공간</a>
+        <a href="">활동 현황</a>
+        <a href="{% url 'free_board:list' %}">자유게시판</a>
+    </div>
+    <div id='group-activity-content'>
+        {% block content %}
+        
+        {% endblock content %}
+    </div>
+    <footer>FOOTER</footer>
+</body>
+</html>

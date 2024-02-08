@@ -55,20 +55,74 @@ def create_room(request):
         my_goal.is_in_group = True
         my_goal.save()
 
-        return redirect(f'/group_management/recommendation_page/{room.id}')
+        url = reverse('group_management:recommendation_page', kwargs={'room_id': room.pk})
+        return redirect(url)
+    
+        # return redirect(f'/group_management/recommendation_page/{room.id}')
     
     else:
         return HttpResponseBadRequest()
     
 # 임시로 작성해둠
-def show_user_list(request, room_id):
+def show_user_list(request):
+    return render(request, 'group_management/member_recom.html')
+
+from elasticsearch_dsl import Search, Q
+from .models import *
+
+def recommend_member(request, room_id):
+
     room = Room.objects.get(pk=room_id)
-    # 현재 로그인된 사용자 정보 가져오기
-    current_user = request.user
-    # is_superuser가 False이고 현재 로그인된 사용자가 아닌 사용자 정보 가져오기
-    users = User.objects.filter(is_superuser=False).exclude(pk=current_user.pk)
+    tag_ids = [tag.id for tag in room.tags.all()]
+    activity_tags_ids = [tag.id for tag in room.activityTags.all()]
+
+    must_queries = []
+    should_queries = []
+    must_not_queries = []
+
+    # 최소조건 명시 : 분류 태그 중 하나는 같아야 함(사실 이는 원시태그로 한정되긴 함)
+    # group에 가입되지 않은 목표여야 함 
+    at_least = Q('nested', path='tags', query=Q('terms', **{'tags.tag_id': tag_ids}), boost=0)
+    in_group_check_query = Q('term', is_in_group = False)
+    must_queries.append(at_least)
+    must_queries.append(in_group_check_query)
+
+    # 가중 조건 : 검색결과에 점수를 추가적으로 부여하는 로직들
+    for tag_id in tag_ids:
+        tag_query = Q('nested', path='tags', query=Q('terms', **{'tags.tag_id': [tag_id]}), boost=3)
+        should_queries.append(tag_query)
+
+    for activity_tag_id in activity_tags_ids:
+        activity_tag_query = Q('nested', path='activityTags', query=Q('terms', **{'activityTags.tag_id': [activity_tag_id]}), boost=3)
+        should_queries.append(activity_tag_query)
+
+    offline_boost_query = Q('term', favor_offline={'value': room.favor_offline, 'boost': 2})
+    should_queries.append(offline_boost_query)
+
+    master_detecting_query = Q('term', **{'user.id': room.master.pk})
+    must_not_queries.append(master_detecting_query)
+
+    final_query = Q('bool', must=must_queries, should=should_queries, must_not=must_not_queries)
     
-    return render(request, 'group_management/member_recom.html', {'users': users, 'room':room})
+    s = Search(index='goals').query(final_query)
+    response = s.execute()
+    hit_ids = [hit.meta.id for hit in response]
+    print(hit_ids)
+    goals = [Goal.objects.get(id=hit.meta.id) for hit in response]
+    cnt = {
+        'goals' : goals,
+        'room' : room
+    }
+    return render(request, 'group_management/member_recom.html', cnt)
+
+# def show_user_list(request, room_id):
+#     room = Room.objects.get(pk=room_id)
+#     # 현재 로그인된 사용자 정보 가져오기
+#     current_user = request.user
+#     # is_superuser가 False이고 현재 로그인된 사용자가 아닌 사용자 정보 가져오기
+#     users = User.objects.filter(is_superuser=False).exclude(pk=current_user.pk)
+    
+#     return render(request, 'group_management/member_recom.html', {'users': users, 'room':room})
 
 def suggest_join(request, room_id):
     if request.method == 'POST':
@@ -80,3 +134,8 @@ def suggest_join(request, room_id):
         return redirect(f'/group/member_recommendation/{room.id}')
     else:
         return redirect('/')  # POST 요청이 아닌 경우 홈페이지로 리다이렉트
+def show_group_list(request):
+    user = request.user
+    rooms = Room.objects.filter(members__in = [user])
+
+    return render(request, 'group_management/group_list.html', {'rooms': rooms})
