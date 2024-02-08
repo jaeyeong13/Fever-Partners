@@ -2,12 +2,12 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from apps.goal_management.models import Goal
-from apps.user_management.models import User
 from apps.alarm.models import Alarm
 from apps.group_management.models import Room 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseBadRequest
 from django.urls import reverse
+from elasticsearch_dsl import Search, Q
 
 def start_creation(request):
     goals = Goal.objects.filter(user = request.user).filter(is_in_group = False)
@@ -67,9 +67,6 @@ def create_room(request):
 def show_user_list(request):
     return render(request, 'group_management/member_recom.html')
 
-from elasticsearch_dsl import Search, Q
-from .models import *
-
 def recommend_member(request, room_id):
 
     room = Room.objects.get(pk=room_id)
@@ -107,22 +104,12 @@ def recommend_member(request, room_id):
     s = Search(index='goals').query(final_query)
     response = s.execute()
     hit_ids = [hit.meta.id for hit in response]
-    print(hit_ids)
-    goals = [Goal.objects.get(id=hit.meta.id) for hit in response]
+    goals = Goal.objects.filter(pk__in=hit_ids)
     cnt = {
         'goals' : goals,
         'room' : room
     }
     return render(request, 'group_management/member_recom.html', cnt)
-
-# def show_user_list(request, room_id):
-#     room = Room.objects.get(pk=room_id)
-#     # 현재 로그인된 사용자 정보 가져오기
-#     current_user = request.user
-#     # is_superuser가 False이고 현재 로그인된 사용자가 아닌 사용자 정보 가져오기
-#     users = User.objects.filter(is_superuser=False).exclude(pk=current_user.pk)
-    
-#     return render(request, 'group_management/member_recom.html', {'users': users, 'room':room})
 
 def suggest_join(request, room_id):
     if request.method == 'POST':

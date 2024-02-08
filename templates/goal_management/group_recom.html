@@ -1,0 +1,9 @@
+<div>그룹 추천 페이지입니다</div>
+<div>현재 접속한 유저 : {{user.nickname}}</div>
+<div>기준 목표 : {{goal.title}}</div>
+<h1>추천하는 그룹</h1>
+{% for room in rooms %}
+<div>{{room.title}} / 
+    {{room.master.nickname}}
+</div>
+{% endfor %}
