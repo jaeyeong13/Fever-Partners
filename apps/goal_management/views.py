@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse, HttpResponseNotFound
+from django.http import JsonResponse, HttpResponseNotFound, HttpResponse
 from .models import *
 from django.contrib.auth.decorators import login_required
 from elasticsearch_dsl import Search, Q
 from apps.group_management.models import Room
+from django.views.decorators.http import require_http_methods
 
 def start_creation(request):
     tags = Tag.objects.filter(parent_tag__isnull=True).order_by('tag_name')
@@ -87,6 +88,15 @@ def goal_update(request, pk):
         'actTags':actTags,
     }
     return render(request, "goal_management/goal_update.html", ctx)
+
+@require_http_methods(["DELETE"])
+def delete_goal(request, goal_id):
+    try:
+        target = Goal.objects.get(pk=goal_id)
+        target.delete()
+        return JsonResponse({'message': '목표가 성공적으로 삭제되었습니다.'}, status=200)
+    except Exception:
+        return HttpResponse(status=400)
 
 def recommend_group(request, goal_id):
     if request.method != 'POST':
