@@ -53,15 +53,14 @@ def create_room(request):
         room.save()
         
         my_goal.is_in_group = True
+        my_goal.belonging_group_id = room.id
         my_goal.save()
 
         url = reverse('group_management:recommendation_page', kwargs={'room_id': room.pk})
         return redirect(url)
     
-        # return redirect(f'/group_management/recommendation_page/{room.id}')
-    
     else:
-        return HttpResponseBadRequest()
+        return HttpResponseBadRequest('잘못된 접근방식입니다.')
     
 # 임시로 작성해둠
 def show_user_list(request):
@@ -124,5 +123,4 @@ def suggest_join(request, room_id):
 def show_group_list(request):
     user = request.user
     rooms = Room.objects.filter(members__in = [user])
-
     return render(request, 'group_management/group_list.html', {'rooms': rooms})

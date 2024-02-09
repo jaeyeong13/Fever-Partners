@@ -25,7 +25,7 @@
         <a href="{%url "group_administration:group_admin_main" room_id%}">그룹 관리</a>
     </div>
     <div>
-        <a href="">멤버</a>
+        <a href="{%url "group_activity:member_list" room_id%}">멤버</a>
         <a href="">인증 공간</a>
         <a href="">활동 현황</a>
         <a href="{% url 'free_board:list' %}">자유게시판</a>

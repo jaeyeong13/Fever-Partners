@@ -23,3 +23,4 @@ class Goal(models.Model):
     favor_offline = models.BooleanField(default=False)
     is_in_group = models.BooleanField(default=False)
     is_completed = models.BooleanField(default=False)
+    belonging_group_id = models.IntegerField(null=True)

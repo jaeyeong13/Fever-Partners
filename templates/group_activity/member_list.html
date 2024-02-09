@@ -1,0 +1,10 @@
+{% extends "group_activity/group_activity_base.html" %}
+
+{% block content %}
+
+{% for member, goal in member_goal_pairs.items %}
+    <h3>닉네임: {{ member.nickname }}</h3>
+    <div>목표: {{goal.title}}</div>
+{% endfor %}
+
+{% endblock content %}
