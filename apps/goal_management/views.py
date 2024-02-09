@@ -1,5 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import JsonResponse, HttpResponseNotFound, HttpResponse
+
+from apps.alarm.models import Alarm
 from .models import *
 from django.contrib.auth.decorators import login_required
 from elasticsearch_dsl import Search, Q
@@ -100,8 +102,8 @@ def delete_goal(request, goal_id):
         return HttpResponse(status=400)
 
 def recommend_group(request, goal_id):
-    if request.method != 'POST':
-        return HttpResponseNotFound('<h1>잘못된 접근방식입니다.</h1>')
+    # if request.method != 'POST':
+    #     return HttpResponseNotFound('<h1>잘못된 접근방식입니다.</h1>')
 
     goal = Goal.objects.get(pk=goal_id)
     tag_ids = [tag.id for tag in goal.tags.all()]
@@ -148,3 +150,17 @@ def recommend_group(request, goal_id):
         'goal': goal
     }
     return render(request, 'goal_management/group_recom.html', cnt)
+
+def suggest_join(request, goal_id):
+    if request.method == 'POST':
+        user_id = request.POST.get('user_id')
+        room_id = request.POST.get('room_id')
+        user = get_object_or_404(get_user_model(), id=user_id)
+        goal = get_object_or_404(Goal, id=goal_id)  # 방 정보 가져오기
+        room = get_object_or_404(Room, id=room_id)
+        # 새 알람 객체 생성 시 인스턴스로 변환된 사용자를 할당
+        Alarm.objects.create(alarm_from=request.user, alarm_to=user, goal = goal, room = room)
+        return redirect(f'/goal/group_recommendation/{goal.id}')
+    else:
+        return redirect('/')# POST 요청이 아닌 경우 홈페이지로 리다이렉트
+    
