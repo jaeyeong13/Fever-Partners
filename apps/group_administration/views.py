@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from apps.group_management.models import Room
+from django.views.decorators.http import require_http_methods
+from django.http import JsonResponse, HttpResponse
+import json
 
 # 이 부분 나중에 수정되어야 함
 def show_admin_page(request, room_id):
@@ -9,9 +12,31 @@ def show_admin_page(request, room_id):
     return render(request, 'group_administration/group_admin_base.html', ctx)
 
 def show_member_list(request, room_id):
-    members = Room.objects.get(pk=room_id).members
+    master = Room.objects.get(pk=room_id).master
+    members = Room.objects.get(pk=room_id).members.all().exclude(pk=master.pk)
     cnt = {
         'members':members,
         'room_id':room_id,
     }
     return render(request, 'group_administration/group_member_list.html', cnt)
+
+@require_http_methods(["DELETE"])
+def expel_member(request):
+    try:
+        data = json.loads(request.body)
+        room_id = data.get('roomId')
+        member_id = data.get('memberId')
+        room = Room.objects.get(pk=room_id)
+        member = room.members.get(pk=member_id)
+
+        # 추방에 따른 로직 => 관련 정보 수정 및 초기화
+        target_goal = member.goal.filter(belonging_group_id=room_id).first()
+        if target_goal:
+            target_goal.is_in_group = False
+            target_goal.belonging_group_id = None
+            target_goal.save()
+
+        room.members.remove(member)
+        return JsonResponse({'message': '멤버가 성공적으로 삭제되었습니다.'}, status=200)
+    except Exception:
+        return HttpResponse(status=400)
