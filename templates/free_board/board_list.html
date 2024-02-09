@@ -6,7 +6,7 @@
     <table class="table">
       <thead>
         <tr class="thead-dark">
-          <th>최신순</th>
+          <th>번호</th>
           <th>제목</th>
           <th>작성 일시</th>
         </tr>
@@ -18,6 +18,11 @@
               <td>{{ forloop.counter }}</td>
               <td>
                 <a href="{% url 'free_board:detail' post.id %}">{{ post.title }}</a>
+                {% if post.comments.count > 0 %}
+                <span class="text-danger small ml-2">
+                  {{ post.comments.count }}
+                </span>
+                {% endif %}
               </td>
               <td>{{ post.created_at }}</td>
             </tr>
@@ -29,6 +34,54 @@
         {% endif %}
       </tbody>
     </table>
+    <!-- 페이징 처리 시작 -->
+    <ul class="pagination justify-content-center">
+      {% if post_list.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ post_list.previous_page_number }}">
+          이전
+        </a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link" tabindex="-1" aria-disabled="true" href="#">
+          이전
+        </a>
+      </li>
+      {% endif %}
+      <!-- 페이지 리스트 -->
+      {% for page_number in post_list.paginator.page_range %}
+      {% if page_number >= post_list.number|add:-5 and page_number <= post_list.number|add:5 %}
+        {% if page_number == post_list.number %}
+        <li class="page-item active" aria-current="page">
+          <a class="page-link" href="?page={{ page_number }}">
+            {{ page_number }}
+          </a>
+        </li>
+        {% else %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_number }}">
+            {{ page_number }}
+          </a>
+        </li>
+        {% endif %}
+      {% endif %}
+      {% endfor %}
+      <!-- 다음 페이지 -->
+      {% if post_list.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ post_list.next_page_number }}">
+          다음
+        </a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link" tabindex="-1" aria-disabled="true" href="#">
+          다음
+        </a>
+      </li>
+      {% endif %}
+    </ul>
     <!-- 버튼을 테이블 아래, 오른쪽 하단에 배치 -->
     <div class="text-right">
       <a href="{% url 'free_board:create_post' %}" class="btn btn-primary">

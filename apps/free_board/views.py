@@ -3,6 +3,7 @@ from .models import Post, Comment
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from .forms import PostForm, CommentForm
+from django.core.paginator import Paginator
 
 # Create your views here.
 def board_list(request):
@@ -57,3 +58,11 @@ def create_comment(request, post_id):
         form = CommentForm()
     context = {'post': post, 'form': form}
     return render(request, 'free_board/post_detail.html', context)
+
+def index(request):
+    page = request.GET.get('page', '1')
+    post_list = Post.objects.order_by('-created_at')
+    paginator = Paginator(post_list, 8)
+    page_obj = paginator.get_page(page)
+    context = {'post_list': page_obj}
+    return render(request, 'free_board/board_list.html', context)
