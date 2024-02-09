@@ -257,6 +257,66 @@ function ExpelMemberConfirm(member_id, room_id) {
   });
 }
 
+function TransferMaster(member_id, room_id) {
+  const jsonData = {
+    memberId: member_id,
+    roomId: room_id,
+  };
+  Swal.fire({
+    title: "그룹장 권한을 양도하시겠습니까?",
+    text: "이 결정은 되돌릴 수 없습니다! 신중하게 생각하기를 권장드립니다.",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "예",
+    cancelButtonText: "취소",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(window.location.origin + "/group_admin/transfer_master", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"),
+        },
+        body: JSON.stringify(jsonData),
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            Swal.fire({
+              title: "권한 양도 실패",
+              text: "관리자 권한 양도 중 오류가 발생했습니다",
+              icon: "error",
+            });
+            throw new Error("처리 과정에서 오류가 발생했습니다.");
+          }
+        })
+        .then((json_data) => {
+          Swal.fire({
+            title: "권한 양도 완료",
+            text: json_data.message,
+            icon: "success",
+          })
+            .then(() => {
+              window.location.href = window.location.origin + '/group_activity/main/' + room_id;
+            });
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+      Swal.fire({
+        title: "취소됨",
+        text: "권한 양도가 취소되었습니다.",
+        icon: "error",
+        confirmButtonText: "확인",
+      });
+    }
+  });
+}
+
 // 필요할 때 쓰려고 미리 만들어둠
 function saveTempInfoToSession(infoName, tempInfo) {
   sessionStorage.setItem(infoName, tempInfo);
