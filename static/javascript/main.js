@@ -317,6 +317,38 @@ function TransferMaster(member_id, room_id) {
   });
 }
 
+function PermissionCheck(user_id, room_id) {
+  const jsonData = {
+    userId: user_id,
+    roomId: room_id,
+  };
+  fetch(window.location.origin + "/group_activity/permission_check", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken"),
+    },
+    body: JSON.stringify(jsonData),
+  }).then((response) => {
+    if (response.status === 403) {
+      Swal.fire({
+        text: "일반 유저는 관리 페이지에 접근할 수 없습니다.",
+        icon: "error",
+        confirmButtonText: "확인",
+      });
+    } else if (response.status > 399) {
+      Swal.fire({
+        text: "오류가 발생했습니다.",
+        icon: "error",
+        confirmButtonText: "확인",
+      });
+    } else if (response.ok) {
+      window.location.href =
+        window.location.origin + "/group_admin/member_list/" + room_id;
+    }
+  });
+}
+
 // 필요할 때 쓰려고 미리 만들어둠
 function saveTempInfoToSession(infoName, tempInfo) {
   sessionStorage.setItem(infoName, tempInfo);

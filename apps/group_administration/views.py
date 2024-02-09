@@ -3,17 +3,20 @@ from apps.group_management.models import Room
 from django.views.decorators.http import require_http_methods
 from django.http import JsonResponse, HttpResponse
 import json
+from .decorators import room_admin_required
 
 # 이 부분 나중에 수정되어야 함
+@room_admin_required
 def show_admin_page(request, room_id):
     ctx = {
         'room_id':room_id,
     }
     return render(request, 'group_administration/group_admin_base.html', ctx)
 
+@room_admin_required
 def show_member_list(request, room_id):
     master = Room.objects.get(pk=room_id).master
-    members = Room.objects.get(pk=room_id).members.all().exclude(pk=master.pk)
+    members = Room.objects.get(pk=room_id).members.exclude(pk=master.pk)
     cnt = {
         'members':members,
         'room_id':room_id,
