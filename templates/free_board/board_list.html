@@ -7,6 +7,7 @@
       <thead>
         <tr class="text-center thead-dark">
           <th>번호</th>
+          <th>추천수</th>
           <th style="width: 50%">제목</th>
           <th>글쓴이</th>
           <th>작성 일시</th>
@@ -17,6 +18,14 @@
           {% for post in post_list %}
             <tr class="text-center">
               <td>{{ forloop.counter }}</td>
+              <td>
+                {% if post.voter.all.count > 0 %}
+                <span>
+                  {{ post.voter.all.count }}
+                </span>
+                {% endif %}
+              </td>
+
               <td class="text-left">
                 <a href="{% url 'free_board:detail' post.id %}">{{ post.title }}</a>
                 {% if post.comments.count > 0 %}
