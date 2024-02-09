@@ -36,23 +36,3 @@ class GoalDocument(Document):
 
     def prepare_activityTags(self, instance):
         return [{'tag_id': tag.pk} for tag in instance.activityTags.all()]
-
-@registry.register_document
-class TagDocument(Document):
-    class Index:
-        name = 'tags'
-
-    tag_id = fields.Integer()
-
-    class Django:
-        model = Tag
-
-@registry.register_document
-class ActivityTagDocument(Document):
-    class Index:
-        name = 'activity_tags'
-
-    tag_id = fields.Integer()
-
-    class Django:
-        model = ActivityTag
