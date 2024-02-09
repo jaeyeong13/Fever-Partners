@@ -5,18 +5,19 @@
   <div class="container my-3">
     <table class="table">
       <thead>
-        <tr class="thead-dark">
+        <tr class="text-center thead-dark">
           <th>번호</th>
-          <th>제목</th>
+          <th style="width: 50%">제목</th>
+          <th>글쓴이</th>
           <th>작성 일시</th>
         </tr>
       </thead>
       <tbody>
         {% if post_list %}
           {% for post in post_list %}
-            <tr>
+            <tr class="text-center">
               <td>{{ forloop.counter }}</td>
-              <td>
+              <td class="text-left">
                 <a href="{% url 'free_board:detail' post.id %}">{{ post.title }}</a>
                 {% if post.comments.count > 0 %}
                 <span class="text-danger small ml-2">
@@ -24,6 +25,7 @@
                 </span>
                 {% endif %}
               </td>
+              <td>{{ post.author }}</td>
               <td>{{ post.created_at }}</td>
             </tr>
           {% endfor %}

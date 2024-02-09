@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from .forms import PostForm, CommentForm
 from django.core.paginator import Paginator
+from django.contrib import messages
 
 # Create your views here.
 def board_list(request):
@@ -16,19 +17,18 @@ def post_detail(request, post_id):
   context = {'post': post}
   return render(request, 'free_board/post_detail.html', context)
 
-@login_required
-def create_comment(request, post_id):
-    post = get_object_or_404(Post, pk=post_id)
-    if request.method == 'POST':
-        content = request.POST.get('content')
-        if content:  # 댓글 내용이 있을 경우에만 생성
-            # Comment 인스턴스를 직접 생성하고 저장하는 방법으로 변경
-            comment = Comment(post=post, author=request.user, content=content, created_at=timezone.now())
-            comment.save()
-    return redirect('free_board:detail', post_id=post_id)
+# @login_required(login_url='/login/')
+# def create_comment(request, post_id):
+#     post = get_object_or_404(Post, pk=post_id)
+#     if request.method == 'POST':
+#         content = request.POST.get('content')
+#         if content:
+#             comment = Comment(post=post, author=request.user, content=content, created_at=timezone.now())
+#             comment.save()
+#     return redirect('free_board:detail', post_id=post_id)
 
 
-@login_required  # 로그인한 사용자만 글을 등록할 수 있도록 합니다.
+@login_required(login_url='user_management:login')  # 로그인한 사용자만 글을 등록할 수 있도록 합니다.
 def create_post(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
@@ -43,15 +43,15 @@ def create_post(request):
     context = {'form': form}
     return render(request, 'free_board/post_create.html', context)
 
-@login_required  # 댓글을 달기 위해서는 로그인이 필요합니다.
+@login_required(login_url='user_management:login')
 def create_comment(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
-            comment.post = post  # 댓글이 속한 게시글을 설정합니다.
-            comment.author = request.user  # 댓글 작성자를 현재 로그인한 사용자로 설정합니다.
+            comment.post = post
+            comment.author = request.user
             comment.save()
             return redirect('free_board:detail', post_id=post_id)
     else:
@@ -66,3 +66,67 @@ def index(request):
     page_obj = paginator.get_page(page)
     context = {'post_list': page_obj}
     return render(request, 'free_board/board_list.html', context)
+
+
+@login_required(login_url='user_management:login')
+def modify_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+
+    if request.user != post.author:
+        messages.error(request, '수정 권한이 없습니다!')
+        return redirect('free_board:detail', post_id=post.id)
+
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.updated_at = timezone.now()
+            post.save()
+            return redirect('free_board:detail', post_id=post.id)
+    else:  # 폼이 처음 로드되었을 때 혹은 유효하지 않을 때
+        form = PostForm(instance=post)
+
+    context = {'form': form}
+    return render(request, 'free_board/post_create.html', context)
+
+
+@login_required(login_url='user_management:login')
+def post_delete(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    if request.user != post.author:
+        messages.error(request, "삭제 권한이 없습니다!")
+        return redirect('free_board:detail', post_id=post.id)
+    post.delete()
+    return redirect('free_board:list')
+
+
+@login_required(login_url='user_management:login')
+def modify_comment(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+    if request.user != comment.author:
+        messages.error(request, "수정 권한이 없습니다!")
+        return redirect('free_board:detail', post_id=comment.post.id)
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = request.user
+            comment.updated_at = timezone.now()
+            comment.save()
+            return redirect('free_board:detail', post_id=comment.post.id)
+    else:
+        form = CommentForm(instance=comment)
+    context = {'comment': comment, 'form': form}
+    return render(request, 'free_board/comment_form.html', context)
+
+
+@login_required(login_url='user_management:login')
+def comment_delete(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+    if request.user != comment.author:
+        messages.error(request, '삭제 권한이 없습니다!')
+    else:
+        comment.delete()
+    return redirect('free_board:detail', post_id=comment.post.id)

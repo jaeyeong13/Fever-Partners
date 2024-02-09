@@ -1,21 +1,20 @@
+from django.conf import settings
 from django.db import models
-from apps.user_management.models import User
+from django.contrib.auth.models import User
 
-
-# Create your models here.
 class Post(models.Model):
-  title = models.CharField(max_length=200, null=True)
-  content = models.TextField()
-  author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
-  created_at = models.DateTimeField(auto_now_add=True)
-  updated_at = models.DateTimeField(auto_now=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='posts')
+    title = models.CharField(max_length=200, null=True)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(null=True, blank=True)       # 수정 일시
 
-  def __str__(self):
-    return self.title
-
+    def __str__(self):
+        return self.title
 
 class Comment(models.Model):
-  post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
-  author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
-  content = models.TextField()
-  created_at = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(null=True, blank=True)    # 수정 일시
