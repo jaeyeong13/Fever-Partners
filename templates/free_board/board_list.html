@@ -4,8 +4,9 @@
 {% block content %}
 <li class="nav-item">
   {% if user.is_authenticated %}
+  <p>{{ user }}님, 환영합니다!</p>
   <a href="{% url 'user_management:logout' %}" class="nav-link">
-    {{ user }} (로그아웃하기)
+    로그아웃하기
   </a>
   {% else %}
   <a href="{% url 'user_management:login' %}" class="nav-link">로그인하기</a>
@@ -78,7 +79,7 @@
         {% endif %}
     </ul>
     <div class="text-right">
-        <a href="{% url 'free_board:create_post' %}" class="btn btn-primary">글 작성하러 가기</a>
+      <a href="{% url 'free_board:create_post' %}?room_id=1">글 작성하러 가기</a>
     </div>
 </div>
 {% endblock %}

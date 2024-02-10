@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from .forms import PostForm, CommentForm
 from django.core.paginator import Paginator
 from django.contrib import messages
+from apps.group_management.models import Room
+from django.http import HttpResponseForbidden
 
 # Create your views here.
 
@@ -15,21 +17,46 @@ def post_detail(request, post_id):
   return render(request, 'free_board/post_detail.html', context)
 
 
-@login_required(login_url='user_management:login')  # 로그인한 사용자만 글을 등록할 수 있도록 합니다.
+# @login_required(login_url='user_management:login')  # 로그인한 사용자만 글을 등록할 수 있도록 합니다.
+# def create_post(request):
+#     if request.method == 'POST':
+#         form = PostForm(request.POST)
+#         if form.is_valid():
+#             post = form.save(commit=False)
+#             post.created_at = timezone.now()
+#             post.author = request.user  # 현재 로그인한 사용자를 글의 작성자로 설정합니다.
+#             post.save()
+#             return redirect('free_board:list')  # 글 목록 페이지로 리다이렉션
+#     else:
+#         form = PostForm()
+#     context = {'form': form}
+#     return render(request, 'free_board/post_create.html', context)
+
+
+@login_required(login_url='user_management:login')
 def create_post(request):
+    room_id = request.GET.get('room_id')
+    room = get_object_or_404(Room, pk=room_id)
+    user_is_master = request.user == room.master  # 사용자가 방의 'master'인지 확인
+
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
-            post.created_at = timezone.now()
-            post.author = request.user  # 현재 로그인한 사용자를 글의 작성자로 설정합니다.
+            post.author = request.user
+            post.room = room  # 게시글에 방 정보 설정
+            # '공지글로 설정하기' 체크박스의 값은 form에서 처리됩니다.
             post.save()
-            return redirect('free_board:list')  # 글 목록 페이지로 리다이렉션
+            return redirect('free_board:list')
     else:
         form = PostForm()
-    context = {'form': form}
-    return render(request, 'free_board/post_create.html', context)
 
+    # 컨텍스트에 'user_is_master' 추가
+    context = {
+        'form': form,
+        'user_is_master': user_is_master,
+    }
+    return render(request, 'free_board/post_create.html', context)
 
 @login_required(login_url='user_management:login')
 def create_comment(request, post_id):
@@ -47,17 +74,6 @@ def create_comment(request, post_id):
     context = {'post': post, 'form': form}
     return render(request, 'free_board/post_detail.html', context)
 
-# def index(request):
-#     notice_posts = Post.objects.filter(notice=True).order_by('-created_at')
-#     free_posts = Post.objects.filter(notice=False).order_by('-created_at')
-#     # 공지 게시물과 자유 게시물을 하나의 리스트로 합치기 위해 chain을 사용합니다.
-#     from itertools import chain
-#     post_list = list(chain(notice_posts, free_posts))
-#     paginator = Paginator(post_list, 8)  # 페이지당 게시글 수는 8로 설정
-#     page = request.GET.get('page', '1')
-#     page_obj = paginator.get_page(page)
-#     context = {'post_list': page_obj}
-#     return render(request, 'free_board/board_list.html', context)
 
 def index(request):
     tab = request.GET.get('tab', 'notice')  # '공지' 탭을 기본값으로 설정

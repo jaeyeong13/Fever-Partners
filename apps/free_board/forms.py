@@ -11,7 +11,7 @@ class PostForm(forms.ModelForm):
         labels = {
             'title': '제목',
             'content': '내용',
-            'notice': '공지글로 설정',  # 'notice' 필드에 대한 레이블 추가
+            'notice': '공지글로 설정하기',  # 'notice' 필드에 대한 레이블 추가
         }
 
 
