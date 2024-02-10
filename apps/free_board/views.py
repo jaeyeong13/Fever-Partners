@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Comment
 from django.utils import timezone
@@ -7,25 +8,11 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 
 # Create your views here.
-def board_list(request):
-  post_list = Post.objects.order_by('-created_at')
-  context = {'post_list': post_list}
-  return render(request, 'free_board/board_list.html', context)
 
 def post_detail(request, post_id):
   post = Post.objects.get(id=post_id)
   context = {'post': post}
   return render(request, 'free_board/post_detail.html', context)
-
-# @login_required(login_url='/login/')
-# def create_comment(request, post_id):
-#     post = get_object_or_404(Post, pk=post_id)
-#     if request.method == 'POST':
-#         content = request.POST.get('content')
-#         if content:
-#             comment = Comment(post=post, author=request.user, content=content, created_at=timezone.now())
-#             comment.save()
-#     return redirect('free_board:detail', post_id=post_id)
 
 
 @login_required(login_url='user_management:login')  # 로그인한 사용자만 글을 등록할 수 있도록 합니다.
@@ -43,6 +30,7 @@ def create_post(request):
     context = {'form': form}
     return render(request, 'free_board/post_create.html', context)
 
+
 @login_required(login_url='user_management:login')
 def create_comment(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
@@ -59,34 +47,34 @@ def create_comment(request, post_id):
     context = {'post': post, 'form': form}
     return render(request, 'free_board/post_detail.html', context)
 
+# def index(request):
+#     notice_posts = Post.objects.filter(notice=True).order_by('-created_at')
+#     free_posts = Post.objects.filter(notice=False).order_by('-created_at')
+#     # 공지 게시물과 자유 게시물을 하나의 리스트로 합치기 위해 chain을 사용합니다.
+#     from itertools import chain
+#     post_list = list(chain(notice_posts, free_posts))
+#     paginator = Paginator(post_list, 8)  # 페이지당 게시글 수는 8로 설정
+#     page = request.GET.get('page', '1')
+#     page_obj = paginator.get_page(page)
+#     context = {'post_list': page_obj}
+#     return render(request, 'free_board/board_list.html', context)
+
 def index(request):
-    # '공지' 게시물과 '자유' 게시물을 분리하여 가져옵니다.
-    # 공지 게시물은 먼저 정렬되고, 나머지 게시물들은 생성 시간의 역순으로 정렬됩니다.
-    notice_posts = Post.objects.filter(notice=True).order_by('-created_at')
-    free_posts = Post.objects.filter(notice=False).order_by('-created_at')
+    tab = request.GET.get('tab', 'notice')  # '공지' 탭을 기본값으로 설정
 
-    # 공지 게시물과 자유 게시물을 하나의 쿼리셋으로 합치기 위해 chain을 사용합니다.
-    from itertools import chain
-    post_list = list(chain(notice_posts, free_posts))
+    if tab == 'notice':
+        posts = Post.objects.filter(notice=True).order_by('-created_at')
+    elif tab == 'free':
+        posts = Post.objects.filter(notice=False).order_by('-created_at')
+    else:
+        posts = Post.objects.order_by('-created_at')
 
-    paginator = Paginator(post_list, 8)  # 페이지네이션, 페이지당 게시글 수는 8로 설정
-    page = request.GET.get('page', '1')  # URL에서 'page' 파라미터를 받아옴. 기본값은 1.
-    page_obj = paginator.get_page(page)
-
-    context = {'post_list': page_obj}
-    return render(request, 'free_board/board_list.html', context)
-
-
-'''
-def index(request):
+    paginator = Paginator(posts, 8)  # 페이지당 게시글 수는 8로 설정
     page = request.GET.get('page', '1')
-    post_list = Post.objects.order_by('-created_at')
-    paginator = Paginator(post_list, 8)
     page_obj = paginator.get_page(page)
-    context = {'post_list': page_obj}
-    return render(request, 'free_board/board_list.html', context)
-'''
 
+    context = {'page_obj': page_obj, 'tab': tab}
+    return render(request, 'free_board/board_list.html', context)
 
 @login_required(login_url='user_management:login')
 def modify_post(request, post_id):
@@ -160,3 +148,17 @@ def vote_post(request, post_id):
     else:
         post.voter.add(request.user)
     return redirect('free_board:detail', post_id=post.id)
+
+def view_notice(request, post_id):
+    posts = Post.objects.filter(notice=True).order_by('-created_at')
+    paginator = Paginator(posts, 10)  # 페이지 당 10개의 게시글을 보여줍니다.
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'free_board/notice_posts.html', {'page_obj': page_obj})
+
+def view_free(request, post_id):
+    posts = Post.objects.filter(notice=False).order_by('-created_at')
+    paginator = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'free_board/free_posts.html', {'page_obj': page_obj})
