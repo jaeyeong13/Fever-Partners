@@ -14,10 +14,12 @@
     <main>
         {% for goal in goals %}
         <div id="goal-{{goal.pk}}">
-            <form action="{%url "goal_management:recommendation_page" goal.pk %}" method="POST">
-                {% csrf_token %}
-                <button type="submit">제목 : {{ goal.title }}</button>
-            </form>
+            {% if goal.is_in_group %}
+            <a href="{%url "group_activity:member_list" goal.belonging_group_id %}">제목 : {{ goal.title }}</a>
+            <div>현재 그룹 활동을 진행중인 목표입니다.</div>
+            {% else %}
+            <a href="{%url "goal_management:recommendation_page" goal.pk %}">제목 : {{ goal.title }}</a>
+            {% endif %}
             <p>내용 : {{ goal.content }}</p>
             <p>태그 : 
             {% for tag in goal.tags.all %}

@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from elasticsearch_dsl import Search, Q
 from apps.group_management.models import Room
 from django.views.decorators.http import require_http_methods
+from .decorators import goal_ownership_required
 
 def start_creation(request):
     tags = Tag.objects.filter(parent_tag__isnull=True).order_by('tag_name')
@@ -99,9 +100,8 @@ def delete_goal(request, goal_id):
     except Exception:
         return HttpResponse(status=400)
 
+@goal_ownership_required
 def recommend_group(request, goal_id):
-    if request.method != 'POST':
-        return HttpResponseNotFound('<h1>잘못된 접근방식입니다.</h1>')
 
     goal = Goal.objects.get(pk=goal_id)
     tag_ids = [tag.id for tag in goal.tags.all()]
