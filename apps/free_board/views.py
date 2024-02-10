@@ -1,4 +1,4 @@
-from django.db import transaction
+from itertools import chain
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Comment
 from django.utils import timezone
@@ -62,16 +62,17 @@ def create_comment(request, post_id):
 def index(request):
     tab = request.GET.get('tab', 'notice')  # '공지' 탭을 기본값으로 설정
 
+    notice_posts = Post.objects.filter(notice=True).order_by('-created_at')[:2]  # 가장 최근의 2개 '공지' 게시글
+
     if tab == 'notice':
         posts = Post.objects.filter(notice=True).order_by('-created_at')
-    elif tab == 'free':
-        posts = Post.objects.filter(notice=False).order_by('-created_at')
-    else:
-        posts = Post.objects.order_by('-created_at')
+    else:  # 'free' 탭이 선택되었을 때
+        free_posts = Post.objects.filter(notice=False).order_by('-created_at')
+        posts = list(chain(notice_posts, free_posts))  # '공지' 게시글 2개와 '자유' 게시글을 합칩니다.
 
     paginator = Paginator(posts, 8)  # 페이지당 게시글 수는 8로 설정
-    page = request.GET.get('page', '1')
-    page_obj = paginator.get_page(page)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     context = {'page_obj': page_obj, 'tab': tab}
     return render(request, 'free_board/board_list.html', context)

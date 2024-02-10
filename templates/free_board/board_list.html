@@ -18,38 +18,29 @@
             </tr>
         </thead>
         <tbody>
-        {% for post in page_obj %}
+          {% for post in page_obj %}  <!-- 'post_list' 대신 'page_obj'를 사용합니다. -->
             <tr class="text-center">
                 <td>{{ forloop.counter }}</td>
-                <td>
-                    {% if post.voter.all.count > 0 %}
-                    <span>
-                        {{ post.voter.all.count }}
-                    </span>
-                    {% endif %}
-                </td>
-        
+                <td>{{ post.voter.all.count }}</td>
                 <td class="text-left">
                     <a href="{% url 'free_board:detail' post.id %}">
                         {{ post.title }}
                         {% if post.notice %}
-                        <strong>[공지]</strong>
+                        <span style="color: crimson">[공지]</span>
                         {% endif %}
                     </a>
                     {% if post.comments.count > 0 %}
-                    <span class="text-danger small ml-2">
-                        {{ post.comments.count }}
-                    </span>
+                    <span class="text-danger small ml-2">{{ post.comments.count }}</span>
                     {% endif %}
                 </td>
                 <td>{{ post.author }}</td>
-                <td>{{ post.created_at }}</td>
+                <td>{{ post.created_at|date:"Y-m-d H:i" }}</td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="5">아직 작성된 포스트가 없습니다.</td>
+                <td colspan="5">게시물이 없습니다.</td>
             </tr>
-            {% endfor %}
+          {% endfor %}
         </tbody>
     </table>
     <!-- 원래의 페이징 처리 로직을 그대로 사용 -->
