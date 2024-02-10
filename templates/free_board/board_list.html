@@ -2,6 +2,15 @@
 {% load bootstrap4 %}
 
 {% block content %}
+<li class="nav-item">
+  {% if user.is_authenticated %}
+  <a href="{% url 'user_management:logout' %}" class="nav-link">
+    {{ user }} (로그아웃하기)
+  </a>
+  {% else %}
+  <a href="{% url 'user_management:login' %}" class="nav-link">로그인하기</a>
+  {% endif %}
+</li>
 <div class="container my-3">
     <div class="mb-3">
         <a href="?tab=notice" class="btn {% if tab == 'notice' %}btn-primary{% else %}btn-secondary{% endif %}">공지</a>
@@ -18,17 +27,15 @@
             </tr>
         </thead>
         <tbody>
-          {% for post in page_obj %}  <!-- 'post_list' 대신 'page_obj'를 사용합니다. -->
+          {% for post in page_obj %}
             <tr class="text-center">
                 <td>{{ forloop.counter }}</td>
                 <td>{{ post.voter.all.count }}</td>
                 <td class="text-left">
-                    <a href="{% url 'free_board:detail' post.id %}">
-                        {{ post.title }}
-                        {% if post.notice %}
-                        <span style="color: crimson">[공지]</span>
-                        {% endif %}
-                    </a>
+                    <a href="{% url 'free_board:detail' post.id %}">{{ post.title }}</a>
+                    {% if tab == 'free' and post.notice %}
+                    <span style="color: crimson">공지</span>
+                    {% endif %}
                     {% if post.comments.count > 0 %}
                     <span class="text-danger small ml-2">{{ post.comments.count }}</span>
                     {% endif %}
@@ -36,14 +43,13 @@
                 <td>{{ post.author }}</td>
                 <td>{{ post.created_at|date:"Y-m-d H:i" }}</td>
             </tr>
-            {% empty %}
+        {% empty %}
             <tr>
                 <td colspan="5">게시물이 없습니다.</td>
             </tr>
-          {% endfor %}
+        {% endfor %}
         </tbody>
     </table>
-    <!-- 원래의 페이징 처리 로직을 그대로 사용 -->
     <ul class="pagination justify-content-center">
         {% if page_obj.has_previous %}
         <li class="page-item">
