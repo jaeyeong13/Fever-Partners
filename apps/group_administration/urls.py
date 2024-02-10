@@ -10,4 +10,5 @@ urlpatterns = [
     path('expel_member', expel_member, name='expel_member'),
     path('transfer_master', transfer_master, name='transfer_master'),
     path('activate_room/<int:room_id>', activate_room, name='activate_room'),
+    path('close_room', delete_room, name='close_room'),
 ]

@@ -70,3 +70,24 @@ def activate_room(request, room_id):
         return redirect(url)
     except Exception:
         return HttpResponse(status=404)
+
+@require_http_methods(["DELETE"])
+def delete_room(request):
+    try:
+        data = json.loads(request.body)
+        room_id = data.get('roomId')
+        room = Room.objects.get(pk=room_id)
+
+        # 폐쇄에 따른 로직 => 모든 멤버의 Goal 정보 수정 및 초기화(Master본인 포함)
+        members = room.members.all()
+        for member in members:
+            target_goal = member.goal.filter(belonging_group_id=room_id).first()
+            target_goal.is_in_group = False
+            target_goal.belonging_group_id = None
+            target_goal.save()
+
+        room.delete()
+
+        return JsonResponse({'message': '폐쇄 작업이 성공적으로 완료되었습니다.'}, status=200)
+    except Exception:
+        return HttpResponse(status=400)

@@ -421,6 +421,65 @@ function WithdrawalConfirm(user_id, room_id) {
   });
 }
 
+function GroupClosureConfirm(room_id) {
+  const jsonData = {
+    roomId: room_id,
+  };
+  Swal.fire({
+    title: "방을 폐쇄하고 활동을 종료하시겠습니까?",
+    text: "이 선택은 되돌릴 수 없습니다. 신중하게 생각하시길 권장드립니다.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "예",
+    cancelButtonText: "취소",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(window.location.origin + "/group_admin/close_room", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"),
+        },
+        body: JSON.stringify(jsonData),
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            Swal.fire({
+              title: "작업 실패",
+              text: "폐쇄 도중 오류가 발생했습니다",
+              icon: "error",
+            });
+            throw new Error("폐쇄 과정에서 오류가 발생했습니다.");
+          }
+        })
+        .then((json_data) => {
+          Swal.fire({
+            title: "폐쇄 완료",
+            text: json_data.message,
+            icon: "success",
+          })
+            .then(() => {
+              window.location.href = window.location.origin + "/main";
+            });
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+      Swal.fire({
+        title: "취소됨",
+        text: "폐쇄 요청이 취소되었습니다.",
+        icon: "error",
+        confirmButtonText: "확인",
+      });
+    }
+  });
+}
+
 // 필요할 때 쓰려고 미리 만들어둠
 function saveTempInfoToSession(infoName, tempInfo) {
   sessionStorage.setItem(infoName, tempInfo);
