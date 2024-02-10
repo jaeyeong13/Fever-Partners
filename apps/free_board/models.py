@@ -9,7 +9,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(null=True, blank=True)       # 수정 일시
     voter = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='voter_post')
-
+    notice = models.BooleanField(default=False)  # 공지글 여부 체크하기
     def __str__(self):
         return self.title
 

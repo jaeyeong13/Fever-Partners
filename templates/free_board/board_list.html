@@ -13,37 +13,74 @@
           <th>작성 일시</th>
         </tr>
       </thead>
+{#      <tbody>#}
+{#        {% if post_list %}#}
+{#          {% for post in post_list %}#}
+{#            <tr class="text-center">#}
+{#              <td>{{ forloop.counter }}</td>#}
+{#              <td>#}
+{#                {% if post.voter.all.count > 0 %}#}
+{#                <span>#}
+{#                  {{ post.voter.all.count }}#}
+{#                </span>#}
+{#                {% endif %}#}
+{#              </td>#}
+{##}
+{#              <td class="text-left">#}
+{#                <a href="{% url 'free_board:detail' post.id %}">{{ post.title }}</a>#}
+{#                {% if post.comments.count > 0 %}#}
+{#                <span class="text-danger small ml-2">#}
+{#                  {{ post.comments.count }}#}
+{#                </span>#}
+{#                {% endif %}#}
+{#              </td>#}
+{#              <td>{{ post.author }}</td>#}
+{#              <td>{{ post.created_at }}</td>#}
+{#            </tr>#}
+{#          {% endfor %}#}
+{#        {% else %}#}
+{#          <tr>#}
+{#            <td colspan="3">아직 작성된 포스트가 없습니다.</td>#}
+{#          </tr>#}
+{#        {% endif %}#}
+{#      </tbody>#}
       <tbody>
-        {% if post_list %}
-          {% for post in post_list %}
-            <tr class="text-center">
-              <td>{{ forloop.counter }}</td>
-              <td>
-                {% if post.voter.all.count > 0 %}
-                <span>
-                  {{ post.voter.all.count }}
-                </span>
+      {% if post_list %}
+        {% for post in post_list %}
+          <tr class="text-center">
+            <td>{{ forloop.counter }}</td>
+            <td>
+              {% if post.voter.all.count > 0 %}
+              <span>
+                {{ post.voter.all.count }}
+              </span>
+              {% endif %}
+            </td>
+    
+            <td class="text-left">
+              <a href="{% url 'free_board:detail' post.id %}">
+                {{ post.title }}
+                {% if post.notice %}
+                  <strong>[공지]</strong>
                 {% endif %}
-              </td>
-
-              <td class="text-left">
-                <a href="{% url 'free_board:detail' post.id %}">{{ post.title }}</a>
-                {% if post.comments.count > 0 %}
-                <span class="text-danger small ml-2">
-                  {{ post.comments.count }}
-                </span>
-                {% endif %}
-              </td>
-              <td>{{ post.author }}</td>
-              <td>{{ post.created_at }}</td>
-            </tr>
+              </a>
+              {% if post.comments.count > 0 %}
+              <span class="text-danger small ml-2">
+                {{ post.comments.count }}
+              </span>
+              {% endif %}
+            </td>
+            <td>{{ post.author }}</td>
+            <td>{{ post.created_at }}</td>
+          </tr>
           {% endfor %}
         {% else %}
           <tr>
-            <td colspan="3">아직 작성된 포스트가 없습니다.</td>
+            <td colspan="5">아직 작성된 포스트가 없습니다.</td>
           </tr>
         {% endif %}
       </tbody>
+
     </table>
     <!-- 페이징 처리 시작 -->
     <ul class="pagination justify-content-center">

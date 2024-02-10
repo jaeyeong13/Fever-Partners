@@ -60,12 +60,32 @@ def create_comment(request, post_id):
     return render(request, 'free_board/post_detail.html', context)
 
 def index(request):
+    # '공지' 게시물과 '자유' 게시물을 분리하여 가져옵니다.
+    # 공지 게시물은 먼저 정렬되고, 나머지 게시물들은 생성 시간의 역순으로 정렬됩니다.
+    notice_posts = Post.objects.filter(notice=True).order_by('-created_at')
+    free_posts = Post.objects.filter(notice=False).order_by('-created_at')
+
+    # 공지 게시물과 자유 게시물을 하나의 쿼리셋으로 합치기 위해 chain을 사용합니다.
+    from itertools import chain
+    post_list = list(chain(notice_posts, free_posts))
+
+    paginator = Paginator(post_list, 8)  # 페이지네이션, 페이지당 게시글 수는 8로 설정
+    page = request.GET.get('page', '1')  # URL에서 'page' 파라미터를 받아옴. 기본값은 1.
+    page_obj = paginator.get_page(page)
+
+    context = {'post_list': page_obj}
+    return render(request, 'free_board/board_list.html', context)
+
+
+'''
+def index(request):
     page = request.GET.get('page', '1')
     post_list = Post.objects.order_by('-created_at')
     paginator = Paginator(post_list, 8)
     page_obj = paginator.get_page(page)
     context = {'post_list': page_obj}
     return render(request, 'free_board/board_list.html', context)
+'''
 
 
 @login_required(login_url='user_management:login')
