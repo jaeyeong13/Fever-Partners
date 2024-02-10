@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from apps.group_management.models import Room
 from django.views.decorators.http import require_http_methods
 from django.http import JsonResponse, HttpResponse
 import json
 from .decorators import room_admin_required
+from django.urls import reverse
 
 # 이 부분 나중에 수정되어야 함
 @room_admin_required
@@ -58,3 +59,14 @@ def transfer_master(request):
         return JsonResponse({'message': '권한이 성공적으로 양도되었습니다.'}, status=200)
     except Exception:
         return HttpResponse(status=400)
+
+@room_admin_required
+def activate_room(request, room_id):
+    try:
+        room = Room.objects.get(pk=room_id)
+        room.is_active = True
+        room.save()
+        url = reverse('group_activity:member_list', kwargs={'room_id': room_id})
+        return redirect(url)
+    except Exception:
+        return HttpResponse(status=404)

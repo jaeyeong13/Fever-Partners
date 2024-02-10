@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from apps.goal_management.models import Goal
@@ -8,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseBadRequest
 from django.urls import reverse
 from elasticsearch_dsl import Search, Q
+from apps.group_administration.decorators import room_admin_required
 
 def start_creation(request):
     goals = Goal.objects.filter(user = request.user).filter(is_in_group = False)
@@ -66,6 +66,7 @@ def create_room(request):
 def show_user_list(request):
     return render(request, 'group_management/member_recom.html')
 
+@room_admin_required
 def recommend_member(request, room_id):
     room = Room.objects.get(pk=room_id)
     tag_ids = [tag.id for tag in room.tags.all()]

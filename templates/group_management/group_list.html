@@ -1,15 +1,28 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{%static 'javascript/main.js'%}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
     <title>Document</title>
 </head>
 <body>
     <div>{{user.nickname}}님이 속한 방이에요!</div>
     <br>
     {% for room in rooms %}
-    <a href="{%url 'group_activity:main_page' room.pk %} ">{{room.title}}</a>
+    {% if room.is_active %}
+    <a href="{%url 'group_activity:main_page' room.pk %} "><h3>{{room.title}}</h3></a>
+    {% else %} 
+        {% if user.pk == room.master.pk %}
+        <a href="{%url 'group_management:recommendation_page' room.pk %}"><h3>{{room.title}}</h3></a>
+        <a href="{%url 'group_administration:activate_room' room.pk %}">활동개시</a>
+        {% else %}
+        <a onclick="NotActiveYetModal()"><h3>{{room.title}}</h3></a>
+        {% endif %}
+    {% endif %}
     <br>
     {% endfor %}
 </body>

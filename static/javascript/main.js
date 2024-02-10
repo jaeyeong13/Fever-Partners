@@ -349,6 +349,14 @@ function PermissionCheck(user_id, room_id) {
   });
 }
 
+function NotActiveYetModal() {
+  Swal.fire({
+    text: "아직 활동이 시작되지 않은 방입니다.",
+    icon: "error",
+    confirmButtonText: "확인",
+  });
+}
+
 // 필요할 때 쓰려고 미리 만들어둠
 function saveTempInfoToSession(infoName, tempInfo) {
   sessionStorage.setItem(infoName, tempInfo);
