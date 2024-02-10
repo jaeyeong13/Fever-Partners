@@ -1,13 +1,13 @@
-from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from apps.goal_management.models import Goal
-from apps.user_management.models import User
 from apps.alarm.models import Alarm
 from apps.group_management.models import Room 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseBadRequest
 from django.urls import reverse
+from elasticsearch_dsl import Search, Q
+from apps.group_administration.decorators import room_admin_required
 
 def start_creation(request):
     goals = Goal.objects.filter(user = request.user).filter(is_in_group = False)
@@ -53,28 +53,26 @@ def create_room(request):
         room.save()
         
         my_goal.is_in_group = True
+        my_goal.belonging_group_id = room.id
         my_goal.save()
 
         url = reverse('group_management:recommendation_page', kwargs={'room_id': room.pk})
         return redirect(url)
     
-        # return redirect(f'/group_management/recommendation_page/{room.id}')
-    
     else:
-        return HttpResponseBadRequest()
+        return HttpResponseBadRequest('잘못된 접근방식입니다.')
     
 # 임시로 작성해둠
 def show_user_list(request):
     return render(request, 'group_management/member_recom.html')
 
-from elasticsearch_dsl import Search, Q
-from .models import *
-
+@room_admin_required
 def recommend_member(request, room_id):
-
     room = Room.objects.get(pk=room_id)
     tag_ids = [tag.id for tag in room.tags.all()]
     activity_tags_ids = [tag.id for tag in room.activityTags.all()]
+    alarms = Alarm.objects.filter(room__pk=room_id)
+    is_pending = [alarm.goal.pk for alarm in alarms]
 
     must_queries = []
     should_queries = []
@@ -107,35 +105,27 @@ def recommend_member(request, room_id):
     s = Search(index='goals').query(final_query)
     response = s.execute()
     hit_ids = [hit.meta.id for hit in response]
-    print(hit_ids)
-    goals = [Goal.objects.get(id=hit.meta.id) for hit in response]
+    goals = Goal.objects.filter(pk__in=hit_ids).exclude(pk__in=is_pending)
     cnt = {
         'goals' : goals,
         'room' : room
     }
     return render(request, 'group_management/member_recom.html', cnt)
 
-# def show_user_list(request, room_id):
-#     room = Room.objects.get(pk=room_id)
-#     # 현재 로그인된 사용자 정보 가져오기
-#     current_user = request.user
-#     # is_superuser가 False이고 현재 로그인된 사용자가 아닌 사용자 정보 가져오기
-#     users = User.objects.filter(is_superuser=False).exclude(pk=current_user.pk)
-    
-#     return render(request, 'group_management/member_recom.html', {'users': users, 'room':room})
-
 def suggest_join(request, room_id):
     if request.method == 'POST':
         user_id = request.POST.get('user_id')
+        goal_id = request.POST.get('goal_id')
         user = get_object_or_404(get_user_model(), id=user_id)
         room = get_object_or_404(Room, id=room_id)  # 방 정보 가져오기
+        goal = get_object_or_404(Goal, id=goal_id)
         # 새 알람 객체 생성 시 인스턴스로 변환된 사용자를 할당
-        Alarm.objects.create(alarm_from=request.user, alarm_to=user, room = room)
+        Alarm.objects.create(alarm_from=request.user, alarm_to=user, room = room, goal = goal)
         return redirect(f'/group/member_recommendation/{room.id}')
     else:
         return redirect('/')  # POST 요청이 아닌 경우 홈페이지로 리다이렉트
+    
 def show_group_list(request):
     user = request.user
     rooms = Room.objects.filter(members__in = [user])
-
     return render(request, 'group_management/group_list.html', {'rooms': rooms})

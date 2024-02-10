@@ -12,7 +12,7 @@
         <a href="{% url 'user_management:logout' %}">로그아웃</a>
         {% endif %}
         <a href="{% url 'alarm:show_alarms' %}">알림</a>
-        <a href="">내 정보</a>
+        <a href="{% url 'user_management:detail' user.pk%}">내 정보</a>
     </header>
     <main>
         <div>어서오세요 {{ user.nickname }}님</div>

@@ -1,8 +1,12 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{%static 'javascript/main.js'%}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
     <title>그룹 활동 페이지</title>
     <style>
         #group-introbox {
@@ -22,10 +26,11 @@
 <body> 
     <header>HEADER</header>
     <div id='group-introbox'>그룹 소개 문구 공간
-        <a href="{%url "group_administration:group_admin_main" room_id%}">그룹 관리</a>
+        <a onclick="PermissionCheck({{user.pk}}, {{room_id}})">그룹 관리</a>
+        <a onclick="WithdrawalConfirm({{user.pk}}, {{room_id}})">탈퇴하기</a>
     </div>
     <div>
-        <a href="">멤버</a>
+        <a href="{%url "group_activity:member_list" room_id%}">멤버</a>
         <a href="">인증 공간</a>
         <a href="">활동 현황</a>
         <a href="{% url 'free_board:list' %}">자유게시판</a>
