@@ -10,7 +10,7 @@ from elasticsearch_dsl import Search, Q
 from apps.group_administration.decorators import room_admin_required
 
 def start_creation(request):
-    goals = Goal.objects.filter(user = request.user).filter(is_in_group = False)
+    goals = Goal.objects.filter(user = request.user).filter(is_in_group = False).filter(is_completed = False)
     cnt = {
         'goals':goals
     }
@@ -82,8 +82,11 @@ def recommend_member(request, room_id):
     # group에 가입되지 않은 목표여야 함 
     at_least = Q('nested', path='tags', query=Q('terms', **{'tags.tag_id': tag_ids}), boost=0)
     in_group_check_query = Q('term', is_in_group = False)
+    # 아직 완료되지 않은 목표여야 함
+    is_completed_query = Q('term', is_completed=False)
     must_queries.append(at_least)
     must_queries.append(in_group_check_query)
+    must_queries.append(is_completed_query)
 
     # 가중 조건 : 검색결과에 점수를 추가적으로 부여하는 로직들
     for tag_id in tag_ids:
