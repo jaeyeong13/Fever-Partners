@@ -71,6 +71,8 @@ def recommend_member(request, room_id):
     room = Room.objects.get(pk=room_id)
     tag_ids = [tag.id for tag in room.tags.all()]
     activity_tags_ids = [tag.id for tag in room.activityTags.all()]
+    alarms = Alarm.objects.filter(room__pk=room_id)
+    is_pending = [alarm.goal.pk for alarm in alarms]
 
     must_queries = []
     should_queries = []
@@ -103,7 +105,7 @@ def recommend_member(request, room_id):
     s = Search(index='goals').query(final_query)
     response = s.execute()
     hit_ids = [hit.meta.id for hit in response]
-    goals = Goal.objects.filter(pk__in=hit_ids)
+    goals = Goal.objects.filter(pk__in=hit_ids).exclude(pk__in=is_pending)
     cnt = {
         'goals' : goals,
         'room' : room
@@ -113,10 +115,12 @@ def recommend_member(request, room_id):
 def suggest_join(request, room_id):
     if request.method == 'POST':
         user_id = request.POST.get('user_id')
+        goal_id = request.POST.get('goal_id')
         user = get_object_or_404(get_user_model(), id=user_id)
         room = get_object_or_404(Room, id=room_id)  # 방 정보 가져오기
+        goal = get_object_or_404(Goal, id=goal_id)
         # 새 알람 객체 생성 시 인스턴스로 변환된 사용자를 할당
-        Alarm.objects.create(alarm_from=request.user, alarm_to=user, room = room)
+        Alarm.objects.create(alarm_from=request.user, alarm_to=user, room = room, goal = goal)
         return redirect(f'/group/member_recommendation/{room.id}')
     else:
         return redirect('/')  # POST 요청이 아닌 경우 홈페이지로 리다이렉트

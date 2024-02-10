@@ -48,8 +48,8 @@
             {% else %}
             <p>No profile image available.</p>
             {% endif %}
-            <p>{{ goal.user.nickname }}<p>
-            <p>{{ goal.user.profile }}</p>
+            <p>닉네임: {{ goal.user.nickname }}<p>
+            <p>프로필: {{ goal.user.profile }}</p>
             <strong>목표 태그: </strong>
             {% for tag in goal.tags.all %}
                 <span>{{tag}}</span>
@@ -58,12 +58,13 @@
             {% for tag in goal.activityTags.all %}
                 <span>{{tag}}</span>
             {% endfor %}
-            <div>{{ goal.title }}</div>
+            <div>목표: {{ goal.title }}</div>
             <br>
             <form action="{% url 'group_management:suggest_join' room.pk %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="user_id" value="{{ goal.user.id }}">
                 <input type="hidden" name="room_id" value="{{ room.id }}">
+                <input type="hidden" name="goal_id" value="{{ goal.id }}">
                 <button type="submit">가입제안</button>
             </form>
         </div>

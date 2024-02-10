@@ -6,6 +6,8 @@ import json
 from .decorators import room_admin_required
 from django.urls import reverse
 
+from django.contrib.auth.decorators import login_required
+
 # 이 부분 나중에 수정되어야 함
 @room_admin_required
 def show_admin_page(request, room_id):
