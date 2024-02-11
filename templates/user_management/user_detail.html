@@ -58,5 +58,14 @@
       <br>
       <a href="">회원탈퇴[구현하세요]</a>
     </div>
+    <div>{{user.nickname}}님, 안녕하세요!</div>
+    <div>{{user.profile}}</div>
+    <div>{{user.region}}</div>
+    <div>{{user.region_detail}}</div>
+
+
+    <a href={% url "user_management:update" user.id %}>개인정보 변경</a>
+    <br>
+    <a href={% url "user_management:logout" %}>로그아웃</a>
   </body>
 </html>

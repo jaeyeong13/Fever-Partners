@@ -1,32 +1,43 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{%static 'javascript/main.js'%}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
     <title>Document</title>
 </head>
 <body>
-    <header>
-        <h1>헤더입니다</h1>
-        {% if user.is_authenticated %}
-        <a href="{% url 'user_management:logout' %}">로그아웃</a>
-        {% endif %}
-        <a href="">알림</a>
-        <a href="">내 정보</a>
-    </header>
+    <div>아래는 임시 양식</div>
     <main>
         {% for goal in goals %}
-        <div>
-            <p>{{ goal.title }}</p>
-            <p>{{ goal.content }}</p>
-            <p>{{ goal.tags }}</p>
-            <p>{{ goal.faveor_offline }}</p>
+        <div id="goal-{{goal.pk}}">
+            {% if goal.is_in_group %}
+            <a href="{%url "group_activity:member_list" goal.belonging_group_id %}">제목 : {{ goal.title }}</a>
+            <div>현재 그룹 활동을 진행중인 목표입니다.</div>
+            {% else %}
+            <a href="{%url "goal_management:recommendation_page" goal.pk %}">제목 : {{ goal.title }}</a>
+            {% endif %}
+            <p>내용 : {{ goal.content }}</p>
+            <p>태그 : 
+            {% for tag in goal.tags.all %}
+                {{tag}}
+            {% endfor %} </p>
+            <p>활동태그 : 
+            {% for activity_tag in goal.activityTags.all %}
+                {{activity_tag}}
+            {% endfor %} </p>
+            <p>대면 선호 : {{ goal.favor_offline }}</p>
             <a href="">수정</a>
+            <a onclick="GoalDeletionConfirm({{goal.pk}})">삭제</a>
+            <a href="">목표 달성 보고(임시)</a>
         </div>
         {% endfor %}
     </main>
     <footer>
-        <h1>풋터입니다.</h1>
+        <h1>풋터 들어갈 공간</h1>
     </footer>
 </body>
 </html>
