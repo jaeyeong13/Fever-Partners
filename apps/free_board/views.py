@@ -35,8 +35,10 @@ def create_post(request, study_room_id):
     context = {
         'form': form,
         'user_is_master': user_is_master,
+        'study_room_id': study_room_id,  # 이 줄을 추가해주세요.
     }
     return render(request, 'free_board/post_create.html', context)
+
 
 
 @login_required(login_url='user_management:login')
@@ -58,20 +60,20 @@ def create_comment(request, study_room_id, post_id):
 
 
 def index(request, study_room_id):
+    room = get_object_or_404(Room, pk=study_room_id)  # 이 줄을 추가해주세요.
     tab = request.GET.get('tab', 'notice')
-
-    notice_posts = Post.objects.filter(notice=True).order_by('-created_at')[:2]  
+    notice_posts = Post.objects.filter(notice=True).order_by('-created_at')[:2]
     if tab == 'notice':
         posts = Post.objects.filter(notice=True).order_by('-created_at')
-    else:  
+    else:
         free_posts = Post.objects.filter(notice=False).order_by('-created_at')
-        posts = list(chain(notice_posts, free_posts))  
+        posts = list(chain(notice_posts, free_posts))
     paginator = Paginator(posts, 8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
-    context = {'page_obj': page_obj, 'tab': tab, 'room_id': study_room_id}
+    context = {'page_obj': page_obj, 'tab': tab, 'room_id': study_room_id, 'room': room}  # 여기에 'room': room을 추가해주세요.
     return render(request, 'free_board/board_list.html', context)
+
 
 
 @login_required(login_url='user_management:login')
