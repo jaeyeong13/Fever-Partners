@@ -97,6 +97,7 @@ def delete_room(request):
         return JsonResponse({'message': '폐쇄 작업이 성공적으로 완료되었습니다.'}, status=200)
     except Exception:
         return HttpResponse(status=400)
+<<<<<<< HEAD
     
 def invited_member(request, room_id):
     master = Room.objects.get(pk=room_id).master
@@ -130,3 +131,5 @@ def suggest_join(request, user_id):
         return redirect('/')
     else:
         return redirect('/')  # POST 요청이 아닌 경우 홈페이지로 리다이렉트
+=======
+>>>>>>> 41656161f5b89ad529deda0c32667b5ce5bb9e10
