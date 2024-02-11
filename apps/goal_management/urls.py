@@ -13,4 +13,5 @@ urlpatterns = [
     path('group_recommendation/<int:goal_id>', recommend_group, name='recommendation_page'),
     path('delete_goal/<int:goal_id>', delete_goal, name='delete_goal'),
     path('suggest_join/<int:goal_id>', suggest_join, name='suggest_join'),
+    path('achievement_report/<int:goal_id>', create_achievement_report, name='achievement_report'),
 ]

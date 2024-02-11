@@ -166,4 +166,25 @@ def suggest_join(request, goal_id):
         return redirect(f'/goal/group_recommendation/{goal.id}')
     else:
         return redirect('/')# POST 요청이 아닌 경우 홈페이지로 리다이렉트
-    
+
+# 접속자의 Goal이 아닌 경우 GET 요청까지 차단
+@goal_ownership_required
+def create_achievement_report(request, goal_id):
+    if request.method == "POST":
+        content = request.POST.get('content')
+        image = request.FILES.get('image')
+
+        try:
+            goal = Goal.objects.get(pk=goal_id)
+            AchievementReport.objects.create(goal=goal, content=content, image=image)
+            goal.is_completed = True
+            goal.save()
+            return HttpResponse(status=204)
+        except Exception:
+            return HttpResponse(status=400)
+    else:
+        goal = Goal.objects.get(pk=goal_id)
+        cnt = {
+            'goal':goal,
+        }
+        return render(request, 'goal_management/achievement_reporting_form.html', cnt)

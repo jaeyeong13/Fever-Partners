@@ -24,3 +24,8 @@ class Goal(models.Model):
     is_in_group = models.BooleanField(default=False)
     is_completed = models.BooleanField(default=False)
     belonging_group_id = models.IntegerField(null=True)
+
+class AchievementReport(models.Model):
+    goal = models.ForeignKey(Goal, on_delete=models.CASCADE)
+    content = models.TextField()
+    image = models.ImageField(upload_to='achievement_reports/', blank=True, null=True)

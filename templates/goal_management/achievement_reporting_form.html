@@ -1,0 +1,28 @@
+   {% load static %}
+   
+   <!DOCTYPE html>
+   <html lang="en">
+   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{%static 'javascript/main.js'%}" defer></script>
+    <title>Document</title>
+   </head>
+   <body>
+        <div>
+            <div>달성한 목표 : {{goal.title}}</div>
+        </div>
+        <div>
+            <label for="achievement-report-content">달성 내용 및 후기:</label><br>
+            <textarea id="achievement-report-content" name="content" rows="4" cols="50" required></textarea>
+            <div id="achievement-content-warning" class="warning"></div>
+        </div>
+        <div>
+            <label for="achievement-report-image">사진 첨부:</label><br>
+            <input type="file" id="achievement-report-image" name="image">
+        </div>
+        <button type="button" onclick="SubmitAchievementReport({{goal.pk}})">보고하기</button>
+   </body>
+   </html>
+   
+
