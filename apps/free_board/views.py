@@ -133,13 +133,14 @@ def modify_comment(request, study_room_id, comment_id):
 
 
 @login_required(login_url='user_management:login')
-def comment_delete(request, comment_id):
+def comment_delete(request, study_room_id, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
     if request.user != comment.author:
         messages.error(request, '삭제 권한이 없습니다!')
     else:
         comment.delete()
-    return redirect('free_board:detail', post_id=comment.post.id)
+    return redirect('free_board:detail', study_room_id=study_room_id, post_id=comment.post.id)
+
 
 
 @login_required(login_url='user_management:login')
