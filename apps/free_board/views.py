@@ -111,11 +111,11 @@ def post_delete(request, study_room_id, post_id):
 
 
 @login_required(login_url='user_management:login')
-def modify_comment(request, comment_id):
+def modify_comment(request, study_room_id, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
     if request.user != comment.author:
         messages.error(request, "수정 권한이 없습니다!")
-        return redirect('free_board:detail', post_id=comment.post.id)
+        return redirect('free_board:detail', study_room_id=study_room_id, post_id=comment.post.id)
 
     if request.method == 'POST':
         form = CommentForm(request.POST, instance=comment)
@@ -124,11 +124,12 @@ def modify_comment(request, comment_id):
             comment.author = request.user
             comment.updated_at = timezone.now()
             comment.save()
-            return redirect('free_board:detail', post_id=comment.post.id)
+            return redirect('free_board:detail', study_room_id=study_room_id, post_id=comment.post.id)
     else:
         form = CommentForm(instance=comment)
-    context = {'comment': comment, 'form': form}
+    context = {'comment': comment, 'form': form, 'study_room_id': study_room_id}
     return render(request, 'free_board/comment_form.html', context)
+
 
 
 @login_required(login_url='user_management:login')

@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container my-3">
-  <form method="post" class="post-form">
+  <form method="post" action="{% url 'free_board:modify_comment' study_room_id=study_room_id comment_id=comment.id %}" class="post-form">
     {% csrf_token %}
     <div class="form-group">
       <label for="content">댓글 내용</label>
