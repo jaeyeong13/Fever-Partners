@@ -17,9 +17,8 @@ def post_detail(request, post_id):
   return render(request, 'free_board/post_detail.html', context)
 
 @login_required(login_url='user_management:login')
-def create_post(request):
-    room_id = request.GET.get('room_id')
-    room = get_object_or_404(Room, pk=room_id)
+def create_post(request, study_room_id):
+    room = get_object_or_404(Room, pk=study_room_id)
     user_is_master = request.user == room.master
 
     if request.method == 'POST':
@@ -27,9 +26,9 @@ def create_post(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            post.room = room  
+            post.room = room
             post.save()
-            return redirect('free_board:list')
+            return redirect('free_board:list', study_room_id=study_room_id)
     else:
         form = PostForm()
     context = {
@@ -37,6 +36,7 @@ def create_post(request):
         'user_is_master': user_is_master,
     }
     return render(request, 'free_board/post_create.html', context)
+
 
 @login_required(login_url='user_management:login')
 def create_comment(request, post_id):
@@ -55,7 +55,7 @@ def create_comment(request, post_id):
     return render(request, 'free_board/post_detail.html', context)
 
 
-def index(request):
+def index(request, study_room_id):
     tab = request.GET.get('tab', 'notice')
 
     notice_posts = Post.objects.filter(notice=True).order_by('-created_at')[:2]  
@@ -68,8 +68,9 @@ def index(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    context = {'page_obj': page_obj, 'tab': tab}
+    context = {'page_obj': page_obj, 'tab': tab, 'room_id': study_room_id}
     return render(request, 'free_board/board_list.html', context)
+
 
 @login_required(login_url='user_management:login')
 def modify_post(request, post_id):

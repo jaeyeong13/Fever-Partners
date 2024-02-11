@@ -33,7 +33,7 @@
                 <td>{{ forloop.counter }}</td>
                 <td>{{ post.voter.all.count }}</td>
                 <td class="text-left">
-                    <a href="{% url 'free_board:detail' post.id %}">{{ post.title }}</a>
+                    <a href="{% url 'free_board:detail' post.room.id post.id %}">{{ post.title }}</a>
                     {% if tab == 'free' and post.notice %}
                     <span style="color: crimson">공지</span>
                     {% endif %}
@@ -79,7 +79,7 @@
         {% endif %}
     </ul>
     <div class="text-right">
-      <a href="{% url 'free_board:create_post' %}?room_id=1">글 작성하러 가기</a>
+      <a href="{% url 'free_board:create_post' room_id %}">글 작성하러 가기</a>
     </div>
 </div>
 {% endblock %}
