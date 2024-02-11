@@ -99,13 +99,14 @@ def modify_post(request, study_room_id, post_id):
 
 
 @login_required(login_url='user_management:login')
-def post_delete(request, post_id):
+def post_delete(request, study_room_id, post_id):
     post = get_object_or_404(Post, pk=post_id)
     if request.user != post.author:
-        messages.error(request, "삭제 권한이 없습니다!")
-        return redirect('free_board:detail', post_id=post.id)
+        messages.error(request, '삭제 권한이 없습니다!')
+        return redirect('free_board:detail', study_room_id=study_room_id, post_id=post.id)
     post.delete()
-    return redirect('free_board:list')
+    return redirect('free_board:list', study_room_id=study_room_id)
+
 
 
 @login_required(login_url='user_management:login')
