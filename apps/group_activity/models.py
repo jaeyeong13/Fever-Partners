@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model
 from apps.group_management.models import Room
 from django.utils import timezone
 import datetime
-from django.core.validators import RegexValidator
 
 User = get_user_model()
 
