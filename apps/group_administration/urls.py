@@ -11,4 +11,7 @@ urlpatterns = [
     path('transfer_master', transfer_master, name='transfer_master'),
     path('activate_room/<int:room_id>', activate_room, name='activate_room'),
     path('close_room', delete_room, name='close_room'),
+    path('invited_member/<int:room_id>', invited_member, name='invited_member'),
+    path('search_user/', search_user, name='search_user'),
+    path('suggest_join/<int:user_id>', suggest_join, name='suggest_join'),
 ]
