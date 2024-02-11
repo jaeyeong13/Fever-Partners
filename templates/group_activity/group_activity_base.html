@@ -2,44 +2,47 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="{%static 'javascript/main.js'%}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
     <title>그룹 활동 페이지</title>
     <style>
-        #group-introbox {
-            display: flex;
-            align-items: center;
-            height: 100px;
-            width: 500px;
-            border: 1px solid black;
-        }
+      #group-introbox {
+        display: flex;
+        align-items: center;
+        height: 100px;
+        width: 500px;
+        border: 1px solid black;
+      }
 
-        #group-activity-content {
-            width: 500px;
-            height: 400px;
-        }
+      #group-activity-content {
+        width: 500px;
+        height: 400px;
+      }
     </style>
-</head>
-<body> 
+  </head>
+  <body>
     <header>HEADER</header>
-    <div id='group-introbox'>그룹 소개 문구 공간
-        <a onclick="PermissionCheck({{user.pk}}, {{room_id}})">그룹 관리</a>
-        <a onclick="WithdrawalConfirm({{user.pk}}, {{room_id}})">탈퇴하기</a>
+    <div id="group-introbox">
+      그룹 소개 문구 공간
+      <a
+        href="{%url 'group_administration:group_admin_main' room_id%}"
+        onclick="PermissionCheck({{user.pk}}, {{room_id}})"
+        >그룹 관리</a
+      >
+      <a onclick="WithdrawalConfirm({{user.pk}}, {{room_id}})">탈퇴하기</a>
     </div>
     <div>
-        <a href="{%url "group_activity:member_list" room_id%}">멤버</a>
-        <a href="">인증 공간</a>
-        <a href="">활동 현황</a>
-        <a href="{% url 'free_board:list' %}">자유게시판</a>
+      <a href="{%url 'group_activity:member_list' room_id%}">멤버</a>
+      <a href="{% url 'group_activity:activate' room_id %}">인증 공간</a>
+      <a href="{% url 'group_activity:show_log' room_id %}">활동 현황</a>
+      <a href="{% url 'free_board:list' %}">자유게시판</a>
     </div>
-    <div id='group-activity-content'>
-        {% block content %}
-        
-        {% endblock content %}
+    <div id="group-activity-content">
+      {% block content %} {% endblock content %}
     </div>
     <footer>FOOTER</footer>
-</body>
+  </body>
 </html>

@@ -1,0 +1,13 @@
+{% extends 'group_administration/group_admin_base.html' %}
+{% block content %}
+
+{% for auth in memberAuthentication %}
+<div>
+  <p>[{{ auth.user }}님의 활동인증]</p>
+  <p>{{ auth.content }}</p>
+  <a href="{% url 'group_activity:accept_auth_log' auth.id %}">수락</a>
+  <a href="{% url 'group_activity:refuse_auth_log' auth.id %}">거절</a>
+</div>
+{% endfor %}
+
+{% endblock %}

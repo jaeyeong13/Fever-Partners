@@ -2,6 +2,10 @@ from django.shortcuts import redirect,render, get_object_or_404
 from apps.alarm.models import Alarm
 from django.contrib.auth.decorators import login_required
 
+def delete(request, pk):
+    if request.method == 'POST':
+        Alarm.objects.get(id=pk).delete()
+    return redirect('user_management:detail')
 def show_alarms(request):
     alarms = Alarm.objects.filter(alarm_to=request.user) #현재 유저일때만
     alarm_data = [{'alarm': alarm, 'alarm_from_nickname': alarm.alarm_from.nickname} for alarm in alarms]
