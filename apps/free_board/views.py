@@ -11,10 +11,11 @@ from django.http import HttpResponseForbidden
 
 # Create your views here.
 
-def post_detail(request, post_id):
-  post = Post.objects.get(id=post_id)
-  context = {'post': post}
-  return render(request, 'free_board/post_detail.html', context)
+def post_detail(request, study_room_id, post_id):
+    post = Post.objects.get(id=post_id)
+    context = {'post': post, 'study_room_id': study_room_id}
+    return render(request, 'free_board/post_detail.html', context)
+
 
 @login_required(login_url='user_management:login')
 def create_post(request, study_room_id):

@@ -18,7 +18,7 @@
         <div class="bg-light text-center p-3 border font-weight-bolder mb-1">
           {{ post.voter.count }}
         </div>
-        <form action="{% url 'free_board:vote_post' post.id %}" method="post" style="display: inline;">
+        <form action="{% url 'free_board:vote_post' study_room_id post.id %}" method="post" style="display: inline;">
           {% csrf_token %}
           <button type="submit" class="btn btn-sm btn-secondary btn-block my-1" onclick="return confirm('추천하시겠습니까?');">좋아요</button>
         </form>
@@ -45,8 +45,8 @@
     </div>
     {% if request.user == post.author %}
     <div class="my-3">
-      <a href="{% url 'free_board:modify_post' post.id %}" class="btn btn-sm btn-outline-secondary">수정</a>
-      <form action="{% url 'free_board:post_delete' post.id %}" method="post" style="display: inline;">
+      <a href="{% url 'free_board:modify_post' study_room_id post.id %}" class="btn btn-sm btn-outline-secondary">수정</a>
+      <form action="{% url 'free_board:post_delete' study_room_id post.id %}" method="post" style="display: inline;">
         {% csrf_token %}
         <input type="hidden" name="post_id" value="{{ post.id }}">
         <button type="submit" class="btn btn-sm btn-outline-secondary" onclick="return confirm('정말로 글을 삭제하시겠습니까?');">삭제</button>
@@ -80,8 +80,8 @@
         </div>
         {% if request.user == comment.author %}
         <div class="my-3">
-          <a href="{% url 'free_board:modify_comment' comment.id %}" class="btn btn-sm btn-outline-secondary">수정</a>
-          <form action="{% url 'free_board:comment_delete' comment.id %}" method="post" style="display: inline;">
+          <a href="{% url 'free_board:modify_comment' study_room_id comment.id %}" class="btn btn-sm btn-outline-secondary">수정</a>
+          <form action="{% url 'free_board:comment_delete' study_room_id comment.id %}" method="post" style="display: inline;">
             {% csrf_token %}
             <button type="submit" class="btn btn-sm btn-outline-secondary" onclick="return confirm('정말로 댓글을 삭제하시겠습니까?');">삭제</button>
           </form>
@@ -90,7 +90,7 @@
       </div>
     </div>
     {% endfor %}
-    <form action="{% url 'free_board:create_comment' post.id %}" method="post" class="my-3">
+    <form action="{% url 'free_board:create_comment' study_room_id post.id %}" method="post" class="my-3">
     {% csrf_token %}
     {% if form.errors %}
       <div class="alert alert-danger" role="alert">
