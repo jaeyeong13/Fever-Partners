@@ -1,5 +1,9 @@
-from django.shortcuts import render, redirect
-from apps.group_management.models import Room
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib.auth import get_user_model
+from elastic_transport import Serializer
+from apps.alarm.models import Alarm
+from apps.goal_management.models import Goal
+from apps.group_management.models import Room, User
 from django.views.decorators.http import require_http_methods
 from django.http import JsonResponse, HttpResponse
 import json
@@ -93,3 +97,36 @@ def delete_room(request):
         return JsonResponse({'message': '폐쇄 작업이 성공적으로 완료되었습니다.'}, status=200)
     except Exception:
         return HttpResponse(status=400)
+    
+def invited_member(request, room_id):
+    master = Room.objects.get(pk=room_id).master
+    members = Room.objects.get(pk=room_id).members.exclude(pk=master.pk)
+    cnt = {
+        'members':members,
+        'room_id':room_id,
+    }
+    return render(request, 'group_administration/group_invited_member.html', cnt)
+
+def search_user(request):
+    if request.method == 'GET':
+        query = request.GET.get('query')
+        if query:
+            results = User.objects.filter(nickname__icontains=query)
+            data = [{'id': user.id, 'nickname': user.nickname} for user in results]
+            print(data)
+            return JsonResponse({'results': data})
+        else:
+            return JsonResponse({'results': []})
+    else:
+        return JsonResponse({'error': 'GET 요청이 필요합니다.'}, status=400)
+    
+def suggest_join(request, user_id):
+    if request.method == 'POST':
+        room_id = request.POST.get('room_id') 
+        user = get_user_model().objects.get(pk=user_id)
+        room = get_object_or_404(Room, id=room_id)
+        # 새 알람 객체 생성 시 인스턴스로 변환된 사용자를 할당
+        Alarm.objects.create(alarm_from=request.user, alarm_to=user, room=room)
+        return redirect('/')
+    else:
+        return redirect('/')  # POST 요청이 아닌 경우 홈페이지로 리다이렉트
