@@ -74,12 +74,12 @@ def index(request, study_room_id):
 
 
 @login_required(login_url='user_management:login')
-def modify_post(request, post_id):
+def modify_post(request, study_room_id, post_id):
     post = get_object_or_404(Post, pk=post_id)
 
     if request.user != post.author:
         messages.error(request, '수정 권한이 없습니다!')
-        return redirect('free_board:detail', post_id=post.id)
+        return redirect('free_board:detail', study_room_id=study_room_id, post_id=post.id)
 
     if request.method == 'POST':
         form = PostForm(request.POST, instance=post)
@@ -88,12 +88,14 @@ def modify_post(request, post_id):
             post.author = request.user
             post.updated_at = timezone.now()
             post.save()
-            return redirect('free_board:detail', post_id=post.id)
-    else: 
+            return redirect('free_board:detail', study_room_id=study_room_id, post_id=post.id)
+    else:
         form = PostForm(instance=post)
 
-    context = {'form': form}
+    context = {'form': form, 'study_room_id': study_room_id, 'post': post}
     return render(request, 'free_board/post_create.html', context)
+
+
 
 
 @login_required(login_url='user_management:login')

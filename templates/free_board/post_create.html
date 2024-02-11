@@ -3,7 +3,11 @@
 {% block content %}
 <div class="container">
   <h5 class="my-3 border-bottom pb-2">글 쓰기</h5>
-  <form method="post" class="post-form my-3">
+  {% if post.id %}
+  <form method="post" action="{% url 'free_board:modify_post' study_room_id=study_room_id post_id=post.id %}" class="post-form my-3">
+  {% else %}
+  <form method="post" action="{% url 'free_board:create_post' study_room_id=study_room_id %}" class="post-form my-3">
+  {% endif %}
     {% csrf_token %}
     {% if form.errors %}
       <div class="alert alert-danger" role="alert">
@@ -29,7 +33,6 @@
         <label for="{{ form.notice.id_for_label }}" class="form-check-label">{{ form.notice.label }}</label>
     </div>
     {% endif %}
-
     <br>
     <button type="submit" class="btn btn-primary">저장하기</button>
   </form>
