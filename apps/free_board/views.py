@@ -40,7 +40,7 @@ def create_post(request, study_room_id):
 
 
 @login_required(login_url='user_management:login')
-def create_comment(request, post_id):
+def create_comment(request, study_room_id, post_id):
     post = get_object_or_404(Post, pk=post_id)
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -49,11 +49,12 @@ def create_comment(request, post_id):
             comment.post = post
             comment.author = request.user
             comment.save()
-            return redirect('free_board:detail', post_id=post_id)
+            return redirect('free_board:detail', study_room_id=study_room_id, post_id=post.id)
     else:
         form = CommentForm()
     context = {'post': post, 'form': form}
     return render(request, 'free_board/post_detail.html', context)
+
 
 
 def index(request, study_room_id):
