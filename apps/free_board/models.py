@@ -28,3 +28,6 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(null=True, blank=True)    # 수정 일시
     voter = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='voter_comment')
+
+    def __str__(self):
+        return self.content
