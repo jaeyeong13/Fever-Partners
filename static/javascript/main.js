@@ -480,6 +480,49 @@ function GroupClosureConfirm(room_id) {
   });
 }
 
+function SubmitAchievementReport(goal_id) {
+  const content = document.getElementById('achievement-report-content').value;
+  const image = document.getElementById('achievement-report-image').files[0];
+  
+  const formData = new FormData();
+  formData.append('content', content);
+  if (image) {
+    formData.append('image', image);
+  }
+
+  const achievementContentWarning = document.getElementById(
+    "achievement-content-warning"
+  );
+  achievementContentWarning.innerHTML = "";
+  
+  // 유효성 검사 => Goal은 자동입력, 사진은 선택 첨부
+  let isValid = true;
+
+  if (content.trim() === '') {
+    achievementContentWarning.innerHTML = '내용을 입력해주세요.';
+    isValid = false;
+  }
+  // 유효성 검사 끝
+
+  if (isValid) {
+    fetch(window.location.origin + "/goal/achievement_report/create/" + goal_id, {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": getCookie("csrftoken"),
+      },
+      body: formData,
+    })
+      .then((response) => {
+        if (response.ok) {
+          window.location.href = window.location.origin + "/goal/achievement_report/report_list";
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+}
+
 // 필요할 때 쓰려고 미리 만들어둠
 function saveTempInfoToSession(infoName, tempInfo) {
   sessionStorage.setItem(infoName, tempInfo);

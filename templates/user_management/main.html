@@ -32,13 +32,13 @@
         </div>
         <div>
             <a href="{% url 'goal_management:start_goal_creation' %}">새 목표 등록</a>
-            <a href="">새 그룹 개설</a>
+            <a href="{% url 'group_management:start_creation' %}">새 그룹 개설</a>
         </div>
     </main>
     <footer>
         <a href="{% url 'goal_management:goal_list' %}">My Goal</a>
         <a href="{% url 'group_management:group_list' %}">Group</a>
-        <a href="">미정</a>
+        <a href="{% url 'goal_management:achievement_report_list'%}">Achievements</a>
     </footer>
 </body>
 </html>
