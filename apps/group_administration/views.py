@@ -11,12 +11,13 @@ from .decorators import room_admin_required
 from django.urls import reverse
 
 from django.contrib.auth.decorators import login_required
-
 # 이 부분 나중에 수정되어야 함
 @room_admin_required
 def show_admin_page(request, room_id):
+    room = Room.objects.get(pk=room_id)
     ctx = {
         'room_id':room_id,
+        'room': room,
     }
     return render(request, 'group_administration/group_admin_base.html', ctx)
 
@@ -24,9 +25,11 @@ def show_admin_page(request, room_id):
 def show_member_list(request, room_id):
     master = Room.objects.get(pk=room_id).master
     members = Room.objects.get(pk=room_id).members.exclude(pk=master.pk)
+    room = Room.objects.get(pk=room_id)
     cnt = {
         'members':members,
         'room_id':room_id,
+        'room': room,
     }
     return render(request, 'group_administration/group_member_list.html', cnt)
 
@@ -97,14 +100,15 @@ def delete_room(request):
         return JsonResponse({'message': '폐쇄 작업이 성공적으로 완료되었습니다.'}, status=200)
     except Exception:
         return HttpResponse(status=400)
-<<<<<<< HEAD
     
 def invited_member(request, room_id):
     master = Room.objects.get(pk=room_id).master
     members = Room.objects.get(pk=room_id).members.exclude(pk=master.pk)
+    room = Room.objects.get(pk=room_id)
     cnt = {
         'members':members,
         'room_id':room_id,
+        'room': room,
     }
     return render(request, 'group_administration/group_invited_member.html', cnt)
 
@@ -131,5 +135,3 @@ def suggest_join(request, user_id):
         return redirect('/')
     else:
         return redirect('/')  # POST 요청이 아닌 경우 홈페이지로 리다이렉트
-=======
->>>>>>> 41656161f5b89ad529deda0c32667b5ce5bb9e10

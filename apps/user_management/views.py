@@ -97,7 +97,7 @@ def main(request):
 
 #유저 정보(user detail)
 @login_required
-def detail(request):
+def detail(request, pk):
     user = request.user
     rooms_masters = user.rooms_managed.all()
     rooms_members = user.rooms_joined.all()
