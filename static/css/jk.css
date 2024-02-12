@@ -1,0 +1,87 @@
+:root {
+  --main-color: #db4455;
+  --gray: #838383;
+  --red: #EB0000;
+  --green: #00AD26;
+}
+
+#group-introbox {
+  display: flex;
+  align-items: center;
+  background-color: var(--main-color);
+  color: white;
+  height: 35vh;
+}
+
+#group-select-activity-list {
+  height: 5vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-bottom: solid 1px var(--main-color);
+  font-weight: bold;
+}
+
+#group-select-activity-list > a,
+#group-select-activity-list > a:visited {
+  color: var(--main-color);
+  text-decoration: none;
+}
+
+#group-activity-content {
+  height: 46vh;
+}
+
+footer {
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#auth-logs{
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  margin: 2vh ;
+}
+
+.auth-log{
+  border: 1px solid var(--main-color);
+  border-radius: 8px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.auth-text{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap:0.5em;
+  margin: 0.7em 0;
+}
+
+.ri-checkbox-circle-fill{
+  color: #00AD26;
+}
+
+.ri-close-circle-fill{
+  color: #EB0000;
+}
+
+.gray-08em{
+  color: var(--gray);
+  font-size: 0.8em;
+}
+
+.main-color-bold{
+  color: var(--main-color);
+}
+
+.auth-success{
+  color: var(--green);
+}
+
+.auth-fail{
+  color: var(--red);
+}
