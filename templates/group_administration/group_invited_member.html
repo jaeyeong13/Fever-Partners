@@ -1,0 +1,82 @@
+{% extends "group_administration/group_admin_base.html" %}
+{% block content %}
+<h2>멤버 초대</h2>
+<input type="text" id="search-user" placeholder="유저 닉네임을 입력하세요">
+<ul id="user-list">
+    <!-- 검색된 유저 목록이 여기에 동적으로 추가됩니다 -->
+</ul>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    // 현재 사용자의 ID를 JavaScript 변수에 할당
+    var currentUserId = {{ request.user.id }};
+    
+    $('#search-user').on('keyup', function(){
+        var query = $(this).val();
+        $.ajax({
+            url: '{% url "group_administration:search_user" %}',
+            type: 'GET',
+            data: {'query': query, 'current_user_id': currentUserId}, // 현재 사용자의 ID를 전송
+            success: function(data){
+                $('#user-list').empty();
+                $.each(data.results, function(index, user){
+                    if (user.id !== currentUserId) { // 현재 사용자와 동일한 ID인 경우 제외
+                        var listItem = '<li><span>' + user.nickname + '</span>' + 
+                        '<button class="invite-btn" data-user-id="' + user.id + '">초대하기</button></li>';
+                        $('#user-list').append(listItem);
+                    }
+                });
+            }
+        });
+    });
+
+    // 초대하기 버튼 클릭 시 동작
+    $('#user-list').on('click', '.invite-btn', function(){
+        var userId = $(this).data('user-id');
+        var userName = $(this).siblings('span').text();
+        var confirmMessage = userName + '을(를) 초대하시겠습니까?';
+    
+        if (confirm(confirmMessage)) {
+            // CSRF 토큰 가져오기
+            var csrftoken = getCookie('csrftoken');
+            
+            // AJAX 요청
+            $.ajax({
+                url: '{% url "group_administration:suggest_join" 0 %}'.replace('0', currentUserId),
+                type: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken // CSRF 토큰을 요청 헤더에 포함
+                },
+                data: {'user_id': userId},
+                success: function(response){
+                    // 서버로부터의 응답 처리
+                    alert(response.message); // 예시: 서버에서 전달한 메시지를 알림으로 표시
+                },
+                error: function(xhr, status, error){
+                    // 에러 처리
+                    console.error(error);
+                }
+            });
+        }
+    });
+});
+
+// CSRF 토큰을 가져오는 함수
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+{% endblock content %}
