@@ -1,0 +1,7 @@
+{% extends "group_administration/group_admin_base.html" %}
+
+{% block content %}
+  <input type="text" id="nickname" placeholder="사용자 닉네임을 입력하세요">
+  <input type="hidden" id="invitation-roomId-hidden" value="{{ room_id }}">
+  <div id="searchResults"></div>
+{% endblock content %}

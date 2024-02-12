@@ -1,0 +1,21 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{%static 'javascript/main.js'%}" defer></script>
+    <title>Document</title>
+</head>
+<body>
+    성공적으로 목표가 등록되었습니다!
+    <div>
+        <a href="{%url "group_management:start_creation"%}">그룹장</a>
+        <form action="{%url "goal_management:recommendation_page" goal_id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit">그룹원</button>
+        </form>
+    </div>
+</body>
+</html>

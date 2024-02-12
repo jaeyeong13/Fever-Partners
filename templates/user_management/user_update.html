@@ -1,0 +1,20 @@
+<h1>프로필 수정하기</h1>
+
+<form action="/update/{{user.id}}/" method="post">
+  {% csrf_token %}
+  <input name="nickname" placeholder="닉네임" value="{{user.nickname}}" />
+  <br />
+  <textarea name="profile" cols="30" rows="10" placeholder="프로필">
+{{user.profile}}</textarea
+  ><br />
+  <input name="region" placeholder="지역" value="{{user.region}}" /> <br />
+  <input
+    name="region_detail"
+    placeholder="상세 지역"
+    value="{{user.region_detail}}"
+  />
+  <br />
+  <div>
+    <input type="submit" value="수정완료" />
+  </div>
+</form>

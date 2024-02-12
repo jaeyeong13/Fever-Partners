@@ -15,14 +15,25 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", include("apps.user_management.urls")),
+    path('goal/', include('apps.goal_management.urls')),
+    path('group/', include('apps.group_management.urls')),
+    path("alarm/", include("apps.alarm.urls")),
+    path("accounts/", include("allauth.urls")),
+    path('accounts/', include('allauth.socialaccount.urls')),
+    path('board/', include('apps.free_board.urls')),
+    path('group_activity/', include("apps.group_activity.urls")),
+    path('group_admin/', include("apps.group_administration.urls")),
 ]
 
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # 개발 중에만 사용 (production에서는 웹 서버에서 처리하도록 하자)
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    알림들
+    <a href="/main">메인페이지</a>
+    <ul>
+        {% for alarm_data in alarms %}                                                              
+        <li>{{ alarm_data.alarm_from_nickname }}님이 그룹가입 제안 <a href="{% url 'alarm:alarm_detail' alarm_data.alarm.id%}">상세보기</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

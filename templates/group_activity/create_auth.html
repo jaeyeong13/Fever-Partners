@@ -1,0 +1,9 @@
+<p>인증 만들기(그룹장)</p>
+<form
+  action="{% url 'group_activity:create_auth' pk %}"
+  method="post"
+>
+  {%csrf_token%} {{form.as_p}}
+  <input type="hidden" name="room_id" value="{{ room.id }}" />
+  <button type="submit">인증개설</button>
+</form>

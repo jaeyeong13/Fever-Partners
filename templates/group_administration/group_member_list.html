@@ -1,0 +1,12 @@
+{% extends "group_administration/group_admin_base.html" %}
+
+{% block content %}
+{% for member in members.all %}
+    <div id="member-{{member.pk}}">
+        <h3>{{member.nickname}}</h3>
+        <a onclick="ExpelMemberConfirm({{member.pk}}, {{room_id}})">추방</a>
+        <a onclick="TransferMaster({{member.pk}}, {{room_id}})">관리장위임</a>
+    </div>
+{% endfor %}
+
+{% endblock content %}
