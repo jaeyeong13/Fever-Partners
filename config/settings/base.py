@@ -61,14 +61,6 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-SOCIALACCOUNT_PROVIDERS = {
-    'naver': {'APP': {
-                        'client_id': env("NAVER_CLIENT_ID"),
-                        'secret': env("NAVER_CLIENT_SECRET"),
-                        'key': ''
-                }},
-}
-
 LOGIN_REDIRECT_URL = '/update/start'   # social login redirect
 ACCOUNT_LOGOUT_REDIRECT_URL = '/start'  # logout redirect
 

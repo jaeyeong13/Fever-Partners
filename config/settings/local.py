@@ -20,3 +20,11 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+SOCIALACCOUNT_PROVIDERS = {
+    'naver': {'APP': {
+                        'client_id': env("NAVER_CLIENT_ID"),
+                        'secret': env("NAVER_CLIENT_SECRET"),
+                        'key': ''
+                }},
+}
