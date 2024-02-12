@@ -3,7 +3,6 @@ from .forms import *
 from django.contrib.auth import login,logout
 from .models import User
 from apps.alarm.models import Alarm
-from django.contrib.auth.decorators import login_required
 
 def start(request):
     return render(request, "user_management/start.html")
@@ -96,13 +95,11 @@ def main(request):
     return render(request, "user_management/main.html", ctx)
 
 #유저 정보(user detail)
-@login_required
-def detail(request):
-    user = request.user
+def detail(request, pk):
+    user = User.objects.get(id=pk)
     rooms_masters = user.rooms_managed.all()
     rooms_members = user.rooms_joined.all()
-    # 현재 로그인된 사용자와 연결된 알람만 가져오기
-    alarms = Alarm.objects.filter(alarm_to=user)
+    alarms = Alarm.objects.all()
     ctx = {
         'user':user,
         'rooms_members':rooms_members,
@@ -111,19 +108,16 @@ def detail(request):
     }
     return render(request, 'user_management/user_detail.html', ctx)
 
-@login_required
-def update(request):
-    user = request.user
+def update(request, pk):
+    user = User.objects.get(id=pk)
     if request.method == "POST":
         user.nickname = request.POST["nickname"]
         user.profile = request.POST["profile"]
+        #user.profile_image = request.POST["profile_image"]
         user.region = request.POST["region"]
         user.region_detail = request.POST["region_detail"]
-        if 'profile_image' in request.FILES:
-            user.profile_image = request.FILES['profile_image']
-
         user.save()
-        return redirect(f"/detail/")
+        return redirect(f"/detail/{pk}")
     ctx = {
         "user": user
     }
