@@ -97,36 +97,35 @@ def delete_room(request):
         return JsonResponse({'message': '폐쇄 작업이 성공적으로 완료되었습니다.'}, status=200)
     except Exception:
         return HttpResponse(status=400)
-    
-def invited_member(request, room_id):
-    master = Room.objects.get(pk=room_id).master
-    members = Room.objects.get(pk=room_id).members.exclude(pk=master.pk)
+
+@room_admin_required  
+def direct_invitation(request, room_id):
     cnt = {
-        'members':members,
         'room_id':room_id,
     }
-    return render(request, 'group_administration/group_invited_member.html', cnt)
+    return render(request, 'group_administration/direct_invitation.html', cnt)
 
-def search_user(request):
-    if request.method == 'GET':
-        query = request.GET.get('query')
-        if query:
-            results = User.objects.filter(nickname__icontains=query)
-            data = [{'id': user.id, 'nickname': user.nickname} for user in results]
-            print(data)
-            return JsonResponse({'results': data})
-        else:
-            return JsonResponse({'results': []})
-    else:
-        return JsonResponse({'error': 'GET 요청이 필요합니다.'}, status=400)
-    
-def suggest_join(request, user_id):
-    if request.method == 'POST':
-        room_id = request.POST.get('room_id') 
-        user = get_user_model().objects.get(pk=user_id)
+@room_admin_required
+def search_users(request, room_id):
+    nickname = request.GET.get('nickname')
+    User = get_user_model()
+    room_members = Room.objects.get(pk=room_id).members.all()
+    users = User.objects.filter(nickname__icontains=nickname).exclude(pk__in=room_members.values_list('pk', flat=True))
+    search_results = [{'nickname': user.nickname, 'id': user.pk} for user in users]
+
+    return JsonResponse(search_results, safe=False)
+
+@require_http_methods(["POST"])
+def suggest_join(request, room_id):
+    try:
+        data = json.loads(request.body)
+        user_id = data.get('user_id')
         room = get_object_or_404(Room, id=room_id)
-        # 새 알람 객체 생성 시 인스턴스로 변환된 사용자를 할당
-        Alarm.objects.create(alarm_from=request.user, alarm_to=user, room=room)
-        return redirect('/')
-    else:
-        return redirect('/')  # POST 요청이 아닌 경우 홈페이지로 리다이렉트
+        user = get_object_or_404(get_user_model(), id=user_id)
+        existing_alarm = Alarm.objects.filter(alarm_from=request.user, alarm_to=user, room=room).exists()
+        if existing_alarm:
+            return HttpResponse(status=403)
+        Alarm.objects.create(alarm_from=request.user, alarm_to=user, goal = None, room = room)
+        return HttpResponse(status=204)
+    except Exception:
+        return HttpResponse(status=400)
