@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from django.http import JsonResponse, HttpResponseNotFound, HttpResponse
+from django.http import JsonResponse, HttpResponseNotFound, HttpResponse, HttpResponseBadRequest
 
 from apps.alarm.models import Alarm
 from .models import *
@@ -167,13 +167,26 @@ def suggest_join(request, goal_id):
     else:
         return redirect('/')# POST 요청이 아닌 경우 홈페이지로 리다이렉트
 
+def show_achievement_report_list(request):
+    reports = AchievementReport.objects.all()
+    cnt = {
+        'reports':reports, 
+    }
+    return render(request, 'goal_management/achievement_report_main.html', cnt)
+
+def show_achievement_report_detail(request, achievement_id):
+    report = AchievementReport.objects.get(pk=achievement_id)
+    cnt = {
+        'report':report,
+    }
+    return render(request, 'goal_management/achievement_report_detail.html', cnt)
+
 # 접속자의 Goal이 아닌 경우 GET 요청까지 차단
 @goal_ownership_required
 def create_achievement_report(request, goal_id):
     if request.method == "POST":
         content = request.POST.get('content')
         image = request.FILES.get('image')
-
         try:
             goal = Goal.objects.get(pk=goal_id)
             AchievementReport.objects.create(goal=goal, content=content, image=image)
@@ -184,6 +197,8 @@ def create_achievement_report(request, goal_id):
             return HttpResponse(status=400)
     else:
         goal = Goal.objects.get(pk=goal_id)
+        if goal.is_completed:
+            return HttpResponseBadRequest('이미 보고가 작성된 목표입니다.')
         cnt = {
             'goal':goal,
         }

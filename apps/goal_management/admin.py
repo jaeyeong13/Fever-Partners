@@ -7,3 +7,4 @@ class TagAdmin(admin.ModelAdmin):
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Goal)
 admin.site.register(ActivityTag)
+admin.site.register(AchievementReport)

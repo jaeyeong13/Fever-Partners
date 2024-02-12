@@ -499,13 +499,13 @@ function SubmitAchievementReport(goal_id) {
   let isValid = true;
 
   if (content.trim() === '') {
-    goalDetailsWarning.innerHTML = '내용을 입력해주세요.';
+    achievementContentWarning.innerHTML = '내용을 입력해주세요.';
     isValid = false;
   }
   // 유효성 검사 끝
 
   if (isValid) {
-    fetch(window.location.origin + "/achievement_report" + goal_id, {
+    fetch(window.location.origin + "/goal/achievement_report/create/" + goal_id, {
       method: "POST",
       headers: {
         "X-CSRFToken": getCookie("csrftoken"),
@@ -514,7 +514,7 @@ function SubmitAchievementReport(goal_id) {
     })
       .then((response) => {
         if (response.ok) {
-        } else {
+          window.location.href = window.location.origin + "/goal/achievement_report/report_list";
         }
       })
       .catch((error) => {

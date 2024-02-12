@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css"
+    rel="stylesheet"
+    />
+    <title>Document</title>
+</head>
+<body>
+    <div>목표 : {{report.goal.title}}</div>
+    <div>내용 및 달성후기 : {{report.content}}</div>
+    {% if report.image %}
+        <img src="{{ report.image.url }}" alt="이미지">
+    {% endif %}
+    <br>
+    <div>이 아래 기능 완성안됨(Ajax처리 필요)</div>
+    <button><i class="ri-heart-add-line"></i></button>
+    <button><i class="ri-thumb-up-line"></i></button>
+    <button><i class="ri-thumb-down-line"></i></button>
+    <button><i class="ri-alarm-warning-line"></i></button>
+</body>
+</html>

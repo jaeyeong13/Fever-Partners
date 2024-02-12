@@ -32,7 +32,9 @@
             <p>대면 선호 : {{ goal.favor_offline }}</p>
             <a href="">수정</a>
             <a onclick="GoalDeletionConfirm({{goal.pk}})">삭제</a>
-            <a href="">목표 달성 보고(임시)</a>
+            {% if not goal.is_completed %}
+                <a href="{%url "goal_management:create_achievement_report" goal.pk %}">목표 달성 보고(임시)</a>
+            {% endif %}
         </div>
         {% endfor %}
     </main>
