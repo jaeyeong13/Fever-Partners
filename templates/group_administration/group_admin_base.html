@@ -28,17 +28,9 @@
     <div id="group-admin-headerbox">그룹 관리 페이지</div>
     <a onclick="GroupClosureConfirm({{room_id}})">방 폐쇄</a>
     <div>
-<<<<<<< HEAD
-      <a href="{%url 'group_administration:member_list' room_id %}"
-        >멤버 관리</a
-      >
-      <a href="{% url 'group_activity:verify' room_id %}">인증 수락</a>
-      <a href="">유저 초대</a>
-=======
         <a href="{%url "group_administration:member_list" room_id %}">멤버 관리</a>
-        <a href="">인증 수락</a>
+        <a href="{% url 'group_activity:verify' room_id %}">인증 수락</a>
         <a href="{%url "group_administration:direct_invitation" room_id %}">유저 초대</a>
->>>>>>> 243d95ca13013b898f3b9b25f6933971469421d8
     </div>
     <div id="group-admin-content">
       {% block content %} {% endblock content %}

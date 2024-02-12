@@ -74,7 +74,7 @@ def create_goal(request):
 @login_required
 def goal_list(request):
     user = request.user
-    goals = user.goal.all()
+    goals = user.goal.all().order_by('is_completed')
     ctx = {
         "goals": goals,
     }
