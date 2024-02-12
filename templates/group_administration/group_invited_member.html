@@ -1,10 +1,16 @@
 {% extends "group_administration/group_admin_base.html" %}
+
+{% load static %}
 {% block content %}
-<h2>멤버 초대</h2>
-<input type="text" id="search-user" placeholder="유저 닉네임을 입력하세요">
-<ul id="user-list">
-    <!-- 검색된 유저 목록이 여기에 동적으로 추가됩니다 -->
-</ul>
+<link rel="stylesheet" type="text/css" href="{% static 'css/minju.css' %}">
+
+<div class="i_m_d">
+    <p class="invite_user_p">유저 닉네임을 직접 입력해서 멤버를 초대하세요!</p>
+    <input type="text" id="search-user" placeholder="유저 닉네임을 입력하세요">
+    <ul id="user-list">
+        <!-- 검색된 유저 목록이 여기에 동적으로 추가됩니다 -->
+    </ul>
+</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
@@ -22,8 +28,8 @@ $(document).ready(function(){
                 $('#user-list').empty();
                 $.each(data.results, function(index, user){
                     if (user.id !== currentUserId) { // 현재 사용자와 동일한 ID인 경우 제외
-                        var listItem = '<li><span>' + user.nickname + '</span>' + 
-                        '<button class="invite-btn" data-user-id="' + user.id + '">초대하기</button></li>';
+                        var listItem = '<div class="i_m_l"><span>' + user.nickname + '</span>' + '&nbsp;' +
+                        '<button class="invite-btn" data-user-id="' + user.id + '">초대하기</button></div>';
                         $('#user-list').append(listItem);
                     }
                 });
