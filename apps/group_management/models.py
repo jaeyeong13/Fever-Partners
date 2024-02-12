@@ -16,3 +16,6 @@ class Room(models.Model):
     penalty_value = models.PositiveIntegerField(default=0)
     favor_offline = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.title
