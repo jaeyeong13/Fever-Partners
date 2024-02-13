@@ -52,8 +52,8 @@ header i::before {
 }
 
 #group-admin-content {
-    width: 100vw;
-    height: 100vh;
+    overflow-y: auto; /* 콘텐츠가 넘칠 경우 수직 스크롤이 가능하도록 설정 */
+    height: calc(100vh - 120px); /* 헤더와 푸터의 높이를 고려하여 설정하세요 */
 }
 .footer {
     display: flex;
@@ -95,7 +95,7 @@ header i::before {
     align-items: center;
 }
 .v_d {
-    margin-top: 4vh;
+    margin-top: 2.5vh;
     border: 1px solid var(--main-color);
     border-radius: 3px;
     width: 90vw;
