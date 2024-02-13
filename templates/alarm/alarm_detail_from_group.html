@@ -6,11 +6,10 @@
     <title>Document</title>
 </head>
 <body>
-    그룹제안 디테일 페이지
-    <p>{{ alarm.alarm_from.nickname }}님이 그룹가입 요청!</p>
-    <p>가입을 희망하는 그룹: {{ alarm.room.title }}</p>
-    <p>{{ alarm.alarm_from.nickname }}님의 목표</p>
-    <p>detail...~</p>
+    <div>그룹가입 제안 디테일 페이지</div>
+    <p>{{ alarm.alarm_from.nickname }}님의 그룹가입 제안</p>
+    <p>당신의 목표 '{{alarm.goal.title}}'을 눈여겨본 {{ alarm.alarm_from.nickname }}님이 그룹가입을 제안했습니다.</p>
+    <p>제안된 그룹: {{ alarm.room.title }}</p>
     <form method="POST" action="{% url 'alarm:accept_request' alarm.id %}">
         {% csrf_token %}
         <button type="submit">수락</button>

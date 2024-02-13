@@ -111,7 +111,7 @@ def search_users(request, room_id):
     User = get_user_model()
     room_members = Room.objects.get(pk=room_id).members.all()
     users = User.objects.filter(nickname__icontains=nickname).exclude(pk__in=room_members.values_list('pk', flat=True))
-    search_results = [{'nickname': user.nickname, 'id': user.pk} for user in users]
+    search_results = [{'nickname': user.nickname, 'id': user.pk, 'room_id': room_id} for user in users]
 
     return JsonResponse(search_results, safe=False)
 
