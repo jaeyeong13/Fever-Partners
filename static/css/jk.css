@@ -266,6 +266,81 @@
   height: 5em;
   margin-top: 5em;
 }
+
+
+
+/* 목표 등록 후 */
+#success-goal-container{
+  height: 90vh;
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
+}
+
+#success-goal-body{
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#choice-master-or-member{
+  display: flex;
+  gap: 5vw;
+}
+
+#group-master-text,
+#group-member-text{
+  width: 35vw;
+  text-align: center;
+}
+
+#group-master-text > a{
+  text-decoration: none;
+  color: #8B8B8B;
+  transition: 0.5s;
+}
+
+#group-member-text button{
+  border: 0;
+  outline: 0;
+  color: #8B8B8B;
+  background-color: white;
+  transition: 0.5s;
+}
+
+#group-master-text > a:hover,
+#group-member-text button:hover{
+  color: var(--main-color);
+}
+
+.bold-12em{
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+
+
+
+/* 그룹장이 방 생성하기 */
+
+#create-room-container{
+  height: 90vh;
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.group-form-setting{
+  display: flex;
+  flex-direction: column;
+  gap: 1.2vh;
+}
+
+
+
+
 /* =====footer===== */
 .footer {
   height: 10vh;
