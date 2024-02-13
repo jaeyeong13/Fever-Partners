@@ -9,9 +9,12 @@ from django.http import HttpResponse, JsonResponse
 from apps.group_administration.views import show_member_list
 from django.views.decorators.http import require_http_methods
 
+#room 중복되는 건 추후에 제거 할 예정
 def show_activity_main(request, room_id):
+    room = get_object_or_404(Room, id=room_id)
     ctx = {
-        'room_id':room_id,
+        'room_id': room.id,
+        'room':room,
     }
     return render(request, 'group_activity/group_activity_base.html', ctx)
 
@@ -104,10 +107,11 @@ def refuse_auth_log(request, pk):
 #현황(인증로그) 창으로 이동
 def show_log(request, pk):
     auth_log = MemberAuthentication.objects.filter(room=pk).filter(is_completed=True).order_by('-created_date')
-    
+    room = get_object_or_404(Room, id=pk)
     ctx = {
         'auth_log':auth_log,
         'room_id':pk,
+        'room':room,
     }
     return render(request, 'group_activity/show_log.html', ctx)
 
@@ -122,6 +126,7 @@ def show_member_list(request, room_id):
     cnt = {
         'room_id': room_id,
         'member_goal_pairs': member_goal_pairs,
+        'room': room,
     }
 
     return render(request, 'group_activity/member_list.html', cnt)

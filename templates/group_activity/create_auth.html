@@ -1,9 +1,28 @@
-<p>인증 만들기(그룹장)</p>
-<form
-  action="{% url 'group_activity:create_auth' pk %}"
-  method="post"
->
-  {%csrf_token%} {{form.as_p}}
-  <input type="hidden" name="room_id" value="{{ room.id }}" />
-  <button type="submit">인증개설</button>
-</form>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{%static 'css/reset.css' %}" />
+  <link rel="stylesheet" href="{%static 'css/jk.css' %}" />
+  <title>Document</title>
+</head>
+<body>
+  <form
+    action="{% url 'group_activity:create_auth' pk %}"
+    method="post"
+    class="create-auths"
+  >
+    {%csrf_token%}
+    {% for field in form %}
+      <div class="form-group">
+        {{ field.label }}
+        {{ field }}
+      </div>
+    {% endfor %}
+    <input type="hidden" name="room_id" value="{{ room.id }}" />
+    <button type="submit" class="auth-btn big-btn">인증개설</button>
+  </form>
+</body>
+</html>
