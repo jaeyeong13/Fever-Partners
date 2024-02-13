@@ -23,7 +23,10 @@ def alarm_detail(request, pk):
 def accept_request(request, alarm_id):
     alarm = get_object_or_404(Alarm, id=alarm_id)
     room = alarm.room
+    goal = alarm.goal
     room.members.add(alarm.alarm_to)
+    goal.belonging_group_id = room.pk
+    goal.save()
     alarm.delete()
 
     return redirect('alarm:show_alarms')

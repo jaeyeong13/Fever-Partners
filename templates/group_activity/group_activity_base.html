@@ -5,26 +5,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{%static 'css/reset.css' %}" />
+    <link rel="stylesheet" href="{%static 'css/jk.css' %}" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <script src="{%static 'javascript/main.js'%}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
     <title>그룹 활동 페이지</title>
-    <style>
-      #group-introbox {
-        display: flex;
-        align-items: center;
-        height: 100px;
-        width: 500px;
-        border: 1px solid black;
-      }
-
-      #group-activity-content {
-        width: 500px;
-        height: 400px;
-      }
-    </style>
+    <style></style>
   </head>
   <body>
-    <header>HEADER</header>
     <div id="group-introbox">
       그룹 소개 문구 공간
       <a
@@ -34,11 +23,11 @@
       >
       <a onclick="WithdrawalConfirm({{user.pk}}, {{room_id}})">탈퇴하기</a>
     </div>
-    <div>
+    <div id="group-select-activity-list">
       <a href="{%url 'group_activity:member_list' room_id%}">멤버</a>
       <a href="{% url 'group_activity:activate' room_id %}">인증 공간</a>
       <a href="{% url 'group_activity:show_log' room_id %}">활동 현황</a>
-      <a href="{% url 'free_board:list' %}">자유게시판</a>
+      <a href="{% url 'free_board:list' room_id %}">게시판</a>
     </div>
     <div id="group-activity-content">
       {% block content %} {% endblock content %}

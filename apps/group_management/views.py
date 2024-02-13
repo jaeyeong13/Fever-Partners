@@ -71,7 +71,7 @@ def recommend_member(request, room_id):
     room = Room.objects.get(pk=room_id)
     tag_ids = [tag.id for tag in room.tags.all()]
     activity_tags_ids = [tag.id for tag in room.activityTags.all()]
-    alarms = Alarm.objects.filter(room__pk=room_id)
+    alarms = Alarm.objects.filter(room__pk=room_id).exclude(goal=None)
     is_pending = [alarm.goal.pk for alarm in alarms]
 
     must_queries = []

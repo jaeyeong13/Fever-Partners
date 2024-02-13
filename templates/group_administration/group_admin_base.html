@@ -34,14 +34,16 @@
   </head>
   <body>
     <header>
+    <a class="go_back" href="{% url 'group_activity:main_page' room_id=room.id %}">
       <i class="ri-arrow-left-s-line"></i>
+    </a>
       <p class="room-title">{{ room.title }}</p>
       <i class="ri-arrow-left-s-line hide-arrow"></i>
     </header>
     <div class="nav">
       <a href="{%url 'group_administration:member_list' room_id %}">멤버 관리</a>
       <a href="{% url 'group_activity:verify' room_id %}">인증 수락</a>
-      <a href="{%url "group_administration:invited_member" room_id %}">유저 초대</a>
+      <a href="{%url "group_administration:direct_invitation" room_id %}">유저 초대</a>
       <a onclick="GroupClosureConfirm({{room_id}})">방 폐쇄</a>
     </div>
     <div id="group-admin-content">
