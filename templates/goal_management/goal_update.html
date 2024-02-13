@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class='temp-space'>Header+Introbox</div>
-<div class='field-title'>카테고리를 선택해보세요!</div>
+<div class='field-title'>카테고리를 선택해보세요!!</div>
 
 <form action="{%url 'goal_management:create_goal'%}" method="post" onsubmit="return validateForm()">
     {% csrf_token %}

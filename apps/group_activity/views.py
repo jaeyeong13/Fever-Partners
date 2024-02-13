@@ -8,6 +8,7 @@ import json
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_http_methods
 
+#room 중복되는 건 추후에 제거 할 예정
 def show_activity_main(request, room_id):
     room = Room.objects.get(pk=room_id)
     ctx = {
@@ -161,6 +162,7 @@ def show_member_list(request, room_id):
     cnt = {
         'room_id': room_id,
         'member_goal_pairs': member_goal_pairs,
+        'room': room,
     }
 
     return render(request, 'group_activity/member_list.html', cnt)
