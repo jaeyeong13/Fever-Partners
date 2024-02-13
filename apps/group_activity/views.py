@@ -86,6 +86,9 @@ def verify(request, pk):
 #인증 수락을 눌렀을 때
 def accept_auth_log(request, pk):
     memberAuthentication = MemberAuthentication.objects.get(id=pk)
+    user =  memberAuthentication.user
+    user.fuel = add_fever(user.fuel)
+    user.save()
     memberAuthentication.is_auth = True
     memberAuthentication.is_completed = True
     memberAuthentication.save()
@@ -96,10 +99,35 @@ def accept_auth_log(request, pk):
 #인증 거절을 눌렀을 때
 def refuse_auth_log(request, pk):
     memberAuthentication = MemberAuthentication.objects.get(id=pk)
+    user =  memberAuthentication.user
+    user.fuel = loss_fever(user.fuel)
+    user.save()
     memberAuthentication.is_completed = True
     memberAuthentication.save()
 
     return redirect('group_activity:verify', memberAuthentication.room.id)
+
+def add_fever(fever):
+    if 0 <= fever <= 25:
+        fever_after = fever + 5
+    elif 25 < fever <= 50:
+        fever_after = fever + 1
+    elif 50 < fever <= 75:
+        fever_after = fever + 0.5
+    elif 75 < fever <= 100:
+        fever_after = max(100, fever + 0.1)
+    return fever_after
+
+def loss_fever(fever):
+    if 0 <= fever <= 25:
+        fever_after = max(0, fever - 1)
+    elif 25 < fever <= 50:
+        fever_after = fever - 3
+    elif 50 < fever <= 75:
+        fever_after = fever - 5
+    elif 75 < fever <= 100:
+        fever_after = fever - 10
+    return fever_after
 
 #현황(인증로그) 창으로 이동
 def show_log(request, pk):
