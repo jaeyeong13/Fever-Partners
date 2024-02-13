@@ -104,12 +104,13 @@ def update(request, pk):
     if request.method == "POST":
         user.nickname = request.POST["nickname"]
         user.profile = request.POST["profile"]
-        #user.profile_image = request.POST["profile_image"]
+        user.profile_image = request.POST["profile_image"]
         user.region = request.POST["region"]
         user.region_detail = request.POST["region_detail"]
         user.save()
         return redirect(f"/detail/{pk}")
-    ctx = {
-        "user": user
+    form = UserUpdateForm(instance=user)
+    cnt = {
+        'form':form,
     }
-    return render(request, 'user_management/user_update.html', ctx)
+    return render(request, 'user_management/user_update.html', cnt)
