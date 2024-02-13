@@ -63,6 +63,14 @@
   text-decoration: none;
 }
 
+.selected-group-tab{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-weight: bolder;
+  border-bottom: 4px solid black;
+}
+
 #group-activity-content {
   height: 46vh;
 }
@@ -157,9 +165,11 @@
   text-decoration: none;
 }
 
-.auth-btn{
+.red-btn{
   padding: 0.3em 0.5em;
   border-radius: 5px;
+  background-color: var(--main-color);
+  color: white;
 }
 
 .create-auth-btn{
@@ -247,7 +257,7 @@
   font-size: 3em;
 }
 
-.auth-btn{
+.red-btn{
   background-color: var(--main-color);
   color: white;
 }
@@ -258,7 +268,7 @@
 }
 /* =====footer===== */
 .footer {
-  height: 7vh;
+  height: 10vh;
   display: flex;
   justify-content: space-around;
   align-items: center;

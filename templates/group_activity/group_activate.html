@@ -11,7 +11,7 @@
     <div class="activate-auth-bottom">
       <p class="auth-timer" data-auth-id="{{ auth.id }}"><span class="gray-08em">남은 시간</span> 00:00:00</p>
       {% if master %}
-        <a href="{% url 'group_activity:create_authentication' room.pk %}" class="auth-btn-style auth-btn">인증하기</a>
+        <a href="{% url 'group_activity:create_authentication' room.pk %}" class="auth-btn-style red-btn">인증하기</a>
       {% endif %}
     </div>
   </div>

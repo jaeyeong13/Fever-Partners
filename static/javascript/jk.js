@@ -1,3 +1,18 @@
+function changeTab(tabName, event) {
+    //event.preventDefault(); <===== 추후에 추가하고 컨텐츠들 ajax 처리
+
+    // 모든 링크에서 selected 클래스 제거
+    var links = document.querySelectorAll('#group-select-activity-list a');
+    links.forEach(function(link) {
+      link.classList.remove('selected-group-tab');
+    });
+  
+    // 클릭한 링크에 selected 클래스 추가
+    var selectedLink = event.currentTarget;
+    selectedLink.classList.add('selected-group-tab');
+  }
+
+//타이머 관련 코드.. 문제 많음
 function displayRemainingTime(targetDate, authId) {
     const now = new Date();
     const endDate = new Date(targetDate);
