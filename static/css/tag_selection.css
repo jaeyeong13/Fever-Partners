@@ -1,3 +1,9 @@
+:root {
+    --main-color: #db4455;
+    --gray: #838383;
+    --red: #EB0000;
+    --green: #00AD26;
+  }
 /* Tag에 대한 일반 설정 부분(추후 충돌날 수 있음) */
 
 a {
@@ -19,7 +25,7 @@ input[type="radio"] {
 input[type="checkbox"]:checked + label,
 input[type="radio"]:checked + label {
     font-weight: bold;
-    color: blue;
+    color: var(--main-color);
 }
 
 input[type="checkbox"]:focus + label,
@@ -30,31 +36,63 @@ input[type="radio"]:focus + label {
 /* ------------------------------------------------- */
 
 /* 추후 삭제될 부분 */
-.temp-space {
-    height: 20vh;
-    margin: 20px;
-    border: 1px solid black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    font-weight: bold;
-}
+
 
 .warning {
     color: red;
     font-size: 12px;
 }
 
-.field-title {
+.goal-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 5vh;
+}
+
+.black-08em-bold {
+    font-weight: bold;
+    font-size: 0.8em;
+    color: black;
+    border-bottom: 1px solid black;
+}
+
+.choice-on-off{
+    display: flex;
+    gap: 15vw;
+}
+
+.choice-on-off > label{
     font-size: 20px;
     font-weight: bold;
-    margin: 20px 0;
 }
 
 #center-wrap {
     display: flex;
+    justify-content: center;
+}
+
+#goal-setting-container{
+    display: flex;
+    width: 90vw;
+    height: 90vh;
     flex-direction: column;
+}
+
+#goal-header{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2vh;
+}
+
+.main-color-text{
+    color:var(--main-color);
+}
+
+.goal-form-setting{
+    display: flex;
+    flex-direction: column;
+    gap: 0.8vh;
 }
 
 #tag-container {
@@ -66,12 +104,9 @@ input[type="radio"]:focus + label {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 30px;
-    border-right: 1px solid #e2e2e2;
-    padding-right: 20px;
-    padding-left: 20px;
-    margin-top: 30px;
-    height: 40vh;
+    gap: 1vh;
+    margin-top: 2vh;
+    height: 25vh;
     font-size: 20px;
     font-weight: bold;
 }
@@ -81,11 +116,18 @@ input[type="radio"]:focus + label {
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
-    gap: 30px;
-    border-right: 1px solid #e2e2e2;
-    padding-right: 20px;
-    padding-left: 20px;
-    margin-top: 30px;
+    gap: 2vh;
+    margin-top: 2vh;
     font-size: 20px;
     font-weight: bold;
+    color: #8B8B8B;
+}
+
+#acttag-container{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.goal-btn{
+    width: 100%;
 }

@@ -7,10 +7,45 @@
 
 #group-introbox {
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: space-around;
   background-color: var(--main-color);
   color: white;
   height: 35vh;
+}
+
+#group-intro-text{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}
+
+.white-title{
+  font-weight: bold;
+  font-size: 3em;
+  color: white;
+}
+
+.group-intro-tag{
+  display: flex;
+  gap: 1em;
+}
+
+#group-admin-or-withdraw{
+  display: flex;
+  gap: 1em;
+}
+
+.group-btn{
+  color: var(--main-color);
+  background-color: white;
+  font-size: 0.8em;
+  text-decoration: none;
+  padding: 0.3em 0.5em;
+  border-radius: 5px;
+  font-weight: bold;
 }
 
 #group-select-activity-list {
@@ -28,15 +63,16 @@
   text-decoration: none;
 }
 
-#group-activity-content {
-  height: 46vh;
+.selected-group-tab{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-weight: bolder;
+  border-bottom: 4px solid black;
 }
 
-footer {
-  height: 10vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+#group-activity-content {
+  height: 46vh;
 }
 
 #auth-logs{
@@ -44,6 +80,8 @@ footer {
   flex-direction: column;
   gap: 1em;
   margin: 2vh ;
+  height: 100%;
+  overflow-y: scroll;
 }
 
 .auth-log{
@@ -51,6 +89,7 @@ footer {
   border-radius: 8px;
   font-size: 1.2em;
   font-weight: bold;
+  box-shadow: 2px 2px var(--main-color);
 }
 
 .auth-text{
@@ -74,6 +113,11 @@ footer {
   font-size: 0.8em;
 }
 
+.main-color-08em{
+  color: var(--main-color);
+  font-size: 0.8em;
+}
+
 .main-color-bold{
   color: var(--main-color);
 }
@@ -84,4 +128,250 @@ footer {
 
 .auth-fail{
   color: var(--red);
+}
+
+/*group_activate.html*/
+#activate-auths{
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  margin: 2vh ;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.activate-auth{
+  border: 1px solid var(--main-color);
+  border-radius: 8px;
+  font-size: 1.2em;
+  font-weight: bold;
+  box-shadow: 2px 2px var(--main-color);
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+  padding: 0.5em;
+}
+
+.activate-auth-bottom{
+  display: flex;
+  justify-content: space-between;;
+  align-items: center;
+}
+
+.auth-btn-style{
+  color: white;
+  background-color: var(--main-color);
+  font-size: 0.8em;
+  text-decoration: none;
+}
+
+.red-btn{
+  padding: 0.3em 0.5em;
+  border-radius: 5px;
+  background-color: var(--main-color);
+  color: white;
+}
+
+.create-auth-btn{
+  height: 2em;
+  width: 2em;
+  font-size: 1.4em;
+  font-weight: bold;
+  text-align: center;
+  padding: 0.5em;
+  border-radius: 0.8em;
+  position: absolute;
+  top: 78%;
+  left: 80%;
+}
+
+#auth-restart{
+  display: flex;
+  justify-content: flex-end;
+  text-decoration: none;
+}
+
+.fa-rotate-right{
+  color: var(--gray);
+}
+
+/* member_list.html */
+#group-member-list{
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  margin: 2vh ;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+#member-list-text{
+  color: var(--main-color);
+  font-size: 2.5em;
+  font-weight: bold;
+  text-shadow: 0.05em 0.05em 5px var(--gray);
+}
+
+.group-member-intro{
+  border: 2px solid var(--main-color);
+  border-radius: 8px;
+  display: flex;
+}
+
+.member-intro-text{
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  justify-content: center;
+}
+
+.profile-image-group{
+  height: 5em;
+  width: 5em;
+  border: 1px solid var(--main-color);
+  border-radius: 50%;
+  margin: 1em;
+}
+/* forms.py */
+
+.create-auths{
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+
+.form-group{
+  display: flex;
+  flex-direction: column;
+  margin: 2em;
+  gap: 0.5em;
+  font-weight: bold;
+}
+
+.auth-info-text{
+  margin: 2em;
+}
+
+.black-bold{
+  font-weight: bold;
+  font-size: 3em;
+}
+
+.red-btn{
+  background-color: var(--main-color);
+  color: white;
+}
+
+.big-btn{
+  height: 5em;
+  margin-top: 5em;
+}
+
+
+
+/* 목표 등록 후 */
+#success-goal-container{
+  height: 90vh;
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
+}
+
+#success-goal-body{
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#choice-master-or-member{
+  display: flex;
+  gap: 5vw;
+}
+
+#group-master-text,
+#group-member-text{
+  width: 35vw;
+  text-align: center;
+}
+
+#group-master-text > a{
+  text-decoration: none;
+  color: #8B8B8B;
+  transition: 0.5s;
+}
+
+#group-member-text button{
+  border: 0;
+  outline: 0;
+  color: #8B8B8B;
+  background-color: white;
+  transition: 0.5s;
+}
+
+#group-master-text > a:hover,
+#group-member-text button:hover{
+  color: var(--main-color);
+}
+
+.bold-12em{
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+
+
+
+/* 그룹장이 방 생성하기 */
+
+#create-room-container{
+  height: 90vh;
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.group-form-setting{
+  display: flex;
+  flex-direction: column;
+  gap: 1.2vh;
+}
+
+
+
+
+/* =====footer===== */
+.footer {
+  height: 10vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px;
+  background-color: #f2f2f2;
+  position: sticky;
+}
+
+.footer-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.footer-icon {
+  font-size: 30px; 
+  color: #db4455;
+  margin-bottom: 10px;
+}
+
+.footer-text {
+  color: #db4455;
+  font-size: 16px;
+	font-style: italic;
+}
+
+.footer-link {
+  text-decoration: none;
+  display: inline;
 }
