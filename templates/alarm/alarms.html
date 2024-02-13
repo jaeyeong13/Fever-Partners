@@ -9,8 +9,16 @@
     알림들
     <a href="/main">메인페이지</a>
     <ul>
-        {% for alarm_data in alarms %}                                                              
-        <li>{{ alarm_data.alarm_from_nickname }}님이 그룹가입 제안 <a href="{% url 'alarm:alarm_detail' alarm_data.alarm.id%}">상세보기</a></li>
+        {% for alarm in alarms %}  
+        {% if alarm.room.master == user %}
+            <li>{{ alarm.alarm_from.nickname}}님이 그룹가입 신청 <a href="{% url 'alarm:alarm_detail_as_master' alarm.pk%}">상세보기</a></li>
+        {% else %}
+            {% if alarm.goal %}
+                <li>{{ alarm.alarm_from.nickname}}님이 그룹가입 제안 <a href="{% url 'alarm:alarm_detail_as_user' alarm.pk%}">상세보기</a></li>                             
+            {% else %}
+                <li>{{ alarm.alarm_from.nickname}}님이 그룹에 직접 초대 <a href="{% url 'alarm:alarm_detail_direct' alarm.pk%}">상세보기</a></li> 
+            {% endif %}
+        {% endif %}
         {% endfor %}
     </ul>
 </body>

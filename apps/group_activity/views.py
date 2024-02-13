@@ -11,10 +11,10 @@ from django.views.decorators.http import require_http_methods
 
 #room 중복되는 건 추후에 제거 할 예정
 def show_activity_main(request, room_id):
-    room = get_object_or_404(Room, id=room_id)
+    room = Room.objects.get(pk=room_id)
     ctx = {
-        'room_id': room.id,
-        'room':room,
+        'room_id':room_id,
+        'room': room,
     }
     return render(request, 'group_activity/group_activity_base.html', ctx)
 
@@ -79,16 +79,21 @@ def create_authentication(request, pk):
 @login_required
 def verify(request, pk):
     memberAuthentication = MemberAuthentication.objects.filter(room=pk).filter(is_completed=False)
-    
+    room_id = pk
+    room = Room.objects.get(pk = room_id)
     ctx = {
         'memberAuthentication':memberAuthentication,
         'room_id':pk,
+        'room':room,
     }
     return render(request, 'group_activity/verifying_auth.html', ctx)
 
 #인증 수락을 눌렀을 때
 def accept_auth_log(request, pk):
     memberAuthentication = MemberAuthentication.objects.get(id=pk)
+    user =  memberAuthentication.user
+    user.fuel = add_fever(user.fuel)
+    user.save()
     memberAuthentication.is_auth = True
     memberAuthentication.is_completed = True
     memberAuthentication.save()
@@ -99,10 +104,35 @@ def accept_auth_log(request, pk):
 #인증 거절을 눌렀을 때
 def refuse_auth_log(request, pk):
     memberAuthentication = MemberAuthentication.objects.get(id=pk)
+    user =  memberAuthentication.user
+    user.fuel = loss_fever(user.fuel)
+    user.save()
     memberAuthentication.is_completed = True
     memberAuthentication.save()
 
     return redirect('group_activity:verify', memberAuthentication.room.id)
+
+def add_fever(fever):
+    if 0 <= fever <= 25:
+        fever_after = fever + 5
+    elif 25 < fever <= 50:
+        fever_after = fever + 1
+    elif 50 < fever <= 75:
+        fever_after = fever + 0.5
+    elif 75 < fever <= 100:
+        fever_after = max(100, fever + 0.1)
+    return fever_after
+
+def loss_fever(fever):
+    if 0 <= fever <= 25:
+        fever_after = max(0, fever - 1)
+    elif 25 < fever <= 50:
+        fever_after = fever - 3
+    elif 50 < fever <= 75:
+        fever_after = fever - 5
+    elif 75 < fever <= 100:
+        fever_after = fever - 10
+    return fever_after
 
 #현황(인증로그) 창으로 이동
 def show_log(request, pk):

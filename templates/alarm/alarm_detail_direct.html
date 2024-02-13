@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>그룹가입 제안 디테일 페이지</div>
+    <p>{{ alarm.alarm_from.nickname }}님의 그룹가입 제안</p>
+    <p>{{ alarm.alarm_from.nickname }}님이 그룹에 직접 초대하셨습니다. 가입을 원하시면 목표를 설정해주세요.</p>
+    <p>제안된 그룹: {{ alarm.room.title }}</p>
+    <form method="POST" action="{% url 'alarm:accept_direct_request' alarm.id %}">
+        {% csrf_token %}
+        <select name="goal" id="goal" required>
+        {% for goal in goals %}
+            <option value="{{ goal.id }}">{{ goal.title }}</option>
+        {% endfor %}
+        </select>
+        <button type="submit">수락</button>
+    </form>
+    <form method="POST" action="{% url 'alarm:reject_request' alarm.id %}">
+        {% csrf_token %}
+        <button type="submit">거절</button>
+    </form>
+</body>
+</html>

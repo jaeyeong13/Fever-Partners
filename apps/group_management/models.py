@@ -17,5 +17,5 @@ class Room(models.Model):
     favor_offline = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
 
-    def __str__(self):
-        return self.title
+    # def __str__(self):
+    #     return self.title
