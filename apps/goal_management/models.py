@@ -15,7 +15,7 @@ class ActivityTag(models.Model):
         return self.tag_name
 
 class Goal(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='goal', null=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='goal')
     tags = models.ManyToManyField(Tag, default=None)
     activityTags = models.ManyToManyField(ActivityTag, default=None)
     title = models.CharField(max_length=50)
@@ -33,7 +33,7 @@ class AchievementReport(models.Model):
     reacted_respectful = models.ManyToManyField(get_user_model(), default=None, related_name='respected_reports')
     reacted_dislike = models.ManyToManyField(get_user_model(), default=None, related_name='disliked_reports')
 
-# 아래는 혹시 몰라서 미리 정의해놓은 모델들 
+# 아래는 혹시 몰라서 미리 정의해놓은 모델들
 
 class UserReport(models.Model):
     reporter = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='report')

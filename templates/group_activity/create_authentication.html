@@ -1,9 +1,5 @@
-<form
-  action="{% url 'group_activity:create_authentication' pk %}"
-  method="post"
-  enctype="multipart/form-data"
->
-  {%csrf_token%} {{form.as_p}}
-  <input type="hidden" name="room_id" value="{{ room.id }}" />
+<form action="{% url 'group_activity:create_authentication' room_id auth_id %}" method="post" enctype="multipart/form-data">
+  {%csrf_token%} 
+  {{form.as_p}}
   <button type="submit">인증완료</button>
 </form>
