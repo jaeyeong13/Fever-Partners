@@ -15,18 +15,22 @@ from django.contrib.auth.decorators import login_required
 # 이 부분 나중에 수정되어야 함
 @room_admin_required
 def show_admin_page(request, room_id):
+    room = Room.objects.get(pk = room_id)
     ctx = {
         'room_id':room_id,
+        'room' : room,
     }
     return render(request, 'group_administration/group_admin_base.html', ctx)
 
 @room_admin_required
 def show_member_list(request, room_id):
+    room = Room.objects.get(pk = room_id)
     master = Room.objects.get(pk=room_id).master
     members = Room.objects.get(pk=room_id).members.exclude(pk=master.pk)
     cnt = {
         'members':members,
         'room_id':room_id,
+        'room' : room,
     }
     return render(request, 'group_administration/group_member_list.html', cnt)
 
@@ -100,8 +104,10 @@ def delete_room(request):
 
 @room_admin_required  
 def direct_invitation(request, room_id):
+    room = Room.objects.get(pk=room_id)
     cnt = {
         'room_id':room_id,
+        'room': room,
     }
     return render(request, 'group_administration/direct_invitation.html', cnt)
 

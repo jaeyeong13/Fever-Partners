@@ -1,7 +1,13 @@
 {% extends "group_administration/group_admin_base.html" %}
+{% load static %}
 
 {% block content %}
-  <input type="text" id="nickname" placeholder="사용자 닉네임을 입력하세요">
+<link rel="stylesheet" type="text/css" href="{% static 'css/minju.css' %}">
+<div class="i_m_d">
+  <p class="invite_user_p">유저 닉네임을 직접 입력해서 멤버를 초대하세요!</p>
+  <input type="text" id="nickname" placeholder="유저 닉네임을 입력하세요">
   <input type="hidden" id="invitation-roomId-hidden" value="{{ room_id }}">
   <div id="searchResults"></div>
+</div>
+
 {% endblock content %}

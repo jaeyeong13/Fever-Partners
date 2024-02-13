@@ -10,8 +10,10 @@ from apps.group_administration.views import show_member_list
 from django.views.decorators.http import require_http_methods
 
 def show_activity_main(request, room_id):
+    room = Room.objects.get(pk=room_id)
     ctx = {
         'room_id':room_id,
+        'room': room,
     }
     return render(request, 'group_activity/group_activity_base.html', ctx)
 
@@ -76,10 +78,12 @@ def create_authentication(request, pk):
 @login_required
 def verify(request, pk):
     memberAuthentication = MemberAuthentication.objects.filter(room=pk).filter(is_completed=False)
-    
+    room_id = pk
+    room = Room.objects.get(pk = room_id)
     ctx = {
         'memberAuthentication':memberAuthentication,
         'room_id':pk,
+        'room':room,
     }
     return render(request, 'group_activity/verifying_auth.html', ctx)
 

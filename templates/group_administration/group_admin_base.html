@@ -7,34 +7,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="{%static 'javascript/main.js'%}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
-    <title>그룹 활동 페이지</title>
-    <style>
-      #group-admin-headerbox {
-        display: flex;
-        align-items: center;
-        height: 100px;
-        width: 500px;
-        border: 1px solid black;
-      }
-
-      #group-admin-content {
-        width: 500px;
-        height: 400px;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/minju.css' %}">
+    <script src="https://kit.fontawesome.com/aa0228ade6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/2.5.0/remixicon.css">
+    <title>그룹 활동 페이지</title> 
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        var links = document.getElementsByTagName("a");
+      
+        for (let i = 0; i < links.length; i++) {
+          links[i].addEventListener("click", function() {
+            for (var j = 0; j < links.length; j++) {
+              links[j].style.color = ""; 
+            }
+            this.style.color = "#db4455";
+            sessionStorage.setItem('activeLink', i);
+          });
+        }
+        var activeLink = sessionStorage.getItem('activeLink');
+        if (activeLink !== null && links[activeLink]) {
+          links[activeLink].style.color = "#db4455";
+        }
+      });
+      </script>
+      
   </head>
   <body>
-    <header>HEADER</header>
-    <div id="group-admin-headerbox">그룹 관리 페이지</div>
-    <a onclick="GroupClosureConfirm({{room_id}})">방 폐쇄</a>
-    <div>
-        <a href="{%url "group_administration:member_list" room_id %}">멤버 관리</a>
-        <a href="{% url 'group_activity:verify' room_id %}">인증 수락</a>
-        <a href="{%url "group_administration:direct_invitation" room_id %}">유저 초대</a>
+    <header>
+    <a class="go_back" href="{% url 'group_activity:main_page' room_id=room.id %}">
+      <i class="ri-arrow-left-s-line"></i>
+    </a>
+      <p class="room-title">{{ room.title }}</p>
+      <i class="ri-arrow-left-s-line hide-arrow"></i>
+    </header>
+    <div class="nav">
+      <a href="{%url 'group_administration:member_list' room_id %}">멤버 관리</a>
+      <a href="{% url 'group_activity:verify' room_id %}">인증 수락</a>
+      <a href="{%url "group_administration:direct_invitation" room_id %}">유저 초대</a>
+      <a onclick="GroupClosureConfirm({{room_id}})">방 폐쇄</a>
     </div>
     <div id="group-admin-content">
       {% block content %} {% endblock content %}
     </div>
-    <footer>FOOTER</footer>
+    <div class="footer">
+      <a href="#" class="footer-link" style="display: flex;">
+        <div class="footer-item">
+          <i class="fa-solid fa-user-group footer-icon"></i>
+          <div class="footer-text">Group</div>
+        </div>
+      </a>
+      <a href="#" class="footer-link" style="display: flex;">
+        <div class="footer-item">
+          <i class="fa-solid fa-bullseye footer-icon"></i>
+          <div class="footer-text">MyGoal</div>
+        </div>
+      </a>
+      <a href="#" class="footer-link" style="display: flex;">
+        <div class="footer-item">
+          <i class="ri-file-list-3-line footer-icon"></i>
+          <div class="footer-text">null</div>     <!-- 이 부분 이름은 나중에 수정 필요 -->
+        </div>
+      </a>
+    </div>
   </body>
 </html>
