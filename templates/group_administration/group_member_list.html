@@ -1,7 +1,6 @@
 {% extends "group_administration/group_admin_base.html" %}
 
 {% block content %}
-
 {% for member in members.all %}
     <div id="member-{{member.pk}}">
         <h3>{{member.nickname}}</h3>

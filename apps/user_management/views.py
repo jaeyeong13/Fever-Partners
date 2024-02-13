@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import *
 from django.contrib.auth import login,logout
 from .models import User
-from apps.alarm.models import Alarm
+from django.contrib.auth.decorators import login_required
 
 def start(request):
     return render(request, "user_management/start.html")
@@ -95,18 +95,9 @@ def main(request):
     return render(request, "user_management/main.html", ctx)
 
 #유저 정보(user detail)
+@login_required
 def detail(request, pk):
-    user = User.objects.get(id=pk)
-    rooms_masters = user.rooms_managed.all()
-    rooms_members = user.rooms_joined.all()
-    alarms = Alarm.objects.all()
-    ctx = {
-        'user':user,
-        'rooms_members':rooms_members,
-        'rooms_masters':rooms_masters,
-        'alarms':alarms,
-    }
-    return render(request, 'user_management/user_detail.html', ctx)
+    return render(request, 'user_management/user_detail.html')
 
 def update(request, pk):
     user = User.objects.get(id=pk)

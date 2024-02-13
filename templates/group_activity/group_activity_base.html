@@ -42,7 +42,7 @@
       <a href="{%url 'group_activity:member_list' room_id%}">멤버</a>
       <a href="{% url 'group_activity:activate' room_id %}">인증 공간</a>
       <a href="{% url 'group_activity:show_log' room_id %}">활동 현황</a>
-      <a href="{% url 'free_board:list' %}">자유게시판</a>
+      <a href="{% url 'free_board:list' room_id %}">게시판</a>
     </div>
     <div id="group-activity-content">
       {% block content %} {% endblock content %}

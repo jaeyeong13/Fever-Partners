@@ -1,5 +1,9 @@
-from django.shortcuts import render, redirect
-from apps.group_management.models import Room
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib.auth import get_user_model
+from elastic_transport import Serializer
+from apps.alarm.models import Alarm
+from apps.goal_management.models import Goal
+from apps.group_management.models import Room, User
 from django.views.decorators.http import require_http_methods
 from django.http import JsonResponse, HttpResponse
 import json
@@ -91,5 +95,37 @@ def delete_room(request):
         room.delete()
 
         return JsonResponse({'message': '폐쇄 작업이 성공적으로 완료되었습니다.'}, status=200)
+    except Exception:
+        return HttpResponse(status=400)
+
+@room_admin_required  
+def direct_invitation(request, room_id):
+    cnt = {
+        'room_id':room_id,
+    }
+    return render(request, 'group_administration/direct_invitation.html', cnt)
+
+@room_admin_required
+def search_users(request, room_id):
+    nickname = request.GET.get('nickname')
+    User = get_user_model()
+    room_members = Room.objects.get(pk=room_id).members.all()
+    users = User.objects.filter(nickname__icontains=nickname).exclude(pk__in=room_members.values_list('pk', flat=True))
+    search_results = [{'nickname': user.nickname, 'id': user.pk} for user in users]
+
+    return JsonResponse(search_results, safe=False)
+
+@require_http_methods(["POST"])
+def suggest_join(request, room_id):
+    try:
+        data = json.loads(request.body)
+        user_id = data.get('user_id')
+        room = get_object_or_404(Room, id=room_id)
+        user = get_object_or_404(get_user_model(), id=user_id)
+        existing_alarm = Alarm.objects.filter(alarm_from=request.user, alarm_to=user, room=room).exists()
+        if existing_alarm:
+            return HttpResponse(status=403)
+        Alarm.objects.create(alarm_from=request.user, alarm_to=user, goal = None, room = room)
+        return HttpResponse(status=204)
     except Exception:
         return HttpResponse(status=400)

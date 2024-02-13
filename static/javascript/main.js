@@ -480,6 +480,95 @@ function GroupClosureConfirm(room_id) {
   });
 }
 
+function SubmitAchievementReport(goal_id) {
+  const content = document.getElementById('achievement-report-content').value;
+  const image = document.getElementById('achievement-report-image').files[0];
+  
+  const formData = new FormData();
+  formData.append('content', content);
+  if (image) {
+    formData.append('image', image);
+  }
+
+  const achievementContentWarning = document.getElementById(
+    "achievement-content-warning"
+  );
+  achievementContentWarning.innerHTML = "";
+  
+  // 유효성 검사 => Goal은 자동입력, 사진은 선택 첨부
+  let isValid = true;
+
+  if (content.trim() === '') {
+    achievementContentWarning.innerHTML = '내용을 입력해주세요.';
+    isValid = false;
+  }
+  // 유효성 검사 끝
+
+  if (isValid) {
+    fetch(window.location.origin + "/goal/achievement_report/create/" + goal_id, {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": getCookie("csrftoken"),
+      },
+      body: formData,
+    })
+      .then((response) => {
+        if (response.ok) {
+          window.location.href = window.location.origin + "/goal/achievement_report/report_list";
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+}
+
+function displaySearchResults(results) {
+  if (results.length === 0) {
+    searchResultsDiv.innerHTML = '<p>일치하는 사용자가 없습니다.</p>';
+    return;
+  }
+  const userList = results.map(user => 
+  ` <div>
+      <span>${user.nickname}</span>
+      <button class="direct-invitation-button" onclick="suggestJoin({{room_id}}, ${user.id})">가입제안</button>
+    </div>
+  `).join('');
+  searchResultsDiv.innerHTML = userList;
+}
+
+function suggestJoin(room_id, userId) {
+    fetch(window.location.origin + '/group_admin/suggest_join/' + room_id, {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCookie('csrftoken'),
+        },
+        body: JSON.stringify({ user_id: userId }),
+    })
+    .then(response => {
+        if (!response.ok) {
+            if (response.status === 403){
+                Swal.fire({
+                icon: 'error',
+                text: '이미 가입제안을 발송한 유저입니다.',
+            });
+            }
+        throw new Error('가입 제안을 보내는 중에 오류가 발생했습니다.');
+        }
+    })
+    .then(() => {
+        Swal.fire({
+        icon: 'success',
+        title: '가입 제안 성공',
+        text: '가입 제안이 성공적으로 이루어졌습니다.',
+        });
+    })
+    .catch(error => {
+        console.error('가입 제안을 보내는 중에 오류가 발생했습니다:', error);
+    });
+}
+
 // 필요할 때 쓰려고 미리 만들어둠
 function saveTempInfoToSession(infoName, tempInfo) {
   sessionStorage.setItem(infoName, tempInfo);
@@ -490,3 +579,32 @@ function getTempInfoFromSession(infoName) {
   sessionStorage.removeItem(infoName);
   return tempInfo;
 }
+
+// 유저 직접 초대 관련
+const nicknameInput = document.getElementById('nickname');
+const searchResultsDiv = document.getElementById('searchResults');
+const roomId = document.getElementById('invitation-roomId-hidden').value;
+
+if (nicknameInput){
+  nicknameInput.addEventListener('input', () => {
+    const nickname = nicknameInput.value.trim();
+    if (nickname !== '') {
+      fetch(`/group_admin/search/${roomId}?nickname=${nickname}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('서버 오류 발생');
+          }
+          return response.json();
+        })
+        .then(data => {
+          displaySearchResults(data);
+        })
+        .catch(error => {
+          console.error('검색 중 오류 발생:', error);
+        });
+    } else {
+      searchResultsDiv.innerHTML = '';
+    }
+  });
+}
+    
