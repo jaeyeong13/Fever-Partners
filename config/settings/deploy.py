@@ -41,3 +41,5 @@ SOCIALACCOUNT_PROVIDERS = {
                         'key': ''
                 }},
 }
+
+CSRF_TRUSTED_ORIGINS = ['https://feverpartners.store']
