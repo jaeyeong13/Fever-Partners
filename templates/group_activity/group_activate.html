@@ -1,6 +1,6 @@
 {% block content %}
 <div id="activate-auths">
-  <a href="" id="auth-restart"><i class="fa-solid fa-rotate-right"></i></a>
+  <div id="auth-restart"><i class="fa-solid fa-rotate-right" onclick="changeTab('activate', event, {{room_id}})"></i></div>
   {% for auth in authentication %}
   <div class="activate-auth" data-auth-id="{{ auth.id }}" data-target-date="{{ auth.end|date:'c' }}">
     <p class="main-color-08em">현재 활성화 된 인증</p>

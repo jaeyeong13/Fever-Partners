@@ -188,7 +188,6 @@
 #auth-restart{
   display: flex;
   justify-content: flex-end;
-  text-decoration: none;
 }
 
 .fa-rotate-right{
