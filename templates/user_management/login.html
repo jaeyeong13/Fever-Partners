@@ -1,27 +1,53 @@
 {% load socialaccount %}
 
-<form action="" method="POST">
-    {% csrf_token %}
-    <div>
-        <span>이메일</span>
-        {{ form.email }}
-    </div>
-    <div>
-        <span>비밀번호</span>
-        {{ form.password }}
-    </div>
-    <button type="submit">로그인</button>
-</form>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fever Partners</title>
+    <link rel="stylesheet" href="{% static 'css/jiwoo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
 
-<form action="{% provider_login_url 'naver'%}" method="POST">
-    {% csrf_token %}
-    <button type="submit">네이버</button>
-</form>
-<form action="{% provider_login_url 'google'%}" method="POST">
-    {% csrf_token %}
-    <button type="submit">구글</button>
-</form>
-<form action="{% provider_login_url 'kakao'%}" method="POST">
-    {% csrf_token %}
-    <button type="submit">카카오</button>
-</form>
+    <!-- icon -->
+    <script src="https://kit.fontawesome.com/6a125f09de.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="login_container">
+        <div class="page_back_header">
+            <span class="page_back">
+                <i class="fa-solid fa-chevron-left"></i>
+            </span>
+        </div>
+        <div id="login_box">
+            <span>계정</span>
+            <form id="login_form" action="" method="POST">
+                {% csrf_token %}
+                {{ form.email }}
+                {{ form.password }}
+                <button type="submit">로그인</button>
+            </form>
+            <div id="login_service">
+                <a href="">계정 찾기</a>
+                <a href="">비밀번호 찾기</a>
+                <a href="{% url 'user_management:signup' %}">회원가입</a>
+            </div>
+        </div>
+        <div id="social_login">
+            <form action="{% provider_login_url 'naver'%}" method="POST">
+                {% csrf_token %}
+                <button type="submit">네이버</button>
+            </form>
+            <form action="{% provider_login_url 'google'%}" method="POST">
+                {% csrf_token %}
+                <button type="submit">구글</button>
+            </form>
+            <form action="{% provider_login_url 'kakao'%}" method="POST">
+                {% csrf_token %}
+                <button type="submit">카카오</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
