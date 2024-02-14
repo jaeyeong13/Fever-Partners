@@ -53,9 +53,9 @@ THIRD_PARTY_APPS = [
 
 ELASTICSEARCH_DSL = {
     'default': {
-        'hosts': 'http://localhost:9200',
+        'hosts': 'http://211.48.38.29:9200',
     },
-}
+} 
 
 # 백앤드에서 인증처리 관련
 AUTHENTICATION_BACKENDS = [
