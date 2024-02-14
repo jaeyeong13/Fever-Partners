@@ -31,6 +31,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     region_detail = models.CharField(max_length=30, null=True, blank=True)
     username = models.CharField(max_length=30, unique=False, null=True, blank=True)
     fuel = models.FloatField(null=True, blank=True, default=0, validators=[MinValueValidator(0)],)
+    new = models.BooleanField(default=True)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
