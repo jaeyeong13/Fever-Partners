@@ -17,3 +17,11 @@
     {% csrf_token %}
     <button type="submit">네이버</button>
 </form>
+<form action="{% provider_login_url 'google'%}" method="POST">
+    {% csrf_token %}
+    <button type="submit">구글</button>
+</form>
+<form action="{% provider_login_url 'kakao'%}" method="POST">
+    {% csrf_token %}
+    <button type="submit">카카오</button>
+</form>

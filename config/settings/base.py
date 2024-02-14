@@ -47,6 +47,8 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.naver',
     'django_elasticsearch_dsl',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.kakao',
 ]
 
 ELASTICSEARCH_DSL = {
@@ -60,6 +62,9 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',    
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
+
+# allauth site_id
+SITE_ID = 1
 
 LOGIN_REDIRECT_URL = '/update/start'   # social login redirect
 ACCOUNT_LOGOUT_REDIRECT_URL = '/start'  # logout redirect
