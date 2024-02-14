@@ -1,21 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h3>그룹가입 신청 디테일 페이지</h3>
-    <p>{{ alarm.alarm_from.nickname }}님의 그룹가입 신청</p>
-    <p>'{{alarm.goal.title}}'을 목표로 하는 {{alarm_from.nickname}}님이 {{alarm.room.title}}에 가입하기를 희망합니다.</p>
-    <form method="POST" action="{% url 'alarm:accept_request' alarm.id %}">
-        {% csrf_token %}
-        <button type="submit">수락</button>
-    </form>
-    <form method="POST" action="{% url 'alarm:reject_request' alarm.id %}">
-        {% csrf_token %}
-        <button type="submit">거절</button>
-    </form>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="group-request-container">
+    <div class='goal-header'>
+        <div class="page_back_header">
+            <span class="page_back">
+                <i class="fa-solid fa-chevron-left main-color-text"></i>
+            </span>
+        </div>
+        <div></div>
+    </div>
+
+    <div class="suggest-join-group">
+        <p class="fs15em-bold"><span class="main-color-text">{{ alarm.alarm_from.nickname }}</span> 님의 그룹가입 신청</p>
+        <p><span class="main-color-text">{{alarm.goal.title}}</span> 을 목표로 하는 {{alarm_from.nickname}}님이 {{alarm.room.title}}에 가입하기를 희망합니다.</p>
+        <div class="horizontal-btns">
+            <form method="POST" action="{% url 'alarm:accept_request' alarm.id %}">
+                {% csrf_token %}
+                <button type="submit" class="white-main-btn">수락</button>
+            </form>
+            <form method="POST" action="{% url 'alarm:reject_request' alarm.id %}">
+                {% csrf_token %}
+                <button type="submit" class="white-main-btn">거절</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
