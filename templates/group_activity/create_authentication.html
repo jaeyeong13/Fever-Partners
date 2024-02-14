@@ -15,7 +15,7 @@
       <p class="black-bold">00:00:00</p>
     </div>
     <form
-      action="{% url 'group_activity:create_authentication' pk %}"
+      action="{% url 'group_activity:create_authentication' room_id auth_id %}"
       method="post"
       enctype="multipart/form-data"
       class="create-auths"
@@ -34,4 +34,3 @@
   </div>
 </body>
 </html>
-

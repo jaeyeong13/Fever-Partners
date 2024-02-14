@@ -569,6 +569,43 @@ function suggestJoin(room_id, userId) {
     });
 }
 
+function validateTime() {
+  var startInput = document.getElementById('id_start');
+  var startValue = new Date(startInput.value);
+
+  var endInput = document.getElementById('id_end');
+  var endValue = new Date(endInput.value);
+
+  var currentTime = new Date();
+  if (endValue <= currentTime) {
+    Swal.fire({
+      icon: 'error',
+      title: '종료 시간은 현재 시간보다 미래여야 합니다.',
+      });
+  } else if (startValue >= endValue) {
+    Swal.fire({
+      icon: 'error',
+      title: '시작 시간은 종료 시간보다 과거여야 합니다.',
+      });
+  } else {
+    document.getElementById('authentication-form').submit();
+  }
+}
+
+function checkCurTime(endTime) {
+  var end = new Date(endTime);
+  var now = new Date();
+  if (now > end) {
+    Swal.fire({
+      icon: 'error',
+      text: '이미 종료된 인증입니다.',
+      });
+      return false;
+  } else {
+      return true;
+  }
+}
+
 // 필요할 때 쓰려고 미리 만들어둠
 function saveTempInfoToSession(infoName, tempInfo) {
   sessionStorage.setItem(infoName, tempInfo);
@@ -583,7 +620,11 @@ function getTempInfoFromSession(infoName) {
 // 유저 직접 초대 관련
 const nicknameInput = document.getElementById('nickname');
 const searchResultsDiv = document.getElementById('searchResults');
-const roomId = document.getElementById('invitation-roomId-hidden').value;
+const roomHidden = document.getElementById('invitation-roomId-hidden');
+let roomId;
+if (roomHidden){
+  roomId = roomHidden.value;
+}
 
 if (nicknameInput){
   nicknameInput.addEventListener('input', () => {
@@ -607,4 +648,3 @@ if (nicknameInput){
     }
   });
 }
-    

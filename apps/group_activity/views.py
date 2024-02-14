@@ -6,7 +6,6 @@ from .forms import AuthenticationForm, MemberAuthenticationForm
 from apps.goal_management.models import Goal
 import json
 from django.http import HttpResponse, JsonResponse
-from apps.group_administration.views import show_member_list
 from django.views.decorators.http import require_http_methods
 
 #room 중복되는 건 추후에 제거 할 예정
@@ -18,79 +17,75 @@ def show_activity_main(request, room_id):
     }
     return render(request, 'group_activity/group_activity_base.html', ctx)
 
-#그룹 활동 페이지로..(임시작성)
-def activate(request, pk):
-    room = get_object_or_404(Room, id=pk)
-    authentication = Authentication.objects.filter(room=room)
-    master = False
-    if room.master == request.user:
-        master = True
+def activate(request, room_id):
+    room = get_object_or_404(Room, id=room_id)
+    authentications = Authentication.objects.filter(room=room)
     ctx = {
         'room': room,
-        'authentication': authentication,
-        'master':master,
-        'room_id':pk,
+        'room_id': room.pk,
+        'authentications': authentications,
+        'current_time': timezone.now(),
     }
-    return render(request, 'group_activity/group_activate.html', ctx)
+    return render(request, 'group_activity/authentication_page.html', ctx)
 
 #그룹장이 방에 인증 틀을 생성하는 것
-def create_auth(request, pk):
+def create_auth(request, room_id):
     if request.method == 'GET':
         form = AuthenticationForm()
-
         ctx = {
             'form': form,
-            'pk': pk,
+            'room_id': room_id,
             }
         return render(request, 'group_activity/create_auth.html', ctx)
 
     # POST일때
     form = AuthenticationForm(request.POST)
-    room = get_object_or_404(Room, id=pk)
+    room = get_object_or_404(Room, id=room_id)
     
     form.instance.room = room
     form.instance.user = request.user
     form.save()
 
-    return redirect('group_activity:activate', pk=room.id)
+    return redirect('group_activity:activate', room_id=room_id)
 
 #그룹장이 올린 인증 틀에 멤버들이 인증을 생성하는 것
-def create_authentication(request, pk):
+def create_authentication(request, room_id, auth_id):
     if request.method == 'GET':
         form = MemberAuthenticationForm()
-
         ctx = {
             'form': form,
-            'pk': pk,
+            'room_id': room_id,
+            'auth_id': auth_id,
             }
         return render(request, 'group_activity/create_authentication.html', ctx)
 
     # POST일때
     form = MemberAuthenticationForm(request.POST, request.FILES)
-    room = get_object_or_404(Room, id=pk)
-    
+    room = get_object_or_404(Room, id=room_id)
+    target_auth = get_object_or_404(Authentication, pk=auth_id)
+    target_auth.participated.add(request.user)
     form.instance.room = room
     form.instance.user = request.user
     form.save()
 
-    return redirect('group_activity:activate', pk=room.id)
+    return redirect('group_activity:activate', room_id=room_id)
 
 #그룹장이 인증확인 창으로 이동
 @login_required
-def verify(request, pk):
-    memberAuthentication = MemberAuthentication.objects.filter(room=pk).filter(is_completed=False)
-    room_id = pk
+def verify(request, room_id):
+    memberAuthentication = MemberAuthentication.objects.filter(room=room_id).filter(is_completed=False)
+    room_id = room_id
     room = Room.objects.get(pk = room_id)
     ctx = {
         'memberAuthentication':memberAuthentication,
-        'room_id':pk,
+        'room_id':room_id,
         'room':room,
     }
     return render(request, 'group_activity/verifying_auth.html', ctx)
 
 #인증 수락을 눌렀을 때
-def accept_auth_log(request, pk):
-    memberAuthentication = MemberAuthentication.objects.get(id=pk)
+def accept_auth_log(request, member_auth_id):
+    memberAuthentication = MemberAuthentication.objects.get(id=member_auth_id)
     user =  memberAuthentication.user
     user.fuel = add_fever(user.fuel)
     user.save()
@@ -100,10 +95,9 @@ def accept_auth_log(request, pk):
 
     return redirect('group_activity:verify', memberAuthentication.room.id)
 
-#겹치는 코드가 많아서 합칠 수 있을 거 같은데..
 #인증 거절을 눌렀을 때
-def refuse_auth_log(request, pk):
-    memberAuthentication = MemberAuthentication.objects.get(id=pk)
+def refuse_auth_log(request, member_auth_id):
+    memberAuthentication = MemberAuthentication.objects.get(id=member_auth_id)
     user =  memberAuthentication.user
     user.fuel = loss_fever(user.fuel)
     user.save()
@@ -112,7 +106,20 @@ def refuse_auth_log(request, pk):
 
     return redirect('group_activity:verify', memberAuthentication.room.id)
 
+def close_authentication(request, room_id, auth_id):
+    room = Room.objects.get(pk=room_id)
+    auth = Authentication.objects.get(pk=auth_id)
+    if room.cert_required:
+        participated_users = auth.participated.all()
+        non_participated_members = room.members.exclude(pk__in=[user.pk for user in participated_users])
+        for member in non_participated_members:
+            member.fuel = loss_fever(member.fuel)
+            member.save()
+    auth.delete()
+    return redirect('group_activity:activate', room_id=room_id) 
+
 def add_fever(fever):
+    fever_after = 0
     if 0 <= fever <= 25:
         fever_after = fever + 5
     elif 25 < fever <= 50:
@@ -124,6 +131,7 @@ def add_fever(fever):
     return fever_after
 
 def loss_fever(fever):
+    fever_after = 0
     if 0 <= fever <= 25:
         fever_after = max(0, fever - 1)
     elif 25 < fever <= 50:
@@ -135,18 +143,16 @@ def loss_fever(fever):
     return fever_after
 
 #현황(인증로그) 창으로 이동
-def show_log(request, pk):
-    auth_log = MemberAuthentication.objects.filter(room=pk).filter(is_completed=True).order_by('-created_date')
-    room = get_object_or_404(Room, id=pk)
+def show_log(request, room_id):
+    room = Room.objects.get(pk=room_id)
+    auth_log = MemberAuthentication.objects.filter(room=room).filter(is_completed=True).order_by('-created_date')
     ctx = {
         'auth_log':auth_log,
-        'room_id':pk,
-        'room':room,
+        'room_id':room_id,
     }
     return render(request, 'group_activity/show_log.html', ctx)
 
 def show_member_list(request, room_id):
-
     member_goal_pairs = {}
     room = Room.objects.get(id=room_id)
     for member in room.members.all():
