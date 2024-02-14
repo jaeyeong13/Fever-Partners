@@ -393,7 +393,7 @@
   font-weight: bold;
 }
 
-.accept-or-reject-btns{
+.horizontal-btns{
   display: flex;
   justify-content: space-around;
   margin-top: 10vh;
@@ -403,9 +403,52 @@
   color: var(--main-color);
   background-color: white;
   border-radius: 15px;
-  width: 5em;
+  width: 6em;
   height: 2em;
+  border: 2px solid var(--main-color);
+  transition: 0.3s;
+}
+
+.white-main-btn:hover{
+  color: white;
+  background-color: var(--main-color);
+}
+
+/*마이페이지*/
+#mypage-container{
+  height: 90vh;
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
+}
+
+.mt5vh-bold-text{
+  font-weight: bold;
+}
+
+.profile-image-my{
+  height: 7em;
+  width: 7em;
+  border-radius: 50%;
   border: 1px solid var(--main-color);
+}
+
+.user-detail-box{
+  border: 1px solid white;
+  border-radius: 7px;
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+  padding-left: 5vw;
+}
+
+.a-to-btn{
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* =====footer===== */
