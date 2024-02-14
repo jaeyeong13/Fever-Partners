@@ -11,7 +11,7 @@ def read_secret(secret_name):
 SECRET_KEY = read_secret("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 DATABASES = {
     "default": {
@@ -22,4 +22,22 @@ DATABASES = {
         "HOST": "postgresdb",
         "PORT": "5432",
     }
+}
+
+SOCIALACCOUNT_PROVIDERS = {
+    'naver': {'APP': {
+                        'client_id': read_secret("NAVER_CLIENT_ID"),
+                        'secret': read_secret("NAVER_CLIENT_SECRET"),
+                        'key': ''
+                }},
+    'google': {'APP': {
+                        'client_id': read_secret("GOOGLE_CLIENT_ID"),
+                        'secret': read_secret("GOOGLE_CLIENT_SECRET"),
+                        'key': ''
+                }},
+    'kakao': {'APP': {
+                        'client_id': read_secret("KAKAO_CLIENT_ID"),
+                        'secret': read_secret("KAKAO_CLIENT_SECRET"),
+                        'key': ''
+                }},
 }
