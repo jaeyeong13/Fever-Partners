@@ -1,3 +1,7 @@
+:root {
+    --main-color: #db4455;
+  }
+
 .form-container {
     display: flex;
     flex-direction: column;
@@ -21,7 +25,7 @@
 }
 
 .toggle-checkbox:checked + .toggle-label {
-    background-color: #4CAF50;
+    background-color: var(--main-color);
 }
 
 .toggle-label:before {
