@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{%static 'css/reset.css' %}" />
     <link rel="stylesheet" href="{%static 'css/jk.css' %}" />
+    <link rel="stylesheet" href="{%static 'css/tag_selection.css'%}">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/aa0228ade6.js" crossorigin="anonymous"></script>
     <script src="{%static 'javascript/main.js'%}" defer></script>
@@ -17,6 +18,15 @@
   </head>
   <body>
     <div id="group-introbox">
+      <div class='goal-header goal-header-w'>
+          <div class="page_back_header">
+              <span onclick="goBack()" class="page_back">
+                  <i class="fa-solid fa-chevron-left"></i>
+              </span>
+          </div>
+          <div></div>
+      </div>
+
       <div id="group-intro-text">
         <p class="white-title">{{ room.title }}</p>
         <div class="group-intro-tag">
@@ -49,13 +59,13 @@
       {% block content %} {% endblock content %}
     </div>
     <div class="footer">
-      <a href="#" class="footer-link" style="display: flex;">
+      <a href="{% url 'group_management:group_list' %}" class="footer-link" style="display: flex;">
         <div class="footer-item">
           <i class="fa-solid fa-user-group footer-icon"></i>
           <div class="footer-text">Group</div>
         </div>
       </a>
-      <a href="#" class="footer-link" style="display: flex;">
+      <a href="{% url 'goal_management:goal_list' %}" class="footer-link" style="display: flex;">
         <div class="footer-item">
           <i class="fa-solid fa-bullseye footer-icon"></i>
           <div class="footer-text">MyGoal</div>

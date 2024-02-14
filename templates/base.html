@@ -23,13 +23,13 @@
         {% endblock content %}
     </div>
     <div class="footer">
-      <a href="#" class="footer-link" style="display: flex;">
+      <a href="{% url 'group_management:group_list' %}" class="footer-link" style="display: flex;">
         <div class="footer-item">
           <i class="fa-solid fa-user-group footer-icon"></i>
           <div class="footer-text">Group</div>
         </div>
       </a>
-      <a href="#" class="footer-link" style="display: flex;">
+      <a href="{% url 'goal_management:goal_list' %}" class="footer-link" style="display: flex;">
         <div class="footer-item">
           <i class="fa-solid fa-bullseye footer-icon"></i>
           <div class="footer-text">MyGoal</div>

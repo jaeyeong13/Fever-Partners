@@ -1,3 +1,8 @@
+//뒤로가기
+function goBack() {
+    window.history.back();
+}
+
 //group_activity에서 ajax 처리
 function loadContent(url) {
     fetch(url)

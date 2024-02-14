@@ -5,6 +5,10 @@
   --green: #00AD26;
 }
 
+.page_back{
+  cursor: pointer;
+}
+
 #group-introbox {
   display: flex;
   flex-direction: column;
