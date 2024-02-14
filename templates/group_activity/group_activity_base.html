@@ -40,9 +40,9 @@
       </div>
     </div>
     <div id="group-select-activity-list">
-      <a href="{%url 'group_activity:member_list' room_id%}" onclick="changeTab('member', event)">멤버</a>
-      <a href="{% url 'group_activity:activate' room_id %}" onclick="changeTab('activate', event)">인증 공간</a>
-      <a href="{% url 'group_activity:show_log' room_id %}" onclick="changeTab('show_log', event)">활동 현황</a>
+      <a href="{%url 'group_activity:member_list' room_id%}" onclick="changeTab('member', event, {{room_id}})">멤버</a>
+      <a href="{% url 'group_activity:activate' room_id %}" onclick="changeTab('activate', event, {{room_id}})">인증 공간</a>
+      <a href="{% url 'group_activity:show_log' room_id %}" onclick="changeTab('show_log', event, {{room_id}})">활동 현황</a>
       <a href="{% url 'free_board:list' room_id %}">게시판</a>
     </div>
     <div id="group-activity-content">
@@ -69,50 +69,4 @@
       </a>
     </div>
   </body>
-  <script>
-    function loadContent(url) {
-      fetch(url)
-          .then(response => {
-              if (!response.ok) {
-                  throw new Error('Network response was not ok');
-              }
-              return response.text();
-          })
-          .then(data => {
-              document.getElementById('group-activity-content').innerHTML = data;
-          })
-          .catch(error => {
-              console.error('Error during fetch operation:', error);
-          });
-    }
-
-    function changeTab(tab, event) {
-        event.preventDefault();
-
-        // 모든 링크에서 selected 클래스 제거
-        var links = document.querySelectorAll('#group-select-activity-list a');
-        links.forEach(function(link) {
-          link.classList.remove('selected-group-tab');
-        });
-      
-        // 클릭한 링크에 selected 클래스 추가
-        var selectedLink = event.currentTarget;
-        selectedLink.classList.add('selected-group-tab');
-
-
-        var url = '';
-        switch (tab) {
-          case 'member':
-              url = "{% url 'group_activity:member_list' room_id %}";
-              break;
-          case 'activate':
-              url = "{% url 'group_activity:activate' room_id %}";
-              break;
-          case 'show_log':
-              url = "{% url 'group_activity:show_log' room_id %}";
-              break;
-        }
-        loadContent(url);
-    }
-  </script>
 </html>
