@@ -1,37 +1,25 @@
-{% extends "base.html" %}
-
-{% block content %}
-    <div id="group-request-container">
-        <div class='goal-header'>
-            <div class="page_back_header">
-                <span class="page_back">
-                    <i class="fa-solid fa-chevron-left main-color-text"></i>
-                </span>
-            </div>
-            <div class="main-color-text">알림</div>
-            <div></div>
-        </div>
-        <ul>
-            {% for alarm in alarms %}
-            {% if alarm.room.master == user %}
-                <li>
-                    <div><span class="main-color-text">{{ alarm.alarm_from.nickname}}</span> 님이 그룹가입 신청</div> 
-                    <a href="{% url 'alarm:alarm_detail_as_master' alarm.pk%}" class="request-detail-btn">상세보기</a>
-                </li>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    알림들
+    <a href="/main">메인페이지</a>
+    <ul>
+        {% for alarm in alarms %}  
+        {% if alarm.room.master == user %}
+            <li>{{ alarm.alarm_from.nickname}}님이 그룹가입 신청 <a href="{% url 'alarm:alarm_detail_as_master' alarm.pk%}">상세보기</a></li>
+        {% else %}
+            {% if alarm.goal %}
+                <li>{{ alarm.alarm_from.nickname}}님이 그룹가입 제안 <a href="{% url 'alarm:alarm_detail_as_user' alarm.pk%}">상세보기</a></li>                             
             {% else %}
-                {% if alarm.goal %}
-                    <li>
-                        <div><span class="main-color-text">{{ alarm.alarm_from.nickname}}</span> 님이 그룹가입 제안</div>
-                        <a href="{% url 'alarm:alarm_detail_as_user' alarm.pk%}" class="request-detail-btn">상세보기</a>
-                    </li>
-                {% else %}
-                    <li>
-                        <div><span class="main-color-text">{{ alarm.alarm_from.nickname}}</span> 님이 그룹가입 요청</div> 
-                        <a href="{% url 'alarm:alarm_detail_direct' alarm.pk%}" class="request-detail-btn">상세보기</a>
-                    </li>
-                {% endif %}
+                <li>{{ alarm.alarm_from.nickname}}님이 그룹에 직접 초대 <a href="{% url 'alarm:alarm_detail_direct' alarm.pk%}">상세보기</a></li> 
             {% endif %}
-            {% endfor %}
-        </ul>
-    </div>
-{% endblock content %}
+        {% endif %}
+        {% endfor %}
+    </ul>
+</body>
+</html>
