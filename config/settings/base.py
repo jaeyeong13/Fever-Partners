@@ -51,7 +51,7 @@ THIRD_PARTY_APPS = [
 
 ELASTICSEARCH_DSL = {
     'default': {
-        'hosts': 'http://localhost:9200',
+        'hosts': 'http://211.48.38.29:9200',
     },
 }
 
