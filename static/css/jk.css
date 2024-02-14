@@ -72,16 +72,16 @@
 }
 
 #group-activity-content {
-  height: 46vh;
+  height: 50vh;
 }
 
 #auth-logs{
   display: flex;
   flex-direction: column;
   gap: 1em;
-  margin: 2vh ;
   height: 100%;
   overflow-y: scroll;
+  padding-top: 2vh;
 }
 
 .auth-log{
@@ -135,7 +135,7 @@
   display: flex;
   flex-direction: column;
   gap: 1em;
-  margin: 2vh ;
+  padding: 2vh ;
   height: 100%;
   overflow-y: scroll;
 }
@@ -200,7 +200,7 @@
   display: flex;
   flex-direction: column;
   gap: 1em;
-  margin: 2vh ;
+  padding: 2vh ;
   height: 100%;
   overflow-y: scroll;
 }
@@ -431,7 +431,7 @@
   height: 7em;
   width: 7em;
   border-radius: 50%;
-  border: 1px solid var(--main-color);
+  border: 2px solid var(--main-color);
 }
 
 .user-detail-box{
@@ -457,7 +457,6 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 20px;
   background-color: #f2f2f2;
   position: sticky;
 }
@@ -484,4 +483,8 @@
 .footer-link {
   text-decoration: none;
   display: inline;
+}
+
+.ri-file-list-3-line{
+  margin-bottom: 0;
 }
