@@ -118,6 +118,11 @@
   font-size: 0.8em;
 }
 
+.gray-08em{
+  color: var(--gray);
+  font-size: 0.8em;
+}
+
 .main-color-bold{
   color: var(--main-color);
 }
@@ -163,6 +168,11 @@
   background-color: var(--main-color);
   font-size: 0.8em;
   text-decoration: none;
+  width: 5em;;
+  height: 1.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .red-btn{
