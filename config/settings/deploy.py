@@ -23,3 +23,23 @@ DATABASES = {
         "PORT": "5432",
     }
 }
+
+SOCIALACCOUNT_PROVIDERS = {
+    'naver': {'APP': {
+                        'client_id': read_secret("NAVER_CLIENT_ID"),
+                        'secret': read_secret("NAVER_CLIENT_SECRET"),
+                        'key': ''
+                }},
+    'google': {'APP': {
+                        'client_id': read_secret("GOOGLE_CLIENT_ID"),
+                        'secret': read_secret("GOOGLE_CLIENT_SECRET"),
+                        'key': ''
+                }},
+    'kakao': {'APP': {
+                        'client_id': read_secret("KAKAO_CLIENT_ID"),
+                        'secret': read_secret("KAKAO_CLIENT_SECRET"),
+                        'key': ''
+                }},
+}
+
+CSRF_TRUSTED_ORIGINS = ['https://feverpartners.store']

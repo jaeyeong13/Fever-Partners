@@ -1,3 +1,24 @@
-<a href="{% url 'user_management:login' %}">로그인</a>
-<br>
-<a href="{% url 'user_management:signup' %}">새로 시작하기</a>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fever Partners</title>
+    <link rel="stylesheet" href="{% static 'css/jiwoo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+
+    <!-- icon -->
+    <script src="https://kit.fontawesome.com/6a125f09de.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="start_container">
+        <div class="logo">
+            <img src="{% static 'image/logo.png' %}">
+        </div>
+        <div class="start_btn">
+            <a href="{% url 'user_management:login' %}">Get Started</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -3,6 +3,7 @@ from .forms import *
 from django.contrib.auth import login,logout
 from .models import User
 from django.contrib.auth.decorators import login_required
+from django.core.files.storage import default_storage
 
 def start(request):
     return render(request, "user_management/start.html")
@@ -34,11 +35,12 @@ def user_update_start(request):
             user = form.save()
             if user.email == "" or user.email == None:
                 user.email = user.id
+                user.new = False
                 user.save()
             return redirect('user_management:main')  # nickname 설정 후 메인 페이지로 이동
     else:
         # 이미 회원가입을 해서 nickname이 있다면 main으로 이동
-        if request.user.nickname == '' or request.user.nickname == None:
+        if request.user.new == True:
             form = UserUpdateForm(instance=None)
             return render(request, 'user_management/input_nickname.html', {'form': form})
         return redirect("user_management:main")
@@ -64,6 +66,8 @@ def user_signup_email(request):
     error_data = form.errors.as_data()
     if form.is_valid():
         user = form.save()
+        user.new = False
+        user.save()
         login(request, user, backend='django.contrib.auth.backends.ModelBackend') # 회원가입한 사용자를 자동으로 로그인
         return redirect("user_management:update") # 회원가입 성공 시 리다이렉트
     else:
@@ -108,10 +112,14 @@ def update(request, pk):
         user.region_detail = request.POST["region_detail"]
         if 'profile_image' in request.FILES:
             profile_image = request.FILES['profile_image']
+            if user.profile_image:
+                default_storage.delete(user.profile_image.name)
+            profile_image.name = f"{user.id}_{profile_image.name}"
             user.profile_image.save(profile_image.name, profile_image)
         user.save()
         return redirect(f"/detail/{pk}")
-    ctx = {
-        "user": user
+    form = UserUpdateForm(instance=user)
+    cnt = {
+        'form':form,
     }
-    return render(request, 'user_management/user_update.html', ctx)
+    return render(request, 'user_management/user_update.html', cnt)
