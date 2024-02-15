@@ -11,15 +11,11 @@
 <body>
   <div class="create-auth-container">
     <div class="auth-info-text">
-      <p class="gray-08em">인증만료까지 남은 시간</p>
-      <p class="black-bold">00:00:00</p>
+      <p class="gray-08em">인증기간</p>
+      <div class="fs12em-bold">{{auth.start | date:"m월 d일"}} {{auth.start | time:"H:i"}} ~ {{auth.end | date:"m월 d일"}} {{auth.end | time:"H:i"}}</div>
     </div>
-    <form
-      action="{% url 'group_activity:create_authentication' pk %}"
-      method="post"
-      enctype="multipart/form-data"
-      class="create-auths"
-    >
+
+    <form action="{% url 'group_activity:create_authentication' room_id auth_id %}" method="post" enctype="multipart/form-data" class="create-auths">
       {%csrf_token%}
       {% for field in form %}
         <div class="form-group">
@@ -28,7 +24,6 @@
         </div>
       {% endfor %}
     
-      <input type="hidden" name="room_id" value="{{ room.id }}" />
       <button type="submit" class="red-btn big-btn">제출하기</button>
     </form>
   </div>

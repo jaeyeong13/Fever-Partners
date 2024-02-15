@@ -118,3 +118,169 @@
     color: var(--red);
     text-decoration: none; /* 밑줄을 없애는 속성 */
 }
+
+/* signup_email.html */
+#signup_email_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: var(--height);
+    background-color: var(--white);
+    justify-content: space-between;
+}
+
+.signup_email_form {
+    height: 70vh;
+}
+
+.signup_email_form div {
+    margin-top: 1rem;
+}
+
+.signup_email_form > span {
+    color: var(--red);
+}
+
+.signup_email_form button {
+    margin-top: 2rem;
+    color: var(--white);
+    background-color: var(--red);
+    border: none; /* 모든 테두리를 제거합니다. */
+    border-radius: 10%;
+    font-size: 1rem;
+}
+
+/* input_nickname.html */
+#input_nickname_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: var(--height);
+    background-color: var(--white);
+    justify-content: space-between;
+}
+
+.input_nickname_form {
+    height: 70vh;
+}
+
+.input_nickname_form div {
+    margin-top: 1rem;
+}
+
+.input_nickname_form > span {
+    color: var(--red);
+}
+
+.input_nickname_form button {
+    margin-top: 2rem;
+    color: var(--white);
+    background-color: var(--red);
+    border: none; /* 모든 테두리를 제거합니다. */
+    border-radius: 10%;
+    font-size: 1rem;
+}
+
+/* main.html */
+#main_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: var(--height);
+    background-color: var(--white);
+    justify-content: space-between;
+}
+
+.main_container_top_part {
+    height: 50vh;
+    background-color: var(--red);
+}
+
+.main_container_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.main_container_header img {
+    height: 5vh;
+    width: auto;
+}
+
+#main_container div {
+    width: 100%;
+}
+
+.main_top_part {
+    height: 45vh;
+}
+
+.main_top_part > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.main_top_part > div div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+.main_container_bottom_part {
+    height: 40vh;
+}
+
+.main_container_bottom_part_content {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.main_container_bottom_part_content a {
+    text-decoration: none;
+    -webkit-text-stroke-width: 1px; /* 테두리의 너비를 지정합니다. */
+    -webkit-text-stroke-color: var(--red); /* 테두리의 색상을 지정합니다. */
+    color: var(--white);
+}
+
+/* footer */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f2f2f2;
+}
+  
+.footer-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+  
+.footer-icon {
+    font-size: 30px; 
+    color: #db4455;
+    margin-bottom: 10px;
+}
+  
+.footer-text {
+    color: #db4455;
+    font-size: 16px;
+    font-style: italic;
+    text-decoration: none;
+}
+  
+.footer-link {
+    text-decoration: none;
+    display: inline;
+}

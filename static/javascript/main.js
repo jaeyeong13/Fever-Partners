@@ -569,6 +569,43 @@ function suggestJoin(room_id, userId) {
     });
 }
 
+function validateTime() {
+  var startInput = document.getElementById('id_start');
+  var startValue = new Date(startInput.value);
+
+  var endInput = document.getElementById('id_end');
+  var endValue = new Date(endInput.value);
+
+  var currentTime = new Date();
+  if (endValue <= currentTime) {
+    Swal.fire({
+      icon: 'error',
+      title: '종료 시간은 현재 시간보다 미래여야 합니다.',
+      });
+  } else if (startValue >= endValue) {
+    Swal.fire({
+      icon: 'error',
+      title: '시작 시간은 종료 시간보다 과거여야 합니다.',
+      });
+  } else {
+    document.getElementById('authentication-form').submit();
+  }
+}
+
+function checkCurTime(endTime) {
+  var end = new Date(endTime);
+  var now = new Date();
+  if (now > end) {
+    Swal.fire({
+      icon: 'error',
+      text: '이미 종료된 인증입니다.',
+      });
+      return false;
+  } else {
+      return true;
+  }
+}
+
 // 필요할 때 쓰려고 미리 만들어둠
 function saveTempInfoToSession(infoName, tempInfo) {
   sessionStorage.setItem(infoName, tempInfo);
@@ -583,7 +620,11 @@ function getTempInfoFromSession(infoName) {
 // 유저 직접 초대 관련
 const nicknameInput = document.getElementById('nickname');
 const searchResultsDiv = document.getElementById('searchResults');
-const roomId = document.getElementById('invitation-roomId-hidden').value;
+const roomHidden = document.getElementById('invitation-roomId-hidden');
+let roomId;
+if (roomHidden){
+  roomId = roomHidden.value;
+}
 
 if (nicknameInput){
   nicknameInput.addEventListener('input', () => {
@@ -607,4 +648,166 @@ if (nicknameInput){
     }
   });
 }
-    
+
+function checkGoalStatus() {
+  fetch(window.location.origin + '/group/check_goals')
+  .then(response => {
+      if (response.ok) {
+        window.location.href = window.location.origin + "/group/create_group";
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: '<div style="font-size: 20px">한 개 이상의 등록가능한 목표가 필요합니다.</div>',
+          });
+      }
+    })
+  .catch(error => {
+      console.error(error);
+  });
+}
+
+function suggestJoin(button, userNickname, userId, roomId, goalId) {
+  Swal.fire({
+      title: `<div><span style="color: #EF7373">${userNickname}</span>님에게 가입 제안을 보내시겠습니까?</div>`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: '확인',
+      cancelButtonText: '취소',
+  }).then((result) => {
+      if (result.isConfirmed) {
+          fetch(window.location.origin + '/group/suggest_join/' + roomId, {
+              method: 'POST',
+              body: JSON.stringify({ 'user_id':userId, 'goal_id':goalId }),
+              headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRFToken': getCookie('csrftoken'),
+              }
+          }).then(response => {
+              if (!response.ok) {
+                  Swal.fire({
+                      title: '오류 발생',
+                      text: '가입 제안을 보내는 도중 오류가 발생했습니다.',
+                      icon: 'error',
+                      confirmButtonText: '확인'
+                  });
+              } else {
+                  button.disabled = true;
+              }
+          }).catch(error => {
+              Swal.fire({
+                  title: '오류 발생',
+                  text: '가입 제안을 보내는 도중 오류가 발생했습니다.',
+                  icon: 'error',
+                  confirmButtonText: '확인'
+              });
+          });
+      }
+  });
+}
+
+function applyForAdmission(button, roomName, userId, roomId, goalId) {
+  Swal.fire({
+    title: `<div><span style="color: #EF7373">${roomName}</span>방에 가입을 신청하시겠습니까?</div>`,
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: '확인',
+    cancelButtonText: '취소',
+    }).then((result) => {
+    if (result.isConfirmed) {
+        fetch(window.location.origin + '/goal/suggest_join/' + goalId, {
+            method: 'POST',
+            body: JSON.stringify({'user_id':userId,'room_id':roomId}),
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+            }
+        }).then(response => {
+            if (!response.ok) {
+                Swal.fire({
+                    title: '오류 발생',
+                    text: '가입 신청을 보내는 도중 오류가 발생했습니다.',
+                    icon: 'error',
+                    confirmButtonText: '확인'
+                });
+            } else {
+                button.disabled = true;
+            }
+        }).catch(error => {
+            Swal.fire({
+                title: '오류 발생',
+                text: '가입 신청을 보내는 도중 오류가 발생했습니다.',
+                icon: 'error',
+                confirmButtonText: '확인'
+            });
+        });
+      }
+    });
+}
+
+function acceptRequest(alarmId) {
+  fetch(window.location.origin + "/alarm/accept_request/" + alarmId + '/', {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': getCookie('csrftoken'),
+      },
+  })
+  .then(response => {
+      if (response.ok) {
+        window.location.href = window.location.origin + '/show_alarms';
+      } else {
+          if (response.status === 400) {
+              Swal.fire({
+                  title: '이미 방에 가입되거나 완료된 목표입니다.',
+                  icon: 'error'
+              });
+          } else if (response.status === 409) {
+              Swal.fire({
+                  title: '이미 해당 방에 가입된 유저입니다.',
+                  icon: 'error'
+              });
+          } else {
+              Swal.fire({
+                  title: '에러',
+                  text: '수락 처리 중 알 수 없는 에러가 발생했습니다.',
+                  icon: 'error'
+              });
+          }
+      }
+  })
+  .catch(error => {
+      console.error(error);
+  });
+}
+
+function acceptDirectRequest(alarmId) {
+  const selectedGoal = document.getElementById('goal').value;
+  fetch(window.location.origin + "/alarm/accept_direct_request/" + alarmId + '/', {
+      method: 'POST',
+      body: JSON.stringify({'goal_id':selectedGoal}),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCookie('csrftoken'),
+      },
+  })
+  .then(response => {
+      if (response.ok) {
+        window.location.href = window.location.origin + '/show_alarms';
+      } else {
+          if (response.status === 400) {
+              Swal.fire({
+                  title: '이미 해당 방에 가입된 상태입니다.',
+                  icon: 'error'
+              });
+          } else {
+              Swal.fire({
+                  title: '에러',
+                  text: '수락 처리 중 알 수 없는 에러가 발생했습니다.',
+                  icon: 'error'
+              });
+          }
+      }
+  })
+  .catch(error => {
+      console.error(error);
+  });
+}
