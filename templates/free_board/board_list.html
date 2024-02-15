@@ -31,7 +31,7 @@
               {% endif %}
               <a href="{% url 'free_board:detail' post.room.id post.id %}" style="color: black; text-decoration: none">{{ post.title }}</a>
               {% if post.comments.count > 0 %}
-              <span class="text-danger small ml-2">{{ post.comments.count }}</span>
+              <span class="post-comment-count">[{{ post.comments.count }}]</span>
               {% endif %}
             </td>
             <td>{{ post.voter.all.count }}</td>

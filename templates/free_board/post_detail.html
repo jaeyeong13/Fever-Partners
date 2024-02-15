@@ -7,7 +7,6 @@
       <p style="font-weight: bold; margin-bottom: 0">자유게시판</p>
     </div>
     <div class="container">
-      <!-- 사용자 오류 표시 -->
       {% if messages %}
       <div class="alert alert-danger my-3" role="alert">
         {% for message in messages %}
@@ -16,7 +15,16 @@
         {% endfor %}
       </div>
       {% endif %}
-      <h2 class="post-detail-title">{{ post.title }}</h2>
+      {% if post.notice %}
+        <h2 class="post-detail-title">
+          <span class="notice-container">
+            <span class="notice-tag">공지</span>
+          </span>
+          {{ post.title }}
+        </h2>
+      {% else %}
+        <h2 class="post-detail-title">{{ post.title }}</h2>
+      {% endif %}
       <div class="post-body">
         <div class="post-info">
           <div class="post-author">

@@ -217,6 +217,18 @@ ul.pagination li a.disabled {
   border-top: 3px solid black;
   border-bottom: 1px solid black;
 }
+.notice-container {
+  display: inline-block;
+  border-radius: 5px;
+  padding: 5px;
+}
+.notice-tag {
+  background-color: dodgerblue;
+  color: white;
+  padding: 5px 8px;
+  border-radius: 5px;
+  font-weight: bold;
+}
 
 .post-info {
   color: grey;
@@ -243,7 +255,10 @@ ul.pagination li a.disabled {
   justify-content: flex-end;
   align-items: center;
 }
-
+.post-comment-count {
+  font-weight: bold;
+  color: dodgerblue;
+}
 .vote-count {
   margin-right: 10px;
 }
@@ -290,6 +305,7 @@ ul.pagination li a.disabled {
   gap: 10px;
   padding: 0 5px;
   height: 80px;
+  margin-top: 20px;
 }
 
 .comment-form textarea {
