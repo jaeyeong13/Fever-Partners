@@ -50,6 +50,10 @@ input[type="radio"]:focus + label {
     height: 5vh;
 }
 
+.goal-header-w{
+    width: 90vw;
+}
+
 .black-08em-bold {
     font-weight: bold;
     font-size: 0.8em;
@@ -77,12 +81,6 @@ input[type="radio"]:focus + label {
     width: 90vw;
     height: 90vh;
     flex-direction: column;
-}
-
-#goal-header{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 2vh;
 }
 
 .main-color-text{

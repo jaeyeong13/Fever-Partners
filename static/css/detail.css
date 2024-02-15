@@ -17,13 +17,6 @@
   gap: 1rem;
 }
 
-.profile-image {
-  height: 130px;
-  width: 130px;
-  border-radius: 50%;
-  border: 0.2rem solid rgb(61, 61, 240);
-}
-
 .bold-text {
   font-weight: bolder;
   font-size: 1.2rem;
