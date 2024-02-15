@@ -202,7 +202,9 @@ ul.pagination li a.disabled {
   cursor: pointer;
   transition: background-color 0.3s, box-shadow 0.3s;
 }
-
+.post-detail-body {
+  padding-bottom: 90px;
+}
 .post-detail-title {
   background-color: #ffc6cb;
   color: black;
@@ -276,6 +278,7 @@ ul.pagination li a.disabled {
   background-color: #ccc;
   margin-bottom: 20px;
 }
+/* 댓글 폼 디자인 부분 */
 .comment-count {
   margin-left: 9px;
   color: grey;
@@ -334,6 +337,57 @@ ul.pagination li a.disabled {
   cursor: pointer;
 }
 
+/* 달린 댓글 디자인 부분 */
+.comment {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f0f0f0; /* 회색 배경 */
+  margin-bottom: 5px; /* 댓글 간 2px 간격 */
+  border-radius: 5px;
+}
+
+.comment-author {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.comment-author-details {
+  font-size: 0.5rem;
+  color: #495057;
+  margin-left: 8px;
+}
+.comment-mod-del-btn {
+  padding: .5rem 0;
+  display: flex;
+  justify-content: flex-end;
+  background-color: #f0f0f0;
+  gap: 5px;
+}
+.comment-content {
+  white-space: pre-line;
+  margin-bottom: 7px;
+  margin-left: 7px;
+}
+.btn-comment-action {
+  background-color: #db4455;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 200ms ease-in-out;
+}
+
+.btn-comment-action:hover {
+  background-color: #b33b4b;
+}
+
+
+
+/* footer 부분 */
 .footer {
   height: 75px;
   position: fixed;
