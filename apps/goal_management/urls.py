@@ -16,4 +16,5 @@ urlpatterns = [
     path('achievement_report/report_list', show_achievement_report_list, name="achievement_report_list"),
     path('achievement_report/report_detail/<int:achievement_id>', show_achievement_report_detail, name="achievement_report_detail"),
     path('achievement_report/create/<int:goal_id>', create_achievement_report, name='create_achievement_report'),
+    path('achievement_report/update_react_count/<int:report_id>', update_react_count)
 ]

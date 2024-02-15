@@ -8,6 +8,7 @@ from elasticsearch_dsl import Search, Q
 from apps.group_management.models import Room
 from django.views.decorators.http import require_http_methods
 from .decorators import goal_ownership_required
+import json
 
 def start_creation(request):
     tags = Tag.objects.filter(parent_tag__isnull=True).order_by('tag_name')
@@ -203,3 +204,35 @@ def create_achievement_report(request, goal_id):
             'goal':goal,
         }
         return render(request, 'goal_management/achievement_reporting_form.html', cnt)
+    
+def update_react_count(request, report_id):
+    json_data = json.loads(request.body)
+    report = AchievementReport.objects.get(pk=report_id)
+    action = json_data.get('action')
+    if action == 'love':
+        love_count = report.reacted_love.count()
+        if request.user in report.reacted_love.all():
+            love_count -= 1
+            report.reacted_love.remove(request.user)
+        else:
+            love_count += 1
+            report.reacted_love.add(request.user)
+        return JsonResponse({'love_count':love_count}, status=200)
+    elif action == 'like':
+        like_count = report.reacted_respectful.count()
+        if request.user in report.reacted_respectful.all():
+            like_count -= 1
+            report.reacted_respectful.remove(request.user)
+        else:
+            like_count += 1
+            report.reacted_respectful.add(request.user)
+        return JsonResponse({'like_count':like_count}, status=200)
+    elif action == 'dislike':
+        dislike_count = report.reacted_dislike.count()
+        if request.user in report.reacted_dislike.all():
+            dislike_count -= 1
+            report.reacted_dislike.remove(request.user)
+        else:
+            dislike_count += 1
+            report.reacted_dislike.add(request.user)
+        return JsonResponse({'dislike_count':dislike_count}, status=200)
