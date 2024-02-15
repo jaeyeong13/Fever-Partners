@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fever Partners</title>
+    <script src="{%static 'javascript/main.js'%}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'css/jiwoo.css' %}">
 
@@ -48,7 +50,7 @@
         <div class="main_container_bottom_part">
             <div class="main_container_bottom_part_content">
                 <a href="{% url 'goal_management:start_goal_creation' %}">new goal</a>
-                <a href="{% url 'group_management:start_creation' %}">new group</a>
+                <a onclick="checkGoalStatus()">new group</a>
             </div>
         </div>
         <div class="footer">
