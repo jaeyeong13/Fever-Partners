@@ -5,24 +5,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{%static 'css/reset.css' %}" />
+  <link rel="stylesheet" href="{%static 'css/main.css' %}" />
   <link rel="stylesheet" href="{%static 'css/jk.css' %}" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="{%static 'javascript/main.js'%}" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
   <title>Document</title>
 </head>
 <body>
-  <form
-    action="{% url 'group_activity:create_auth' pk %}"
-    method="post"
-    class="create-auths"
-  >
-    {%csrf_token%}
+  <form id="authentication-form" action="{% url 'group_activity:create_auth' room_id %}" method="post" class="create-auths">
+    {% csrf_token %}
     {% for field in form %}
       <div class="form-group">
         {{ field.label }}
         {{ field }}
       </div>
     {% endfor %}
-    <input type="hidden" name="room_id" value="{{ room.id }}" />
-    <button type="submit" class="red-btn big-btn">인증개설</button>
+    <button type="button" onclick="validateTime()" class="red-btn big-btn">인증개설</button>
   </form>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+  flatpickr('.flatpickr', {
+    enableTime: true,
+    dateFormat: "Y-m-d H:i",
+  });
+</script>
 </html>

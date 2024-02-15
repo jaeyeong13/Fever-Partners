@@ -23,13 +23,13 @@ function loadContent(url) {
   function changeTab(tab, event, room_id) {
       event.preventDefault();
 
-      // 모든 링크에서 selected 클래스 제거
+      // 모든 링크에서 selected-group-tab 클래스 제거
       var links = document.querySelectorAll('#group-select-activity-list a');
       links.forEach(function(link) {
         link.classList.remove('selected-group-tab');
       });
     
-      // 클릭한 링크에 selected 클래스 추가
+      // 클릭한 링크에 selected-group-tab 클래스 추가
       var selectedLink = event.currentTarget;
       selectedLink.classList.add('selected-group-tab');
 
@@ -49,57 +49,56 @@ function loadContent(url) {
       loadContent(url);
   }
 
-
-//타이머 관련 코드.. 문제 많음
-function displayRemainingTime(targetDate, authId) {
-    const now = new Date();
-    const endDate = new Date(targetDate);
-
-    if (isNaN(endDate.getTime())) {
-        // targetDate가 올바른 날짜가 아닌 경우 처리
-        const timerElement = document.querySelector(`.auth-timer[data-auth-id="${authId}"]`);
-        if (timerElement) {
-            timerElement.textContent = '유효하지 않은 날짜';
-        }
-        return;
-    }
-
-    const timeRemaining = endDate - now;
-
-    if (timeRemaining <= 0) {
-        const timerElement = document.querySelector(`.auth-timer[data-auth-id="${authId}"]`);
-        if (timerElement) {
-            timerElement.textContent = '시간 초과';
-        }
-        return;
-    }
-
-    const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-
-    // 시간, 분, 초가 10 미만일 경우 앞에 0 추가
-    const formattedTime = `${hours < 10 ? '0' : ''}${hours}시간 ${minutes < 10 ? '0' : ''}${minutes}분 ${seconds < 10 ? '0' : ''}${seconds}초`;
-
-    const timerElement = document.querySelector(`.auth-timer[data-auth-id="${authId}"]`);
-    if (timerElement) {
-        timerElement.textContent = formattedTime;
-    }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    const authElements = document.querySelectorAll('.activate-auth');
-
-    authElements.forEach(authElement => {
-        const authId = authElement.getAttribute('data-auth-id');
-        const targetDate = authElement.getAttribute('data-target-date');
-        
-        // 초기 표시
-        displayRemainingTime(targetDate, authId);
-
-        // 1초마다 업데이트
-        setInterval(() => {
-            displayRemainingTime(targetDate, authId);
-        }, 1000);
+  //인증 마감(delete)
+  // Goal 삭제시 팝업되는 confirm창
+function closeAuth(authId) {
+    Swal.fire({
+      title: "정말 삭제하시겠습니까?",
+      text: "삭제한 인증은 복구할 수 없어요!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch("../delete_auth/" + authId, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken"),
+                },
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        const authElement = document.getElementById('auth-' + authId);
+                        authElement.remove();
+                        return response.json();
+                    } else {
+                        Swal.fire({
+                            title: "삭제 실패",
+                            text: "인증 삭제 중 오류가 발생했습니다",
+                            icon: "error",
+                        });
+                        throw new Error("삭제 과정에서 오류가 발생했습니다.");
+                    }
+                })
+                .then((json_data) => {
+                    Swal.fire({
+                        title: "삭제 완료",
+                        text: json_data.message,
+                        icon: "success",
+                    });
+                })
+                .catch(error => { console.log(error.message)})
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire({
+          title: "취소됨",
+          text: "인증 삭제가 취소되었습니다.",
+          icon: "error",
+          confirmButtonText: "확인",
+        });
+      }
     });
-});
+}

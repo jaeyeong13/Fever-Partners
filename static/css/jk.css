@@ -53,11 +53,11 @@
 }
 
 #group-select-activity-list {
-  height: 5vh;
+  height: 4.7vh;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  border-bottom: solid 1px var(--main-color);
+  border-bottom: solid 0.3vh var(--main-color);
   font-weight: bold;
 }
 
@@ -85,7 +85,7 @@
   gap: 1em;
   height: 100%;
   overflow-y: scroll;
-  padding-top: 2vh;
+  padding: 2vh;
 }
 
 .auth-log{
@@ -160,6 +160,22 @@
   display: flex;
   justify-content: space-between;;
   align-items: center;
+}
+
+.blue-bc-text{
+  color: var(--gray);
+  font-size: 0.8em;
+  background-color: skyblue;
+  padding: 0.3em 0.5em;
+  border-radius: 5px;
+}
+
+.green-bc-text{
+  color: white;
+  font-size: 0.8em;
+  background-color: var(--green);
+  padding: 0.3em 0.5em;
+  border-radius: 5px;
 }
 
 .auth-btn-style{
@@ -393,6 +409,11 @@
 
 .fs15em-bold{
   font-size: 1.5em;
+  font-weight: bold;
+}
+
+.fs12em-bold{
+  font-size: 1.2em;
   font-weight: bold;
 }
 

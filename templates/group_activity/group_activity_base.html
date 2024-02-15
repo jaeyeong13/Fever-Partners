@@ -20,9 +20,9 @@
     <div id="group-introbox">
       <div class='goal-header goal-header-w'>
           <div class="page_back_header">
-              <span onclick="goBack()" class="page_back">
+              <a href="{% url 'group_management:group_list' %}" class="page_back">
                   <i class="fa-solid fa-chevron-left"></i>
-              </span>
+              </a>
           </div>
           <div></div>
       </div>
@@ -50,7 +50,7 @@
     </div>
     <div id="group-select-activity-list">
       <a href="{%url 'group_activity:member_list' room_id%}" onclick="changeTab('member', event, {{room_id}})">멤버</a>
-      <a href="{% url 'group_activity:activate' room_id %}" onclick="changeTab('activate', event, {{room_id}})">인증 공간</a>
+      <a href="{% url 'group_activity:activate' room_id %}" onclick="changeTab('activate', event, {{room_id}})" class="selected-group-tab">인증 공간</a>
       <a href="{% url 'group_activity:show_log' room_id %}" onclick="changeTab('show_log', event, {{room_id}})">활동 현황</a>
       <a href="{% url 'free_board:list' room_id %}">게시판</a>
     </div>
@@ -78,4 +78,12 @@
       </a>
     </div>
   </body>
+  <script>
+    document.addEventListener('DOMContentLoaded', defaultActivate({{room_id}}));
+
+    function defaultActivate(roomId) {
+      var defaultTabId = 'activate';
+      changeTab(defaultTabId, null, {{ roomId }});
+    }
+</script>
 </html>
