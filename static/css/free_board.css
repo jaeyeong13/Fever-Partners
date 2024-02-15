@@ -14,12 +14,230 @@ html, body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  padding-bottom: 70px;
+  padding-bottom: 90px;
 }
 .header {
-  flex-shrink: 0;
+  background-color: #db4455;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 2em;
+  font-family: sans-serif;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+}
+.back-arrow {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 3.5rem;
+  cursor: pointer;
+  color: white;
 }
 .container {
+  margin-top: 10px;
   flex: 1;
   overflow: auto;
+  padding: 20px;
+  padding-top: 90px;
 }
+.tab-container {
+    display: flex;
+    font-weight: bold;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .tab-container a {
+    text-decoration: none;
+    flex-grow: 1; /* 모든 탭이 동일한 너비를 가지도록 설정 */
+    text-align: center; /* 텍스트를 탭 중앙으로 정렬 */
+    padding: 20px 0; /* 상하 패딩 증가 */
+    box-sizing: border-box; /* 패딩과 보더가 너비에 포함되도록 설정 */
+    border: none; /* 테두리 없음 */
+    outline: none; /* 아웃라인 없음 */
+    transition: background-color 0.3s; /* 배경색 변경시 트랜지션 효과 */
+    font-size: 1.7rem; /* 텍스트 크기 증가 */
+  }
+
+  .inactive {
+    background-color: #D9D9D9;
+    color: #db4455;
+  }
+
+  .notice-active {
+    background-color: #DB4455; /* 활성 탭 배경 색상 */
+    color: white; /* 활성 탭 텍스트 색상 */
+    border-top-left-radius: 20px; /* 왼쪽 상단 모서리 둥글게 */
+    border-bottom-left-radius: 20px; /* 왼쪽 하단 모서리 둥글게 */
+  }
+
+  .notice-inactive {
+    background-color: #D9D9D9; /* 비활성 탭 배경 색상 */
+    color: #DB4455; /* 비활성 탭 텍스트 색상 */
+    border-top-left-radius: 20px; /* 왼쪽 상단 모서리 둥글게 */
+    border-bottom-left-radius: 20px; /* 왼쪽 하단 모서리 둥글게 */
+  }
+
+  .community-active {
+    background-color: #DB4455; /* 활성 탭 배경 색상 */
+    color: white; /* 활성 탭 텍스트 색상 */
+    border-top-right-radius: 20px; /* 오른쪽 상단 모서리 둥글게 */
+    border-bottom-right-radius: 20px; /* 오른쪽 하단 모서리 둥글게 */
+  }
+
+  .community-inactive {
+    background-color: #D9D9D9; /* 비활성 탭 배경 색상 */
+    color: #DB4455; /* 비활성 탭 텍스트 색상 */
+    border-top-right-radius: 20px; /* 오른쪽 상단 모서리 둥글게 */
+    border-bottom-right-radius: 20px; /* 오른쪽 하단 모서리 둥글게 */
+  }
+
+  .table-title {
+    background-color: #DB4455;
+    color: white;
+    width: auto;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bolder;
+    justify-content: space-around;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .text-title {
+    font-weight: 600;
+  }
+
+  .board-table {
+    width: 100%;
+    border-collapse: separate; /* border-radius를 적용하기 위해 필요 */
+    border-spacing: 0;
+  }
+
+  .board-table thead th:first-child {
+    border-top-left-radius: 5px; /* 왼쪽 상단 모서리 둥글게 */
+  }
+
+  .board-table thead th:last-child {
+    border-top-right-radius: 5px; /* 오른쪽 상단 모서리 둥글게 */
+  }
+
+  .board-table thead th {
+    vertical-align: middle;
+    background-color: #db4455;
+    color: white;
+    padding: 20px 0;
+  }
+
+  .board-table tbody td {
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .board-table tbody tr:first-child td {
+    padding-top: 10px;
+  }
+
+  .board-table tbody tr:last-child td {
+    border-bottom: 1px solid #ccc; /* 마지막 행에 밑 줄 추가 */
+  }
+
+  .board-table tbody tr:last-child td:last-child {
+    border-bottom: 1px solid #ccc; /* 마지막 셀에도 밑 줄 추가 */
+  }
+
+
+  /* Pagination container */
+ul.pagination {
+    text-align: center; /* 페이지네이션 바 중앙 정렬 */
+    padding: 0;
+    list-style: none;
+}
+
+/* Pagination items */
+ul.pagination li {
+    display: inline; /* 리스트 아이템을 가로로 배치 */
+    margin-right: 4px; /* 아이템 간 간격 */
+}
+
+/* Pagination links */
+ul.pagination li a {
+    color: #333; /* 링크 기본 색상 */
+    padding: 8px 12px; /* 패딩 조정 */
+    text-decoration: none; /* 링크 밑줄 제거 */
+    transition: background-color .3s; /* 배경색 변경 트랜지션 */
+    border-radius: 2px; /* 코너 둥글게 */
+}
+
+/* Hover effects */
+ul.pagination li a:hover:not(.active) {
+    background-color: #d9d9d9; /* 호버 시 배경색 변경 */
+}
+
+/* Active page item */
+ul.pagination li a.active {
+    background-color: #db4455; /* 활성 페이지 배경 색상 */
+    color: white; /* 활성 페이지 텍스트 색상 */
+}
+
+/* Disabled page item */
+ul.pagination li a.disabled {
+    color: #ccc; /* 비활성 페이지 텍스트 색상 */
+    cursor: not-allowed; /* 마우스 오버시 커서 변경 */
+}
+
+.new-post-btn {
+  background-color: #db4455; /* 배경 색상 */
+  float: right;
+  margin-top: 5px;
+  color: white; /* 텍스트 색상 */
+  border-radius: 8px; /* 둥근 모서리의 반경 */
+  padding: 10px 13px; /* 상하 좌우 패딩 */
+  text-decoration: none; /* 텍스트 밑줄 제거 */
+  display: inline-block; /* 버튼을 인라인 블록 요소로 설정 */
+  font-size: 20px;
+  font-weight: bold; /* 텍스트를 굵게 */
+  text-align: center; /* 텍스트 중앙 정렬 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+  border: none; /* 테두리 제거 */
+  cursor: pointer; /* 마우스 오버 시 커서 변경 */
+  transition: background-color 0.3s, box-shadow 0.3s; /* 배경색과 그림자에 대한 전환 효과 */
+}
+
+  .footer {
+    height: 75px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    align-items: center;
+    padding: 10px 0;
+    background-color: #f2f2f2;
+  }
+
+  .footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px; /* 최대 너비 설정 */
+    width: 100%; /* 너비를 100%로 설정하여 부모 요소를 꽉 채우게 함 */
+    padding: 0 30px; /* 양쪽에 padding 추가 */
+  }
+
+  .footer-link {
+    text-decoration: none;
+  }
+
+  td {
+    vertical-align: middle;
+  }

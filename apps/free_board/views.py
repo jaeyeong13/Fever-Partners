@@ -70,7 +70,7 @@ def index(request, study_room_id):
         free_posts = Post.objects.filter(notice=False, room=room).order_by('-created_at')  # 여기를 수정해주세요.
         posts = list(chain(notice_posts, free_posts))
 
-    paginator = Paginator(posts, 8)
+    paginator = Paginator(posts, 7)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
