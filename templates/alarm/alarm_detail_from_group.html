@@ -17,10 +17,7 @@
         <p>당신의 목표 <span class="main-color-text">'{{alarm.goal.title}}'</span> 을 눈여겨본 {{ alarm.alarm_from.nickname }}님이 그룹가입을 제안했습니다.</p>
         <p>제안된 그룹: <span class="main-color-text">{{ alarm.room.title }}</span></p>
         <div class="horizontal-btns">
-            <form method="POST" action="{% url 'alarm:accept_request' alarm.id %}">
-                {% csrf_token %}
-                <button type="submit" class="white-main-btn">수락</button>
-            </form>
+            <button onclick="acceptRequest({{alarm.id}})" class="white-main-btn">수락</button>
             <form method="POST" action="{% url 'alarm:reject_request' alarm.id %}">
                 {% csrf_token %}
                 <button type="submit" class="white-main-btn">거절</button>

@@ -17,15 +17,12 @@
             <p><span class="main-color-text">{{ alarm.alarm_from.nickname }}</span> 님이 그룹에 직접 초대하셨습니다. 가입을 원하시면 목표를 설정해주세요.</p>
             <p>제안된 그룹: <span class="main-color-text">{{ alarm.room.title }}</span></p>
             <div class="horizontal-btns">
-                <form method="POST" action="{% url 'alarm:accept_direct_request' alarm.id %}">
-                    {% csrf_token %}
-                    <select name="goal" id="goal" required>
-                    {% for goal in goals %}
-                        <option value="{{ goal.id }}">{{ goal.title }}</option>
-                    {% endfor %}
-                    </select>
-                    <button type="submit" class="white-main-btn">수락</button>
-                </form>
+                <select name="goal" id="goal" required>
+                {% for goal in goals %}
+                    <option value="{{ goal.id }}">{{ goal.title }}</option>
+                {% endfor %}
+                </select>
+                <button onclick="acceptDirectRequest({{alarm.id}})" type="submit" class="white-main-btn">수락</button>
                 <form method="POST" action="{% url 'alarm:reject_request' alarm.id %}">
                     {% csrf_token %}
                     <button type="submit" class="white-main-btn">거절</button>
