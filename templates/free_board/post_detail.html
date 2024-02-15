@@ -31,14 +31,8 @@
             {{ post.author.nickname }} |
           </div>
           <div class="post-created-time">
-            {{ post.created_at|date:"y-m-d A g:i" }}
+            {{ post.created_at|date:"y-m-d H:i" }}
           </div>
-          {% if post.updated_at %}
-            <div class="post-update-time">
-              <div>수정: </div>
-              <div>{{ post.updated_at|date:"y-m-d A g:i" }}</div>
-            </div>
-          {% endif %}
         </div>
         <div class="post-writing">
           <div class="post-text">
@@ -65,6 +59,11 @@
           <button type="submit" class="btn-del" onclick="return confirm('정말로 글을 삭제하시겠습니까?');">삭제</button>
         </form>
       </div>
+      {% endif %}
+      {% if post.updated_at %}
+        <div class="post-update-time">
+          <div>마지막 수정 시간 "{{ post.updated_at|date:"y-m-d H:i" }}"</div>
+        </div>
       {% endif %}
       <hr class="custom-hr">
       <h5 class="comment-count">

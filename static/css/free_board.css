@@ -244,6 +244,11 @@ ul.pagination li a.disabled {
   display: inline;
   margin-right: 1px;
 }
+.post-update-time {
+  color: grey;
+  font-size: 0.5rem;
+  text-align: right;
+}
 .post-text {
   white-space: pre-line;
   padding: 20px 30px;
@@ -401,7 +406,63 @@ ul.pagination li a.disabled {
   background-color: #b33b4b;
 }
 
-
+/* post_create.html */
+.post-title-input {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #616161;
+}
+.form-control {
+  display: block;
+  margin-bottom: 30px;
+  width: 95%;
+  box-sizing: border-box;
+  padding: 16px;
+  border: 1.5px solid #ac3442;
+  border-radius: 4px;
+  height: 48px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+.form-control:focus {
+  border: 2.7px solid;
+  border-color: #db4455;
+}
+#title {
+  height: 48px;
+}
+#content {
+  height: auto;
+  padding: 16px;
+}
+.post-body-input {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #616161;
+}
+.post-create-submit-btn {
+    background-color: #db4455;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 2px 4px #999;
+    transition: background-color 200ms ease-in-out;
+  }
+  .post-create-submit-btn:hover {
+    background-color: #c02b2b;
+  }
+  .button-container {
+    text-align: right;
+  }
 
 /* footer 부분 */
 .footer {
