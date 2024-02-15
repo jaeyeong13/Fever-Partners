@@ -35,7 +35,7 @@ def create_post(request, study_room_id):
     context = {
         'form': form,
         'user_is_master': user_is_master,
-        'study_room_id': study_room_id,  # 이 줄을 추가해주세요.
+        'study_room_id': study_room_id,
     }
     return render(request, 'free_board/post_create.html', context)
 
@@ -63,11 +63,11 @@ def index(request, study_room_id):
     room = get_object_or_404(Room, pk=study_room_id)
     tab = request.GET.get('tab', 'notice')
 
-    notice_posts = Post.objects.filter(notice=True, room=room).order_by('-created_at')[:2]  # 여기를 수정해주세요.
+    notice_posts = Post.objects.filter(notice=True, room=room).order_by('-created_at')[:2]
     if tab == 'notice':
-        posts = Post.objects.filter(notice=True, room=room).order_by('-created_at')  # 여기를 수정해주세요.
+        posts = Post.objects.filter(notice=True, room=room).order_by('-created_at')
     else:
-        free_posts = Post.objects.filter(notice=False, room=room).order_by('-created_at')  # 여기를 수정해주세요.
+        free_posts = Post.objects.filter(notice=False, room=room).order_by('-created_at')
         posts = list(chain(notice_posts, free_posts))
 
     paginator = Paginator(posts, 7)

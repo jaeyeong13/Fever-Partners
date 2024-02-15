@@ -375,6 +375,13 @@ ul.pagination li a.disabled {
   align-items: center;
 }
 
+.created-at,
+.updated-at {
+  margin-bottom: 2px;
+}
+.updated-at {
+  margin-top: 2px;
+}
 .comment-author-details {
   font-size: 0.5rem;
   color: #495057;
@@ -463,6 +470,40 @@ ul.pagination li a.disabled {
   .button-container {
     text-align: right;
   }
+
+/*  comment_form.html */
+.comment-mod-title {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #616161;
+  margin-top: 10px;
+}
+.comment-button-container {
+  width: 93%;
+  text-align: right;
+  padding: 10px;
+}
+.comment-modify-submit-btn {
+  width: 120px;
+  background-color: #db4455;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 10px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 200ms ease-in-out;
+}
+.comment-modify-submit-btn:hover {
+  background-color: #c02b2b;
+}
+.post-create-submit-btn {
+  width: 100%;
+}
 
 /* footer 부분 */
 .footer {

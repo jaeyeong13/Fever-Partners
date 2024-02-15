@@ -76,9 +76,9 @@
             <div class="comment-author">
               <span>{{ comment.author.nickname }}</span>
               <div class="comment-author-details">
-                작성 | {{ comment.created_at|date:"Y-m-d H:i" }}
+                <div class="created-at">작성 | {{ comment.created_at|date:"Y-m-d H:i" }}</div>
                 {% if comment.updated_at %}
-                  수정 | {{ comment.updated_at|date:"Y-m-d H:i" }}
+                  <div class="updated-at">마지막 수정 시간 "{{ comment.updated_at|date:"Y-m-d H:i" }}"</div>
                 {% endif %}
               </div>
             </div>
