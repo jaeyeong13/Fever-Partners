@@ -20,9 +20,9 @@
     <div id="group-introbox">
       <div class='goal-header goal-header-w'>
           <div class="page_back_header">
-              <span onclick="goBack()" class="page_back">
+              <a href="{% url 'group_management:group_list' %}" class="page_back">
                   <i class="fa-solid fa-chevron-left"></i>
-              </span>
+              </a>
           </div>
           <div></div>
       </div>
@@ -85,23 +85,6 @@
     function defaultActivate(roomId) {
       var defaultTabId = 'activate';
       changeTab(defaultTabId, null, {{ roomId }});
-    }
-    
-    function closeAuth(roomId, authId) {
-        fetch('../main/'+roomId)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.text();
-            })
-            .then(data => {
-                const authElement = document.getElementById('auth-' + authId);
-                authElement.parentNode.removeChild(authElement);
-            })
-            .catch(error => {
-                console.error('Error during fetch operation:', error);
-            });
     }
 </script>
 </html>

@@ -162,6 +162,22 @@
   align-items: center;
 }
 
+.blue-bc-text{
+  color: var(--gray);
+  font-size: 0.8em;
+  background-color: skyblue;
+  padding: 0.3em 0.5em;
+  border-radius: 5px;
+}
+
+.green-bc-text{
+  color: white;
+  font-size: 0.8em;
+  background-color: var(--green);
+  padding: 0.3em 0.5em;
+  border-radius: 5px;
+}
+
 .auth-btn-style{
   color: white;
   background-color: var(--main-color);
