@@ -104,9 +104,11 @@ def update(request, pk):
     if request.method == "POST":
         user.nickname = request.POST["nickname"]
         user.profile = request.POST["profile"]
-        #user.profile_image = request.POST["profile_image"]
         user.region = request.POST["region"]
         user.region_detail = request.POST["region_detail"]
+        if 'profile_image' in request.FILES:
+            profile_image = request.FILES['profile_image']
+            user.profile_image.save(profile_image.name, profile_image)
         user.save()
         return redirect(f"/detail/{pk}")
     ctx = {
