@@ -1,19 +1,27 @@
-<div>그룹 추천 페이지입니다</div>
-<div>현재 접속한 유저 : {{user.nickname}}</div>
-<div>기준 목표 : {{goal.title}}</div>
-<h1>추천하는 그룹</h1>
-{% for room in rooms %}
-<div>
-    <p>group: {{room.title}} </p>
-    <p>master: {{room.master.nickname}}</p>
-    <p>detail: {{room.detail}}</p>
-    <p>인증: {{room.cert_required}}</p>
-    <form action="{% url 'goal_management:suggest_join' goal.pk%}" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="user_id" value="{{ room.master.id }}">
-        <input type="hidden" name="goal_id" value="{{ goal.id }}">
-        <input type="hidden" name="room_id" value="{{ room.id }}">
-        <button type="submit">가입신청</button>
-    </form>
-</div>
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{%static 'javascript/main.js'%}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
+    <title>Document</title>
+</head>
+<body>
+    <div>그룹 추천 페이지입니다</div>
+    <div>현재 접속한 유저 : {{user.nickname}}</div>
+    <div>기준 목표 : {{goal.title}}</div>
+    <h1>추천하는 그룹</h1>
+    {% for room in rooms %}
+    <div>
+        <p>group: {{room.title}} </p>
+        <p>master: {{room.master.nickname}}</p>
+        <p>detail: {{room.detail}}</p>
+        <p>인증: {{room.cert_required}}</p>
+        <button onclick="applyForAdmission(this,'{{room.title}}',{{room.master.id}},{{room.id}},{{goal.id}})">가입신청</button>
+    </div>
 {% endfor %}
+</body>
+</html>

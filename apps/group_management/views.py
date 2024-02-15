@@ -8,6 +8,8 @@ from django.http import HttpResponseBadRequest, HttpResponse
 from django.urls import reverse
 from elasticsearch_dsl import Search, Q
 from apps.group_administration.decorators import room_admin_required
+from django.views.decorators.http import require_http_methods
+import json
 
 def start_creation(request):
     goals = Goal.objects.filter(user = request.user).filter(is_in_group = False).filter(is_completed = False)
@@ -115,18 +117,20 @@ def recommend_member(request, room_id):
     }
     return render(request, 'group_management/member_recom.html', cnt)
 
+@room_admin_required
+@require_http_methods(["POST"])
 def suggest_join(request, room_id):
-    if request.method == 'POST':
-        user_id = request.POST.get('user_id')
-        goal_id = request.POST.get('goal_id')
+    try:
+        data = json.loads(request.body)
+        user_id = data.get('user_id')
+        goal_id = data.get('goal_id')
         user = get_object_or_404(get_user_model(), id=user_id)
-        room = get_object_or_404(Room, id=room_id)  # 방 정보 가져오기
+        room = get_object_or_404(Room, id=room_id)
         goal = get_object_or_404(Goal, id=goal_id)
-        # 새 알람 객체 생성 시 인스턴스로 변환된 사용자를 할당
         Alarm.objects.create(alarm_from=request.user, alarm_to=user, room = room, goal = goal)
-        return redirect(f'/group/member_recommendation/{room.id}')
-    else:
-        return redirect('/')  # POST 요청이 아닌 경우 홈페이지로 리다이렉트
+        return HttpResponse(status=204)
+    except Exception:
+        return HttpResponse(status=400)
     
 def show_group_list(request):
     user = request.user

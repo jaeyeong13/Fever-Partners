@@ -155,18 +155,20 @@ def recommend_group(request, goal_id):
     }
     return render(request, 'goal_management/group_recom.html', cnt)
 
+@goal_ownership_required
+@require_http_methods(["POST"])
 def suggest_join(request, goal_id):
-    if request.method == 'POST':
-        user_id = request.POST.get('user_id')
-        room_id = request.POST.get('room_id')
+    try:
+        data = json.loads(request.body)
+        user_id = data.get('user_id')
+        room_id = data.get('room_id')
         user = get_object_or_404(get_user_model(), id=user_id)
-        goal = get_object_or_404(Goal, id=goal_id)  # 방 정보 가져오기
+        goal = get_object_or_404(Goal, id=goal_id)
         room = get_object_or_404(Room, id=room_id)
-        # 새 알람 객체 생성 시 인스턴스로 변환된 사용자를 할당
         Alarm.objects.create(alarm_from=request.user, alarm_to=user, goal = goal, room = room)
-        return redirect(f'/goal/group_recommendation/{goal.id}')
-    else:
-        return redirect('/')# POST 요청이 아닌 경우 홈페이지로 리다이렉트
+        return HttpResponse(status=204)
+    except Exception:
+        return HttpResponse(status=400)
 
 def show_achievement_report_list(request):
     reports = AchievementReport.objects.all()
