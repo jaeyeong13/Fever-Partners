@@ -1,44 +1,77 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Fever Partners</title>
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jiwoo.css' %}">
+
+    <!-- icon -->
+    <script src="https://kit.fontawesome.com/6a125f09de.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header>
-        <h1>헤더입니다</h1>
-        {% if user.is_authenticated %}
-        <a href="{% url 'user_management:logout' %}">로그아웃</a>
-        {% endif %}
-        <a href="{% url 'alarm:show_alarms' %}">알림</a>
-        <a href="{% url 'user_management:detail' user.pk%}">내 정보</a>
-    </header>
-    <main>
-        <div>어서오세요 {{ user.nickname }}님</div>
-        <div>
-            <p>활동요약</p>
-            <p>
-                지금까지 {{ goal_count }}개의 목표를 등록하고
-            </p>
-            <p>
-                {{ goal_complete }}개의 목표를 달성
-            </p>
+    <div id="main_container">
+        <div class="main_container_top_part">
+            <div class="main_container_header">
+                <span>
+                    <img src="{% static 'image/logo.png' %}" alt="">
+                </span>
+                <span>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'user_management:logout' %}">로그아웃</a>
+                    {% endif %}
+                    <a href="{% url 'alarm:show_alarms' %}">알림</a>
+                    <a href="{% url 'user_management:detail' user.pk%}">내 정보</a>
+                </span>
+            </div>
+            <div class="main_top_part">
+                <div>
+                    <div>어서오세요 {{ user.nickname }}님</div>
+                    <div>
+                        <p>
+                            지금까지 {{ goal_count }}개의 목표를 등록하고
+                        </p>
+                    </div>
+                    <div>
+                        <p>
+                            {{ goal_complete }}개의 목표를 달성
+                        </p>
+                    </div>
+                    <div>
+                        <progress value="{{ user.fuel }}" max="100"></progress>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-            <p>
-                My Fuel Gage: {{ user.fuel }}
-            </p>
+        <div class="main_container_bottom_part">
+            <div class="main_container_bottom_part_content">
+                <a href="{% url 'goal_management:start_goal_creation' %}">new goal</a>
+                <a href="{% url 'group_management:start_creation' %}">new group</a>
+            </div>
         </div>
-        <div>
-            <a href="{% url 'goal_management:start_goal_creation' %}">새 목표 등록</a>
-            <a href="{% url 'group_management:start_creation' %}">새 그룹 개설</a>
-        </div>
-    </main>
-    <footer>
-        <a href="{% url 'goal_management:goal_list' %}">My Goal</a>
-        <a href="{% url 'group_management:group_list' %}">Group</a>
-        <a href="{% url 'goal_management:achievement_report_list'%}">Achievements</a>
-    </footer>
+        <div class="footer">
+            <a href="{% url 'group_management:group_list' %}" class="footer-link" style="display: flex;">
+              <div class="footer-item">
+                <i class="fa-solid fa-user-group footer-icon"></i>
+                <a href="{% url 'group_management:group_list' %}" class="footer-text">Group</a>
+              </div>
+            </a>
+            <a href="{% url 'goal_management:goal_list' %}" class="footer-link" style="display: flex;">
+              <div class="footer-item">
+                <i class="fa-solid fa-bullseye footer-icon"></i>
+                <a href="{% url 'goal_management:goal_list' %}" class="footer-text">My Goal</a>
+              </div>
+            </a>
+            <a href="{% url 'goal_management:achievement_report_list'%}" class="footer-link" style="display: flex;">
+              <div class="footer-item">
+                <i class="ri-file-list-3-line footer-icon"></i>
+                <a href="{% url 'goal_management:achievement_report_list'%}" class="footer-text">Achievements</a>    <!-- 이 부분 이름은 나중에 수정 필요 -->
+              </div>
+            </a>
+          </div>
+    </div>
+    
 </body>
 </html>
