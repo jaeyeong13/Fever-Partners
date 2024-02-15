@@ -607,4 +607,20 @@ if (nicknameInput){
     }
   });
 }
-    
+
+function checkGoalStatus() {
+  fetch(window.location.origin + '/group/check_goals')
+  .then(response => {
+      if (response.ok) {
+        window.location.href = window.location.origin + "/group/create_group";
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: '<div style="font-size: 20px">한 개 이상의 등록가능한 목표가 필요합니다.</div>',
+          });
+      }
+    })
+  .catch(error => {
+      console.error(error);
+  });
+}

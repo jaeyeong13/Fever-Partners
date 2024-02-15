@@ -4,7 +4,7 @@ from apps.goal_management.models import Goal
 from apps.alarm.models import Alarm
 from apps.group_management.models import Room 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, HttpResponse
 from django.urls import reverse
 from elasticsearch_dsl import Search, Q
 from apps.group_administration.decorators import room_admin_required
@@ -132,3 +132,10 @@ def show_group_list(request):
     user = request.user
     rooms = Room.objects.filter(members__in = [user])
     return render(request, 'group_management/group_list.html', {'rooms': rooms})
+
+def check_user_goal(request):
+    available_goals = Goal.objects.filter(user=request.user).exclude(is_completed=True).exclude(is_in_group=True)
+    if available_goals:
+        return HttpResponse(status=204)
+    else:
+        return HttpResponse(status=400)

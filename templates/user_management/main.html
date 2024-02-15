@@ -1,8 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{%static 'javascript/main.js'%}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
     <title>Document</title>
 </head>
 <body>
@@ -32,7 +35,7 @@
         </div>
         <div>
             <a href="{% url 'goal_management:start_goal_creation' %}">새 목표 등록</a>
-            <a href="{% url 'group_management:start_creation' %}">새 그룹 개설</a>
+            <a onclick="checkGoalStatus()">새 그룹 개설</a>
         </div>
     </main>
     <footer>
