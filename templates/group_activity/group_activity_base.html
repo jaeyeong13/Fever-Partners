@@ -51,7 +51,7 @@
     </div>
     <div id="group-select-activity-list">
       <a href="{%url 'group_activity:member_list' room_id%}" onclick="changeTab('member', event, {{room_id}})">멤버</a>
-      <a href="{% url 'group_activity:activate' room_id %}" onclick="changeTab('activate', event, {{room_id}})">인증 공간</a>
+      <a href="{% url 'group_activity:activate' room_id %}" onclick="changeTab('activate', event, {{room_id}})" class="selected-group-tab">인증 공간</a>
       <a href="{% url 'group_activity:show_log' room_id %}" onclick="changeTab('show_log', event, {{room_id}})">활동 현황</a>
       <a href="{% url 'free_board:list' room_id %}">게시판</a>
     </div>
@@ -80,10 +80,28 @@
     </div>
   </body>
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      var defaultTabId = 'activate';
+    document.addEventListener('DOMContentLoaded', defaultActivate({{room_id}}));
 
-      changeTab(defaultTabId, null, {{ room_id }});
-  });
-  </script>
+    function defaultActivate(roomId) {
+      var defaultTabId = 'activate';
+      changeTab(defaultTabId, null, {{ roomId }});
+    }
+    
+    function closeAuth(roomId, authId) {
+        fetch('../main/'+roomId)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(data => {
+                const authElement = document.getElementById('auth-' + authId);
+                authElement.parentNode.removeChild(authElement);
+            })
+            .catch(error => {
+                console.error('Error during fetch operation:', error);
+            });
+    }
+</script>
 </html>

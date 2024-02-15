@@ -48,3 +48,57 @@ function loadContent(url) {
       }
       loadContent(url);
   }
+
+  //인증 마감(delete)
+  // Goal 삭제시 팝업되는 confirm창
+function closeAuth(authId) {
+    Swal.fire({
+      title: "정말 삭제하시겠습니까?",
+      text: "삭제한 인증은 복구할 수 없어요!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch("../delete_auth/" + authId, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken"),
+                },
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        const authElement = document.getElementById('auth-' + authId);
+                        authElement.remove();
+                        return response.json();
+                    } else {
+                        Swal.fire({
+                            title: "삭제 실패",
+                            text: "인증 삭제 중 오류가 발생했습니다",
+                            icon: "error",
+                        });
+                        throw new Error("삭제 과정에서 오류가 발생했습니다.");
+                    }
+                })
+                .then((json_data) => {
+                    Swal.fire({
+                        title: "삭제 완료",
+                        text: json_data.message,
+                        icon: "success",
+                    });
+                })
+                .catch(error => { console.log(error.message)})
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire({
+          title: "취소됨",
+          text: "인증 삭제가 취소되었습니다.",
+          icon: "error",
+          confirmButtonText: "확인",
+        });
+      }
+    });
+}

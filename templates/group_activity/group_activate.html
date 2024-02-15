@@ -5,23 +5,23 @@
     <div id="auth-restart"><i class="fa-solid fa-rotate-right" onclick="changeTab('activate', event, {{room_id}})"></i></div>
     {% for auth in authentications %}
     {% if auth.start > current_time %}
-        <div class="activate-auth">
-            <div class="main-color-08em">아직 인증이 시작되지 않았습니다</div>
+        <div id="auth-{{ auth.id }}" class="activate-auth">
+            <div class="gray-08em">아직 인증이 시작되지 않았습니다</div>
             <div>인증시간: {{auth.start | date:"m월 d일"}} {{auth.start | time:"H:i"}} ~ {{auth.end | date:"m월 d일"}} {{auth.end | time:"H:i"}}</div>
         </div>
     {% elif auth.end < current_time %}
         {% if user == room.master %}
-        <div class="activate-auth">
-            <div class="main-color-08em">이미 종료된 인증입니다.</div>
+        <div id="auth-{{ auth.id }}" class="activate-auth">
+            <div class="gray-08em">이미 종료된 인증입니다.</div>
             <div>인증시간: {{auth.start | date:"m월 d일"}} {{auth.start | time:"H:i"}} ~ {{auth.end | date:"m월 d일"}} {{auth.end | time:"H:i"}}</div>
             <div class="activate-auth-bottom">
                 <div></div>
-                <a href="{% url 'group_activity:close_auth' room.pk auth.pk %}" class="auth-btn-style red-btn">인증 마감</a>
+                <a href="#" onclick="closeAuth({{ auth.pk }})" class="auth-btn-style red-btn">인증 마감</a>
             </div>
         </div>
         {% endif %}
     {% else %}
-        <div class="activate-auth">
+        <div id="auth-{{ auth.id }}" class="activate-auth">
             <div class="main-color-08em">현재 활성화 된 인증</div>
             <div>인증시간: {{auth.start | date:"m월 d일"}} {{auth.start | time:"H:i"}} ~ {{auth.end | date:"m월 d일"}} {{auth.end | time:"H:i"}}</div>
             <div class="activate-auth-bottom">

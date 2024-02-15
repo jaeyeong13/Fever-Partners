@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{%static 'css/reset.css' %}" />
+  <link rel="stylesheet" href="{%static 'css/main.css' %}" />
   <link rel="stylesheet" href="{%static 'css/jk.css' %}" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <script src="{%static 'javascript/main.js'%}" defer></script>
@@ -23,4 +24,11 @@
     <button type="button" onclick="validateTime()" class="red-btn big-btn">인증개설</button>
   </form>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+  flatpickr('.flatpickr', {
+    enableTime: true,
+    dateFormat: "Y-m-d H:i",
+  });
+</script>
 </html>

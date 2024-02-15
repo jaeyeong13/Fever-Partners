@@ -120,8 +120,17 @@ def close_authentication(request, room_id, auth_id):
             member.fuel = loss_fever(member.fuel)
             member.save()
     auth.delete()
-    return redirect('group_activity:activate', room_id=room_id) 
+    return redirect('group_activity:main_page', room_id=room_id) 
 
+@require_http_methods(["DELETE"])
+def delete_auth(request, auth_id):
+    try:
+        target = Authentication.objects.get(pk=auth_id)
+        target.delete()
+        return JsonResponse({'message': '인증이 성공적으로 삭제되었습니다.'}, status=200)
+    except Exception:
+        return HttpResponse(status=400)
+    
 def add_fever(fever):
     fever_after = 0
     if 0 <= fever <= 25:
