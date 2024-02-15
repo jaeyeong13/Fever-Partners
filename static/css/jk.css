@@ -396,6 +396,11 @@
   font-weight: bold;
 }
 
+.fs12em-bold{
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
 .horizontal-btns{
   display: flex;
   justify-content: space-around;

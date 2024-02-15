@@ -51,6 +51,8 @@ def create_auth(request, room_id):
 
 #그룹장이 올린 인증 틀에 멤버들이 인증을 생성하는 것
 def create_authentication(request, room_id, auth_id):
+    target_auth = get_object_or_404(Authentication, pk=auth_id)
+
     if request.method == 'GET':
         form = MemberAuthenticationForm()
 
@@ -58,13 +60,13 @@ def create_authentication(request, room_id, auth_id):
             'form': form,
             'room_id': room_id,
             'auth_id': auth_id,
+            'auth': target_auth,
             }
         return render(request, 'group_activity/create_authentication.html', ctx)
 
     # POST일때
     form = MemberAuthenticationForm(request.POST, request.FILES)
     room = get_object_or_404(Room, id=room_id)
-    target_auth = get_object_or_404(Authentication, pk=auth_id)
     target_auth.participated.add(request.user)
     form.instance.room = room
     form.instance.user = request.user
