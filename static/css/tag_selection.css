@@ -19,7 +19,7 @@ input[type="radio"] {
 input[type="checkbox"]:checked + label,
 input[type="radio"]:checked + label {
     font-weight: bold;
-    color: blue;
+    color: dodgerblue;
 }
 
 input[type="checkbox"]:focus + label,

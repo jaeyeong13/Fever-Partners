@@ -16,7 +16,7 @@
     <table style="width: 100%; margin-bottom: 30px;" class="board-table">
       <thead class="thead">
         <tr class="table-title">
-          <th>제목</th>
+          <th style="max-width: 150px">제목</th>
           <th style="font-size: 0.7rem">추천수</th>
           <th style="font-size: 0.7rem">작성자</th>
           <th style="font-size: 0.7rem">작성일시</th>
@@ -27,9 +27,11 @@
           <tr class="text-center">
             <td class="text-title">
               {% if tab == 'free' and post.notice %}
-              <span style="color: #db4455"><i class="ri-megaphone-fill"></i></span>
+              <span class="megaphone-icon" style="color: #db4455"><i class="ri-megaphone-fill"></i></span>
+              <a class="text-title-dimension" href="{% url 'free_board:detail' post.room.id post.id %}" style="color: black; text-decoration: none;">{{ post.title }}</a>
+              {% else %}
+                <a class="text-title-dimension" href="{% url 'free_board:detail' post.room.id post.id %}" style="color: black; text-decoration: none; padding-left: 20px;">{{ post.title }}</a>
               {% endif %}
-              <a href="{% url 'free_board:detail' post.room.id post.id %}" style="color: black; text-decoration: none">{{ post.title }}</a>
               {% if post.comments.count > 0 %}
               <span class="post-comment-count">[{{ post.comments.count }}]</span>
               {% endif %}
@@ -40,7 +42,6 @@
               <div style="margin-bottom: 7px;">{{ post.created_at|date:"y-m-d" }}</div>
               <div>{{ post.created_at|date:"A g:i" }}</div>
             </td>
-
           </tr>
         {% empty %}
           <tr>

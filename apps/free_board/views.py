@@ -21,7 +21,6 @@ def post_detail(request, study_room_id, post_id):
 def create_post(request, study_room_id):
     room = get_object_or_404(Room, pk=study_room_id)
     user_is_master = request.user == room.master
-
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
@@ -62,18 +61,15 @@ def create_comment(request, study_room_id, post_id):
 def index(request, study_room_id):
     room = get_object_or_404(Room, pk=study_room_id)
     tab = request.GET.get('tab', 'notice')
-
     notice_posts = Post.objects.filter(notice=True, room=room).order_by('-created_at')[:2]
     if tab == 'notice':
         posts = Post.objects.filter(notice=True, room=room).order_by('-created_at')
     else:
         free_posts = Post.objects.filter(notice=False, room=room).order_by('-created_at')
         posts = list(chain(notice_posts, free_posts))
-
     paginator = Paginator(posts, 7)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
     context = {'page_obj': page_obj, 'tab': tab, 'room_id': study_room_id, 'room': room}
     return render(request, 'free_board/board_list.html', context)
 
@@ -83,11 +79,9 @@ def index(request, study_room_id):
 @login_required(login_url='user_management:login')
 def modify_post(request, study_room_id, post_id):
     post = get_object_or_404(Post, pk=post_id)
-
     if request.user != post.author:
         messages.error(request, '수정 권한이 없습니다!')
         return redirect('free_board:detail', study_room_id=study_room_id, post_id=post.id)
-
     if request.method == 'POST':
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
@@ -98,7 +92,6 @@ def modify_post(request, study_room_id, post_id):
             return redirect('free_board:detail', study_room_id=study_room_id, post_id=post.id)
     else:
         form = PostForm(instance=post)
-
     context = {'form': form, 'study_room_id': study_room_id, 'post': post}
     return render(request, 'free_board/post_create.html', context)
 

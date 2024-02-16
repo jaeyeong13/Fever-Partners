@@ -107,9 +107,29 @@ html, body {
 }
 
 .text-title {
+  display: flex;
   font-weight: 600;
+  justify-content: flex-start;
+  padding-left: 30px;
 }
-
+.text-title-dimension {
+  max-width: 150px;
+  display: inline-block;
+  flex-grow: 1;
+  line-height: 1.23;
+}
+.megaphone-icon {
+  flex: none;
+  margin-right: 0;
+  padding-left: 25px;
+  padding-right: 0;
+}
+.post-comment-count {
+  align-self: center;
+  font-weight: bold;
+  color: dodgerblue;
+  flex: none;
+}
 .board-table {
   width: 100%;
   border-collapse: separate;
@@ -259,10 +279,6 @@ ul.pagination li a.disabled {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-}
-.post-comment-count {
-  font-weight: bold;
-  color: dodgerblue;
 }
 .vote-count {
   margin-right: 10px;
@@ -452,24 +468,28 @@ ul.pagination li a.disabled {
   color: #616161;
 }
 .post-create-submit-btn {
-    background-color: #db4455;
-    color: white;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 10px;
-    font-size: 1.3rem;
-    font-weight: bold;
-    text-align: center;
-    cursor: pointer;
-    box-shadow: 0 2px 4px #999;
-    transition: background-color 200ms ease-in-out;
-  }
-  .post-create-submit-btn:hover {
-    background-color: #c02b2b;
-  }
-  .button-container {
-    text-align: right;
-  }
+  background-color: #db4455;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px #999;
+  transition: background-color 200ms ease-in-out;
+}
+.post-create-submit-btn:hover {
+  background-color: #c02b2b;
+}
+.button-container {
+  text-align: right;
+}
+.form-check-label {
+  font-size: 1.25rem;
+  margin-bottom: 20px;
+}
 
 /*  comment_form.html */
 .comment-mod-title {
