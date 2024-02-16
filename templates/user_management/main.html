@@ -9,9 +9,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'css/jiwoo.css' %}">
-
-    <!-- icon -->
-    <script src="https://kit.fontawesome.com/6a125f09de.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/aa0228ade6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/2.5.0/remixicon.css">
 </head>
 <body>
     <div id="main_container">
@@ -53,27 +52,27 @@
                 <a onclick="checkGoalStatus()">new group</a>
             </div>
         </div>
-        <div class="footer">
-            <a href="{% url 'group_management:group_list' %}" class="footer-link" style="display: flex;">
-              <div class="footer-item">
-                <i class="fa-solid fa-user-group footer-icon"></i>
-                <a href="{% url 'group_management:group_list' %}" class="footer-text">Group</a>
-              </div>
-            </a>
-            <a href="{% url 'goal_management:goal_list' %}" class="footer-link" style="display: flex;">
-              <div class="footer-item">
-                <i class="fa-solid fa-bullseye footer-icon"></i>
-                <a href="{% url 'goal_management:goal_list' %}" class="footer-text">My Goal</a>
-              </div>
-            </a>
-            <a href="{% url 'goal_management:achievement_report_list'%}" class="footer-link" style="display: flex;">
-              <div class="footer-item">
-                <i class="ri-file-list-3-line footer-icon"></i>
-                <a href="{% url 'goal_management:achievement_report_list'%}" class="footer-text">Achievements</a>    <!-- 이 부분 이름은 나중에 수정 필요 -->
-              </div>
-            </a>
-          </div>
     </div>
+    <div class="footer">
+        <a href="{% url 'group_management:group_list' %}" class="footer-link" style="display: flex;">
+          <div class="footer-item">
+            <i class="fa-solid fa-user-group footer-icon"></i>
+            <a href="{% url 'group_management:group_list' %}" class="footer-text">내 그룹</a>
+          </div>
+        </a>
+        <a href="{% url 'goal_management:goal_list' %}" class="footer-link" style="display: flex;">
+          <div class="footer-item">
+            <i class="fa-solid fa-bullseye footer-icon"></i>
+            <a href="{% url 'goal_management:goal_list' %}" class="footer-text">내 목표</a>
+          </div>
+        </a>
+        <a href="{% url 'goal_management:achievement_report_list'%}" class="footer-link" style="display: flex;">
+          <div class="footer-item">
+            <i class="ri-file-list-3-line footer-icon"></i>
+            <a href="{% url 'goal_management:achievement_report_list'%}" class="footer-text">달성보고</a>    <!-- 이 부분 이름은 나중에 수정 필요 -->
+          </div>
+        </a>
+      </div>
     
 </body>
 </html>

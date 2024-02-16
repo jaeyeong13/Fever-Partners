@@ -1,16 +1,45 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container my-3">
+<div class="header">
+  <a href="{% url 'free_board:detail' study_room_id=study_room_id post_id=post_id %}"><i class="ri-arrow-drop-left-line back-arrow" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 3.5rem; cursor: pointer; color: white;"></i></a>
+  <p style="font-weight: bold; margin-bottom: 0">자유게시판</p>
+</div>
+<div class="container">
   <form method="post" action="{% url 'free_board:modify_comment' study_room_id=study_room_id comment_id=comment.id %}" class="post-form">
     {% csrf_token %}
     <div class="form-group">
-      <label for="content">댓글 내용</label>
+      <span class="comment-mod-title" style="margin-left: 5px">댓글 수정</span>
       <textarea name="content" id="content" cols="30" rows="10" class="form-control">
         {{ form.content.value|default_if_none:'' }}
       </textarea>
     </div>
-    <button type="submit" class="btn btn-primary">저장하기</button>
+    <div class="comment-button-container">
+      <button type="submit" class="comment-modify-submit-btn">수정 완료</button>
+    </div>
   </form>
 </div>
+
+<footer class="footer">
+  <div class="footer-container">
+    <a href="#" class="footer-link" style="display: flex;">
+      <div class="footer-item">
+        <i class="ri-group-fill footer-icon" style="font-size: 30px; color: #db4455; margin-bottom: 10px; margin-left: 10px;"></i>
+        <div class="footer-text" style="color: #db4455; font-size: 16px; font-style: italic;">Group</div>
+      </div>
+    </a>
+    <a href="#" class="footer-link" style="display: flex">
+      <div class="footer-item">
+        <i class="ri-focus-2-line footer-icon" style="font-size: 30px; color: #db4455; margin-bottom: 10px; margin-left: 14px"></i>
+        <div class="footer-text" style="color: #db4455; font-size: 16px; font-style: italic;">MyGoal</div>
+      </div>
+    </a>
+    <a href="#" class="footer-link" style="display: flex;">
+      <div class="footer-item">
+        <i class="ri-file-list-3-line footer-icon" style="font-size: 30px; color: #db4455; margin-bottom: 10px;"></i>
+        <div class="footer-text" style="color: #db4455; font-size: 16px; font-style: italic;">null</div>
+      </div>
+    </a>
+  </div>
+</footer>
 {% endblock %}
