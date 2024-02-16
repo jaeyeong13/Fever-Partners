@@ -531,13 +531,13 @@ function displaySearchResults(results) {
   const userList = results.map(user => 
   ` <div>
       <span>${user.nickname}</span>
-      <button class="direct-invitation-button" onclick="suggestJoin(${user.room_id}, ${user.id})">가입제안</button>
+      <button class="direct-invitation-button" onclick="suggestDirectJoin(${user.room_id}, ${user.id})">가입제안</button>
     </div>
   `).join('');
   searchResultsDiv.innerHTML = userList;
 }
 
-function suggestJoin(room_id, userId) {
+function suggestDirectJoin(room_id, userId) {
     fetch(window.location.origin + '/group_admin/suggest_join/' + room_id, {
         method: 'POST',
         headers: {
