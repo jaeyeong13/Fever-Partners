@@ -3,6 +3,7 @@ from .forms import *
 from django.contrib.auth import login,logout
 from .models import User
 from django.contrib.auth.decorators import login_required
+from django.core.files.storage import default_storage
 
 def start(request):
     return render(request, "user_management/start.html")
@@ -107,9 +108,14 @@ def update(request, pk):
     if request.method == "POST":
         user.nickname = request.POST["nickname"]
         user.profile = request.POST["profile"]
-        user.profile_image = request.POST["profile_image"]
         user.region = request.POST["region"]
         user.region_detail = request.POST["region_detail"]
+        if 'profile_image' in request.FILES:
+            profile_image = request.FILES['profile_image']
+            if user.profile_image:
+                default_storage.delete(user.profile_image.name)
+            profile_image.name = f"{user.id}_{profile_image.name}"
+            user.profile_image.save(profile_image.name, profile_image)
         user.save()
         return redirect(f"/detail/{pk}")
     form = UserUpdateForm(instance=user)

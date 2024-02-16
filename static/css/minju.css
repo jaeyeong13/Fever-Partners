@@ -28,6 +28,7 @@ header {
 }
 header i {
     margin: 0 1rem;
+    font-size: 6vw;
 }
 header i::before {
     width: 1.5rem;
@@ -55,6 +56,7 @@ header i::before {
     overflow-y: auto; /* 콘텐츠가 넘칠 경우 수직 스크롤이 가능하도록 설정 */
     height: calc(100vh - 120px); /* 헤더와 푸터의 높이를 고려하여 설정하세요 */
 }
+/*footer*/
 .footer {
     display: flex;
     justify-content: space-between;

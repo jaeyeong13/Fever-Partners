@@ -1,43 +1,65 @@
-{% extends "base.html" %}
-
-{% block content %}
-<div id="mypage-container">
-  <div class='goal-header'>
-    <div class="page_back_header">
-        <span onclick="goBack()" class="page_back">
-            <i class="fa-solid fa-chevron-left main-color-text"></i>
-        </span>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/detail.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/minju1.css' %}">
+    <script src="https://kit.fontawesome.com/aa0228ade6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/2.5.0/remixicon.css">
+  </head>
+  <header>
+    <a class="go_back" href="{% url 'user_management:main'%}">
+      <i class="ri-arrow-left-s-line"></i>
+    </a>
+      <p class="room-title">마이페이지</p>
+      <i class="ri-arrow-left-s-line hide-arrow"></i>
+    </header>
+    <div class="user_detail_card">
+      <div class="profile-info">
+        <div class="user-name"><span>{{user.nickname}}</span>님의 마이페이지</div>
+        {% if user.profile_image %}
+          <img src="/media/{{user.profile_image}}/" alt="프로필 이미지" class="profile-image" />
+        {% else %}
+          <div class="no-image">No image</div>
+        {% endif %}
+        <div class="user-info">
+          <div class="info-item">이메일 : {{user.email}}</div>
+          <div class="info-item">소개 : {{user.profile}}</div>
+          <div class="info-item">거주 : {{user.region}}</div>
+          <div class="info-item">거주 상세 : {{user.region_detail}}</div>
+        </div>
+      </div>
+      <div class="btns">
+        <div><a href="{% url 'user_management:update' user.id %}">수정</a></div>
+        <div><a href="{% url "user_management:logout" %}">로그아웃</a></div>
+        <div><a href= "">회원탈퇴</a></div>
+      </div>
     </div>
-    <div class="main-color-text">마이페이지</div>
-    <div></div>
-  </div>
+    
 
-  <div class="mt5vh-bold-text"><span class="main-color-text">{{user.nickname}}</span> 님의 마이페이지</div>
-  <div>
-    {% if user.profile_image %}
-    <img
-      src="/media/{{user.profile_image}}/"
-      alt="프로필 이미지"
-      class="profile-image-my"
-    />
-    {% else %}
-    <img
-      src="/static/image/noimage.png"
-      alt="대체 이미지"
-      class="profile-image-my"
-    />
-    {% endif %}
-  </div>
-  <div class="user-detail-box gray-08em">프로필 : {{user.profile}}</div>
-  <div class="user-detail-box gray-08em">이메일 : {{user.email}}</div>
-  <div class="user-detail-box gray-08em">닉네임 :{{user.nickname}}</div>
-  <div class="user-detail-box gray-08em">거주 : {{user.region}}</div>
-  <div class="user-detail-box gray-08em">거주 상세 : {{user.region_detail}}</div>
-  <div class="horizontal-btns">
-    <a href="{% url "user_management:update" user.id %}" class="white-main-btn a-to-btn">수정</a>
-    <a href="{% url "user_management:logout" %}" class="white-main-btn a-to-btn">로그아웃</a>
-    <a href="" class="white-main-btn a-to-btn">회원탈퇴</a>
-  </div>
-</div>
-
-{% endblock content %}
+    <div class="footer">
+      <a href="{% url 'group_management:group_list' %}" class="footer-link" style="display: flex;">
+        <div class="footer-item">
+          <i class="fa-solid fa-user-group footer-icon"></i>
+          <a href="{% url 'group_management:group_list' %}" class="footer-text">내 그룹</a>
+        </div>
+      </a>
+      <a href="{% url 'goal_management:goal_list' %}" class="footer-link" style="display: flex;">
+        <div class="footer-item">
+          <i class="fa-solid fa-bullseye footer-icon"></i>
+          <a href="{% url 'goal_management:goal_list' %}" class="footer-text">내 목표</a>
+        </div>
+      </a>
+      <a href="{% url 'goal_management:achievement_report_list'%}" class="footer-link" style="display: flex;">
+        <div class="footer-item">
+          <i class="ri-file-list-3-line footer-icon"></i>
+          <a href="{% url 'goal_management:achievement_report_list'%}" class="footer-text">달성보고</a>    <!-- 이 부분 이름은 나중에 수정 필요 -->
+        </div>
+      </a>
+    </div>
+  </body>
+</html>
