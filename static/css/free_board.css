@@ -123,7 +123,6 @@ header {
   text-align: center;
   border-bottom: 1.5px solid #ccc;
 }
-
 .text-title {
   display: flex;
   font-weight: 600;
@@ -139,7 +138,7 @@ header {
 .megaphone-icon {
   flex: none;
   margin-right: 0;
-  padding-left: 25px;
+  padding-left: 10px;
   padding-right: 0;
 }
 .post-comment-count {
@@ -283,15 +282,45 @@ ul.pagination li a.disabled {
   margin: 0 auto;
   display: block;
 }
+
 .post-vote {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  width: 40px;
+  height: 40px;
+  margin-left: auto;
+  background-color: rgba(223, 83, 95, 0.26);
+  border-radius: 50%;
+  padding: 10px;
+  flex-direction: column;
+  position: relative;
+}
+.vote-button {
+  background: none;
+  border: none;
+  color: #db4455;
+  font-size: 24px;
+  cursor: pointer;
+  outline: inherit;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -80%);
 }
 .vote-count {
-  margin-right: 10px;
+  color: #db4455;
+  font-size: 16px;
+  font-weight: bold;
+  position: absolute;
+  bottom: 7px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
 }
+
 .mod-del {
   text-align: right;
   margin-top: 20px;
