@@ -526,7 +526,9 @@ ul.pagination li a.disabled {
   width: 100%;
   padding: 0 30px;
 }
-
+.footer-item {
+  margin-top: 5px;
+}
 .footer-link {
   text-decoration: none;
 }
