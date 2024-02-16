@@ -323,8 +323,9 @@ ul.pagination li a.disabled {
 
 .mod-del {
   text-align: right;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 12px;
+  margin-bottom: 8px;
+  font-size: 0.8rem;
 }
 .separator {
   margin: 0 2px;
