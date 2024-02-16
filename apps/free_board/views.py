@@ -58,9 +58,28 @@ def create_comment(request, study_room_id, post_id):
 
 
 
+# def index(request, study_room_id):
+#     room = get_object_or_404(Room, pk=study_room_id)
+#     tab = request.GET.get('tab', 'notice')
+#     notice_posts = Post.objects.filter(notice=True, room=room).order_by('-created_at')[:2]
+#     if tab == 'notice':
+#         posts = Post.objects.filter(notice=True, room=room).order_by('-created_at')
+#     else:
+#         free_posts = Post.objects.filter(notice=False, room=room).order_by('-created_at')
+#         posts = list(chain(notice_posts, free_posts))
+#     paginator = Paginator(posts, 7)
+#     page_number = request.GET.get('page')
+#     page_obj = paginator.get_page(page_number)
+#     context = {'page_obj': page_obj, 'tab': tab, 'room_id': study_room_id, 'room': room}
+#     return render(request, 'free_board/board_list.html', context)
+
 def index(request, study_room_id):
     room = get_object_or_404(Room, pk=study_room_id)
-    tab = request.GET.get('tab', 'notice')
+    tab = request.GET.get('tab')
+    if tab is not None:
+        request.session['tab'] = tab
+    else:
+        tab = request.session.get('tab', 'notice')
     notice_posts = Post.objects.filter(notice=True, room=room).order_by('-created_at')[:2]
     if tab == 'notice':
         posts = Post.objects.filter(notice=True, room=room).order_by('-created_at')
@@ -72,8 +91,6 @@ def index(request, study_room_id):
     page_obj = paginator.get_page(page_number)
     context = {'page_obj': page_obj, 'tab': tab, 'room_id': study_room_id, 'room': room}
     return render(request, 'free_board/board_list.html', context)
-
-
 
 
 @login_required(login_url='user_management:login')
