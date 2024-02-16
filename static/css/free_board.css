@@ -266,10 +266,10 @@ ul.pagination li a.disabled {
   margin-top: 8px;
 }
 .post-author,
-.post-created-time,
-.post-update-time {
+.post-created-time {
   display: inline;
   margin-right: 1px;
+  margin-bottom: 0;
 }
 .post-update-time {
   color: grey;
@@ -494,7 +494,10 @@ ul.pagination li a.disabled {
   font-size: 1.25rem;
   margin-bottom: 20px;
 }
-
+.post-modify-title,
+.post-modify-body {
+  margin-left: 10px;
+}
 /*  comment_form.html */
 .comment-mod-title {
   font-weight: bold;
@@ -526,7 +529,8 @@ ul.pagination li a.disabled {
   background-color: #c02b2b;
 }
 .post-create-submit-btn {
-  width: 100%;
+  width: 95%;
+  margin-right: 10px;
 }
 
 /* footer 부분 */
