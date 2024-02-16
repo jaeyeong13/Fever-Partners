@@ -1,6 +1,5 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import JsonResponse, HttpResponseNotFound, HttpResponse, HttpResponseBadRequest
-
 from apps.alarm.models import Alarm
 from .models import *
 from django.contrib.auth.decorators import login_required
@@ -150,7 +149,7 @@ def recommend_group(request, goal_id):
     # 이미 가입신청을 보냈고, 대기 중인 경우 추천 명단에서 제외한다
     rooms = Room.objects.filter(pk__in=room_ids).exclude(pk__in=is_pending)
     cnt = {
-        'rooms': rooms, 
+        'rooms': rooms,
         'goal': goal
     }
     return render(request, 'goal_management/group_recom.html', cnt)
