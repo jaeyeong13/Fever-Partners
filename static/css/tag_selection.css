@@ -25,7 +25,7 @@ input[type="radio"] {
 input[type="checkbox"]:checked + label,
 input[type="radio"]:checked + label {
     font-weight: bold;
-    color: var(--main-color);
+    color: blue;
 }
 
 input[type="checkbox"]:focus + label,

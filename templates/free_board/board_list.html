@@ -1,22 +1,16 @@
 {% extends 'base.html' %}
-{% load bootstrap4 %}
 
 {% block content %}
-<li class="nav-item">
-  {% if user.is_authenticated %}
-  <p>{{ user }}님, 환영합니다!</p>
-  <p>현재 위치한 방: {{ room.title }}</p>
-  <a href="{% url 'user_management:logout' %}" class="nav-link">
-    로그아웃하기
-  </a>
-  {% else %}
-    <a href="{% url 'user_management:login' %}" class="nav-link">로그인하기</a>
-  {% endif %}
-</li>
-<div class="container my-3">
-    <div class="mb-3">
-        <a href="?tab=notice" class="btn {% if tab == 'notice' %}btn-primary{% else %}btn-secondary{% endif %}">공지</a>
-        <a href="?tab=free" class="btn {% if tab == 'free' %}btn-primary{% else %}btn-secondary{% endif %}">자유</a>
+
+<div class="content-wrapper">
+  <div class="header">
+    <a href="{% url 'group_activity:main_page' room_id %}"><i class="ri-arrow-drop-left-line back-arrow" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 3.5rem; cursor: pointer; color: white;"></i></a>
+    <p style="font-weight: bold; margin-bottom: 0">자유게시판</p>
+  </div>
+  <div class="container">
+    <div class="tab-container">
+      <a href="?tab=notice" class="{% if tab == 'notice' %}notice-active{% else %}notice-inactive{% endif %}">공지</a>
+      <a href="?tab=free" class="{% if tab == 'free' %}community-active{% else %}community-inactive{% endif %}">자유</a>
     </div>
     <table class="table">
         <thead>
@@ -42,45 +36,71 @@
                     <span class="text-danger small ml-2">{{ post.comments.count }}</span>
                     {% endif %}
                 </td>
-                <td>{{ post.author.nickname }}</td>
+                <td>{{ post.author }}</td>
                 <td>{{ post.created_at|date:"Y-m-d H:i" }}</td>
             </tr>
         {% empty %}
-            <tr>
-                <td colspan="5">게시물이 없습니다.</td>
-            </tr>
+          <tr>
+            <td colspan="4">게시물이 없습니다.</td>
+          </tr>
         {% endfor %}
-        </tbody>
+      </tbody>
     </table>
     <ul class="pagination justify-content-center">
-        {% if page_obj.has_previous %}
-        <li class="page-item">
-            <a class="page-link" href="?tab={{ tab }}&page={{ page_obj.previous_page_number }}">이전</a>
-        </li>
-        {% else %}
-        <li class="page-item disabled">
-            <a class="page-link">이전</a>
-        </li>
+      {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?tab={{ tab }}&page={{ page_obj.previous_page_number }}"><i class="ri-arrow-left-s-line" style="font-weight: bold"></i></a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link"><i class="ri-arrow-left-s-line" style="font-weight: bold"></i></a>
+      </li>
+      {% endif %}
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+        <li class="page-item"><a class="page-link active" href="?tab={{ tab }}&page={{ num }}">{{ num }}</a></li>
+        {% elif num > page_obj.number|add:'-5' and num < page_obj.number|add:'5' %}
+        <li class="page-item"><a class="page-link" href="?tab={{ tab }}&page={{ num }}">{{ num }}</a></li>
         {% endif %}
-        {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-            <li class="page-item active"><a class="page-link" href="?tab={{ tab }}&page={{ num }}">{{ num }}</a></li>
-            {% elif num > page_obj.number|add:'-5' and num < page_obj.number|add:'5' %}
-            <li class="page-item"><a class="page-link" href="?tab={{ tab }}&page={{ num }}">{{ num }}</a></li>
-            {% endif %}
-        {% endfor %}
-        {% if page_obj.has_next %}
-        <li class="page-item">
-            <a class="page-link" href="?tab={{ tab }}&page={{ page_obj.next_page_number }}">다음</a>
-        </li>
-        {% else %}
-        <li class="page-item disabled">
-            <a class="page-link">다음</a>
-        </li>
-        {% endif %}
+      {% endfor %}
+      {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?tab={{ tab }}&page={{ page_obj.next_page_number }}"><i class="ri-arrow-right-s-line" style="font-weight: bold"></i></a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link"><i class="ri-arrow-right-s-line" style="font-weight: bold"></i></a>
+      </li>
+      {% endif %}
     </ul>
-    <div class="text-right">
-      <a href="{% url 'free_board:create_post' study_room_id=room_id %}">글 작성하러 가기</a>
+    <br>
+    <div>
+      <a href="{% url 'free_board:create_post' study_room_id=room_id %}" class="new-post-btn">글 쓰기</a>
     </div>
+  </div>
 </div>
+
+<footer class="footer">
+  <div class="footer-container">
+    <a href="#" class="footer-link" style="display: flex;">
+      <div class="footer-item">
+        <i class="ri-group-fill footer-icon" style="font-size: 30px; color: #db4455; margin-bottom: 10px; margin-left: 10px"></i>
+        <div class="footer-text" style="color: #db4455; font-size: 16px; font-style: italic;">Group</div>
+      </div>
+    </a>
+    <a href="#" class="footer-link" style="display: flex">
+      <div class="footer-item">
+        <i class="ri-focus-2-line footer-icon" style="font-size: 30px; color: #db4455; margin-bottom: 10px; margin-left: 14px"></i>
+        <div class="footer-text" style="color: #db4455; font-size: 16px; font-style: italic;">MyGoal</div>
+      </div>
+    </a>
+    <a href="#" class="footer-link" style="display: flex;">
+      <div class="footer-item">
+        <i class="ri-file-list-3-line footer-icon" style="font-size: 30px; color: #db4455; margin-bottom: 10px;"></i>
+        <div class="footer-text" style="color: #db4455; font-size: 16px; font-style: italic;">null</div>
+      </div>
+    </a>
+  </div>
+</footer>
+
 {% endblock %}

@@ -17,73 +17,77 @@
     <style></style>
   </head>
   <body>
-    <div id="group-introbox">
-      <div class='goal-header goal-header-w'>
-          <div class="page_back_header">
-              <a href="{% url 'group_management:group_list' %}" class="page_back">
-                  <i class="fa-solid fa-chevron-left"></i>
-              </a>
+    <div id="group-activat-box">
+      <div id="group-introbox">
+        <div class='goal-header goal-header-w'>
+            <div class="page_back_header">
+                <a href="{% url 'group_management:group_list' %}" class="page_back">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </a>
+            </div>
+            <div></div>
+        </div>
+        <div id="group-intro-text">
+          <p class="white-title">{{ room.title }}</p>
+          <div class="group-intro-tag">
+            {% for tag in room.tags.all %}
+            <p>#{{ tag }}</p>
+            {% endfor %}
           </div>
-          <div></div>
+          <p>{{ room.detail }}</p>
+        </div>
+        <div id="group-admin-or-withdraw">
+          <a
+            onclick="PermissionCheck({{user.pk}}, {{room_id}})"
+            class="group-btn"
+            >그룹 관리</a
+          >
+          <a
+            onclick="WithdrawalConfirm({{user.pk}}, {{room_id}})"
+            class="group-btn"
+            >탈퇴하기</a>
+        </div>
       </div>
-
-      <div id="group-intro-text">
-        <p class="white-title">{{ room.title }}</p>
-        <div class="group-intro-tag">
-          {% for tag in room.tags.all %}
-          <p>#{{ tag }}</p>
-          {% endfor %}
-        </div>
-        <p>{{ room.detail }}</p>
+      <div id="group-select-activity-list">
+        <a href="{%url 'group_activity:member_list' room_id%}" onclick="changeTab('member', event, {{room_id}})">멤버</a>
+        <a href="{% url 'group_activity:activate' room_id %}" onclick="changeTab('activate', event, {{room_id}})" class="selected-group-tab">인증 공간</a>
+        <a href="{% url 'group_activity:show_log' room_id %}" onclick="changeTab('show_log', event, {{room_id}})">활동 현황</a>
+        <a href="{% url 'free_board:list' room_id %}">게시판</a>
       </div>
-      <div id="group-admin-or-withdraw">
-        <a
-          onclick="PermissionCheck({{user.pk}}, {{room_id}})"
-          class="group-btn"
-          >그룹 관리</a
-        >
-        <a 
-          onclick="WithdrawalConfirm({{user.pk}}, {{room_id}})"
-          class="group-btn"
-          >탈퇴하기</a>
+      <div id="group-activity-content">
+        {% block content %} {% endblock content %}
       </div>
-    </div>
-    <div id="group-select-activity-list">
-      <a href="{%url 'group_activity:member_list' room_id%}" onclick="changeTab('member', event, {{room_id}})">멤버</a>
-      <a href="{% url 'group_activity:activate' room_id %}" onclick="changeTab('activate', event, {{room_id}})" class="selected-group-tab">인증 공간</a>
-      <a href="{% url 'group_activity:show_log' room_id %}" onclick="changeTab('show_log', event, {{room_id}})">활동 현황</a>
-      <a href="{% url 'free_board:list' room_id %}">게시판</a>
-    </div>
-    <div id="group-activity-content">
-      {% block content %} {% endblock content %}
-    </div>
-    <div class="footer">
-      <a href="{% url 'group_management:group_list' %}" class="footer-link" style="display: flex;">
-        <div class="footer-item">
-          <i class="fa-solid fa-user-group footer-icon"></i>
-          <div class="footer-text">Group</div>
-        </div>
-      </a>
-      <a href="{% url 'goal_management:goal_list' %}" class="footer-link" style="display: flex;">
-        <div class="footer-item">
-          <i class="fa-solid fa-bullseye footer-icon"></i>
-          <div class="footer-text">MyGoal</div>
-        </div>
-      </a>
-      <a href="#" class="footer-link" style="display: flex;">
-        <div class="footer-item">
-          <i class="ri-file-list-3-line footer-icon"></i>
-          <div class="footer-text">null</div>     <!-- 이 부분 이름은 나중에 수정 필요 -->
-        </div>
-      </a>
+      <div class="footer">
+        <a href="{% url 'group_management:group_list' %}" class="footer-link" style="display: flex;">
+          <div class="footer-item">
+            <i class="fa-solid fa-user-group footer-icon"></i>
+            <div class="footer-text">Group</div>
+          </div>
+        </a>
+        <a href="{% url 'goal_management:goal_list' %}" class="footer-link" style="display: flex;">
+          <div class="footer-item">
+            <i class="fa-solid fa-bullseye footer-icon"></i>
+            <div class="footer-text">MyGoal</div>
+          </div>
+        </a>
+        <a href="#" class="footer-link" style="display: flex;">
+          <div class="footer-item">
+            <i class="ri-file-list-3-line footer-icon"></i>
+            <div class="footer-text">null</div>     <!-- 이 부분 이름은 나중에 수정 필요 -->
+          </div>
+        </a>
+      </div>
     </div>
   </body>
   <script>
-    document.addEventListener('DOMContentLoaded', defaultActivate({{room_id}}));
-
-    function defaultActivate(roomId) {
-      var defaultTabId = 'activate';
-      changeTab(defaultTabId, null, {{ roomId }});
+    //그룹탭 들어오면 기본 페이지 실행
+    function initializeAct() {
+      var room_id = {{ room_id }};
+      document.addEventListener('DOMContentLoaded', function () {
+          defaultActivate(room_id);
+      });
     }
-</script>
+
+    initializeAct()
+  </script>
 </html>
