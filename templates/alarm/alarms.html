@@ -1,38 +1,55 @@
-{% extends "base.html" %}
-
-{% block content %}
-    <div id="group-request-container">
-        <div class='goal-header'>
-            <div class="page_back_header">
-                <span onclick="goBack()" class="page_back">
-                    <i class="fa-solid fa-chevron-left main-color-text"></i>
-                </span>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{%static 'css/reset.css'%}">
+    <link rel="stylesheet" href="{% static 'css/jk.css' %}">
+    <link rel="stylesheet" href="{%static 'css/tag_selection.css'%}">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
+    <script src="https://kit.fontawesome.com/aa0228ade6.js" crossorigin="anonymous"></script>
+    <script src="{%static 'javascript/main.js'%}" defer></script>
+    <script src="{%static 'javascript/jk.js'%}" defer></script>
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+    <div id='center-wrap'>
+        <div id="group-request-container">
+            <div class='goal-header'>
+                <div class="page_back_header">
+                    <span onclick="goBack()" class="page_back">
+                        <i class="fa-solid fa-chevron-left main-color-text"></i>
+                    </span>
+                </div>
+                <div class="main-color-text">알림</div>
+                <div></div>
             </div>
-            <div class="main-color-text">알림</div>
-            <div></div>
-        </div>
-        <ul>
-            {% for alarm in alarms %}
-            {% if alarm.room.master == user %}
-                <li>
-                    <div><span class="main-color-text">{{ alarm.alarm_from.nickname}}</span> 님이 그룹가입 신청</div> 
-                    <a href="{% url 'alarm:alarm_detail_as_master' alarm.pk%}" class="request-detail-btn">상세보기</a>
-                </li>
-            {% else %}
-                {% if alarm.goal %}
+            <ul>
+                {% for alarm in alarms %}
+                {% if alarm.room.master == user %}
                     <li>
-                        <div><span class="main-color-text">{{ alarm.alarm_from.nickname}}</span> 님이 그룹가입 제안</div>
-                        <a href="{% url 'alarm:alarm_detail_as_user' alarm.pk%}" class="request-detail-btn">상세보기</a>
+                        <div><span class="main-color-text">{{ alarm.alarm_from.nickname}}</span> 님이 그룹가입 신청</div> 
+                        <a href="{% url 'alarm:alarm_detail_as_master' alarm.pk%}" class="request-detail-btn">상세보기</a>
                     </li>
                 {% else %}
-                    <li>
-                        <div><span class="main-color-text">{{ alarm.alarm_from.nickname}}</span> 님이 그룹가입 요청</div> 
-                        <a href="{% url 'alarm:alarm_detail_direct' alarm.pk%}" class="request-detail-btn">상세보기</a>
-                    </li>
+                    {% if alarm.goal %}
+                        <li>
+                            <div><span class="main-color-text">{{ alarm.alarm_from.nickname}}</span> 님이 그룹가입 제안</div>
+                            <a href="{% url 'alarm:alarm_detail_as_user' alarm.pk%}" class="request-detail-btn">상세보기</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <div><span class="main-color-text">{{ alarm.alarm_from.nickname}}</span> 님이 그룹가입 요청</div> 
+                            <a href="{% url 'alarm:alarm_detail_direct' alarm.pk%}" class="request-detail-btn">상세보기</a>
+                        </li>
+                    {% endif %}
                 {% endif %}
-            {% endif %}
-            {% endfor %}
-        </ul>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
     <div class="footer">
         <a href="{% url 'group_management:group_list' %}" class="footer-link" style="display: flex;">
@@ -55,3 +72,7 @@
         </a>
       </div>
 {% endblock content %}
+
+</body>
+</html>
+

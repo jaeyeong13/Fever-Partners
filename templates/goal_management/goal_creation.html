@@ -1,65 +1,82 @@
-{% extends "base.html" %}
-
-{% block content %}
-<div id="goal-setting-container">
-    <div class='goal-header'>
-        <div class="page_back_header">
-            <span onclick="goBack()" class="page_back">
-                <i class="fa-solid fa-chevron-left main-color-text"></i>
-            </span>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{%static 'css/reset.css'%}">
+    <link rel="stylesheet" href="{% static 'css/jk.css' %}">
+    <link rel="stylesheet" href="{%static 'css/tag_selection.css'%}">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
+    <script src="https://kit.fontawesome.com/aa0228ade6.js" crossorigin="anonymous"></script>
+    <script src="{%static 'javascript/main.js'%}" defer></script>
+    <script src="{%static 'javascript/jk.js'%}" defer></script>
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+    <div id='center-wrap'>
+        <div id="goal-setting-container">
+            <div class='goal-header'>
+                <div class="page_back_header">
+                    <span onclick="goBack()" class="page_back">
+                        <i class="fa-solid fa-chevron-left main-color-text"></i>
+                    </span>
+                </div>
+                <div class="main-color-text">목표설정</div>
+                <div></div>
+            </div>
+            <div class='black-08em-bold'>카테고리를 선택하세요</div>
+            
+            <form action="{%url 'goal_management:create_goal'%}" method="post" onsubmit="return validateForm()" class="goal-form-setting">
+                {% csrf_token %}
+                <div id='tag-container'>
+                    <div>
+                        {% for tag in tags %}
+                        <input type="radio" id="tag-radio-{{ tag.id }}" name="selected_tag" value="{{ tag.id }}" onclick="loadSubtags({{ tag.id }})">
+                        <label for="tag-radio-{{ tag.id }}">{{ tag.tag_name }}</label>
+                        {% endfor %}
+                    </div>
+                    <div id='detail-tag-container'>
+                    </div>
+                </div>
+                <div id="tag-selection-warning" class="warning"></div>
+            
+                <div class='black-08em-bold'>어떤 활동을 원하시나요?</div>
+            
+                <div id='acttag-container'>
+                    {% for actTag in actTags %}
+                        <input type="checkbox" id="actTag-checkbox-{{ actTag.id }}" name="activity-type[]" value="{{ actTag.id }}">
+                        <label for="actTag-checkbox-{{ actTag.id }}">{{actTag.tag_name}}</label>
+                    {% endfor %}
+                </div>
+            
+                <div id="activity-type-warning" class="warning"></div>
+            
+                <div class='black-08em-bold'>내 목표의 제목을 지어주세요</div>
+                <input type="text" id="goal-title" name="goal-title">
+            
+                <div id="goal-title-warning" class="warning"></div>
+            
+                <div class='black-08em-bold'>세부사항을 기입해주세요</div>
+                <textarea id="goal-details" name="goal-details"></textarea>
+            
+                <div id="goal-details-warning" class="warning"></div>
+            
+                <div class='black-08em-bold'>대면 활동을 선호하시나요?</div>
+                <div class="choice-on-off">
+                    <input type="radio" id="offline-radio" name="meeting-preference" value="True">
+                    <label for="offline-radio">선호해요</label>
+                    <input type="radio" id="online-radio" name="meeting-preference" value="False">
+                    <label for="online-radio">비대면 원해요</label>
+                </div>
+                <div id="meeting-preference-warning" class="warning"></div>
+            
+                <input type="submit" value="목표 등록하기" class="red-btn goal-btn">
+            
+            </form>
         </div>
-        <div class="main-color-text">목표설정</div>
-        <div></div>
     </div>
-    <div class='black-08em-bold'>카테고리를 선택하세요</div>
-    
-    <form action="{%url 'goal_management:create_goal'%}" method="post" onsubmit="return validateForm()" class="goal-form-setting">
-        {% csrf_token %}
-        <div id='tag-container'>
-            <div>
-                {% for tag in tags %}
-                <input type="radio" id="tag-radio-{{ tag.id }}" name="selected_tag" value="{{ tag.id }}" onclick="loadSubtags({{ tag.id }})">
-                <label for="tag-radio-{{ tag.id }}">{{ tag.tag_name }}</label>
-                {% endfor %}
-            </div>
-            <div id='detail-tag-container'>
-            </div>
-        </div>
-        <div id="tag-selection-warning" class="warning"></div>
-    
-        <div class='black-08em-bold'>어떤 활동을 원하시나요?</div>
-    
-        <div id='acttag-container'>
-            {% for actTag in actTags %}
-                <input type="checkbox" id="actTag-checkbox-{{ actTag.id }}" name="activity-type[]" value="{{ actTag.id }}">
-                <label for="actTag-checkbox-{{ actTag.id }}">{{actTag.tag_name}}</label>
-            {% endfor %}
-        </div>
-    
-        <div id="activity-type-warning" class="warning"></div>
-    
-        <div class='black-08em-bold'>내 목표의 제목을 지어주세요</div>
-        <input type="text" id="goal-title" name="goal-title">
-    
-        <div id="goal-title-warning" class="warning"></div>
-    
-        <div class='black-08em-bold'>세부사항을 기입해주세요</div>
-        <textarea id="goal-details" name="goal-details"></textarea>
-    
-        <div id="goal-details-warning" class="warning"></div>
-    
-        <div class='black-08em-bold'>대면 활동을 선호하시나요?</div>
-        <div class="choice-on-off">
-            <input type="radio" id="offline-radio" name="meeting-preference" value="True">
-            <label for="offline-radio">선호해요</label>
-            <input type="radio" id="online-radio" name="meeting-preference" value="False">
-            <label for="online-radio">비대면 원해요</label>
-        </div>
-        <div id="meeting-preference-warning" class="warning"></div>
-    
-        <input type="submit" value="목표 등록하기" class="red-btn goal-btn">
-    
-    </form>
-</div>
-
-{% endblock content %}
+</body>
+</html>

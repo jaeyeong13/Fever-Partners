@@ -1,28 +1,44 @@
-{% extends "base.html" %}
-
-{% block content %}
-
-<div id="group-request-container">
-    <div class='goal-header'>
-        <div class="page_back_header">
-            <span onclick="goBack()" class="page_back">
-                <i class="fa-solid fa-chevron-left main-color-text"></i>
-            </span>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{%static 'css/reset.css'%}">
+    <link rel="stylesheet" href="{% static 'css/jk.css' %}">
+    <link rel="stylesheet" href="{%static 'css/tag_selection.css'%}">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
+    <script src="https://kit.fontawesome.com/aa0228ade6.js" crossorigin="anonymous"></script>
+    <script src="{%static 'javascript/main.js'%}" defer></script>
+    <script src="{%static 'javascript/jk.js'%}" defer></script>
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+    <div id='center-wrap'>
+        <div id="group-request-container">
+            <div class='goal-header'>
+                <div class="page_back_header">
+                    <span onclick="goBack()" class="page_back">
+                        <i class="fa-solid fa-chevron-left main-color-text"></i>
+                    </span>
+                </div>
+                <div></div>
+            </div>
+        
+            <div class="suggest-join-group">
+                <p class="fs15em-bold"><span class="main-color-text">{{ alarm.alarm_from.nickname }}</span> 님의 그룹가입 신청</p>
+                <p><span class="main-color-text">{{alarm.goal.title}}</span> 을 목표로 하는 {{alarm_from.nickname}}님이 {{alarm.room.title}}에 가입하기를 희망합니다.</p>
+                <div class="horizontal-btns">
+                    <button onclick="acceptRequest({{alarm.id}})" class="white-main-btn">수락</button>
+                    <form method="POST" action="{% url 'alarm:reject_request' alarm.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="white-main-btn">거절</button>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div></div>
     </div>
-
-    <div class="suggest-join-group">
-        <p class="fs15em-bold"><span class="main-color-text">{{ alarm.alarm_from.nickname }}</span> 님의 그룹가입 신청</p>
-        <p><span class="main-color-text">{{alarm.goal.title}}</span> 을 목표로 하는 {{alarm_from.nickname}}님이 {{alarm.room.title}}에 가입하기를 희망합니다.</p>
-        <div class="horizontal-btns">
-            <button onclick="acceptRequest({{alarm.id}})" class="white-main-btn">수락</button>
-            <form method="POST" action="{% url 'alarm:reject_request' alarm.id %}">
-                {% csrf_token %}
-                <button type="submit" class="white-main-btn">거절</button>
-            </form>
-        </div>
-    </div>
-</div>
-
-{% endblock content %}
+</body>
+</html>
