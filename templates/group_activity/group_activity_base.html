@@ -80,11 +80,14 @@
     </div>
   </body>
   <script>
-    document.addEventListener('DOMContentLoaded', defaultActivate({{room_id}}));
-
-    function defaultActivate(roomId) {
-      var defaultTabId = 'activate';
-      changeTab(defaultTabId, null, {{ roomId }});
+    //그룹탭 들어오면 기본 페이지 실행
+    function initializeAct() {
+      var room_id = {{ room_id }};
+      document.addEventListener('DOMContentLoaded', function () {
+          defaultActivate(room_id);
+      });
     }
-</script>
+
+    initializeAct()
+  </script>
 </html>
