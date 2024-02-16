@@ -9,6 +9,10 @@
   cursor: pointer;
 }
 
+#group-activat-box{
+  width: 100vw;
+}
+
 #group-introbox {
   display: flex;
   flex-direction: column;
@@ -76,7 +80,8 @@
 }
 
 #group-activity-content {
-  height: 50vh;
+  height: 46vh;
+  padding: 2vh;
 }
 
 #auth-logs{
@@ -85,7 +90,6 @@
   gap: 1em;
   height: 100%;
   overflow-y: scroll;
-  padding: 2vh;
 }
 
 .auth-log{
@@ -139,7 +143,6 @@
   display: flex;
   flex-direction: column;
   gap: 1em;
-  padding: 2vh ;
   height: 100%;
   overflow-y: scroll;
 }
@@ -219,7 +222,6 @@
   display: flex;
   flex-direction: column;
   gap: 1em;
-  padding: 2vh ;
   height: 100%;
   overflow-y: scroll;
 }
