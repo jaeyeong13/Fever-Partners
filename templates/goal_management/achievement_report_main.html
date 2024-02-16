@@ -1,17 +1,31 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/minju2.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/yh.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/2.5.0/remixicon.css">
     <title>Document</title>
 </head>
 <body>
-    <h3>달성 보고</h3>
+    <header>
+        <a class="go_back" href="{% url 'user_management:main'%}">
+            <i class="ri-arrow-left-s-line"></i>
+        </a>
+        <p class="room-title">달성보고</p>
+        <i class="ri-arrow-left-s-line hide-arrow"></i>
+    </header>
+    <div class="group-wrap">
     {% for report in reports %}
-    <div>
-        <a href="{%url "goal_management:achievement_report_detail" report.pk%}">목표 : {{report.goal.title}}</a>
-        <p>달성내용 : {{report.content}}</p>
+    <div class="group-div">
+        <a href="{%url "goal_management:achievement_report_detail" report.pk%}">{{report.goal.title}}</a>
+        <p><span class='report-span'>달성자</span> {{report.goal.user.nickname}}</p>
+        <p class="report-ellipsis"><span class='report-span'>달성 후기</span> {{report.content}}</p>
     </div>
     {% endfor %}
+    </div>
 </body>
 </html>
