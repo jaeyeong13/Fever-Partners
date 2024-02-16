@@ -10,6 +10,7 @@ from elasticsearch_dsl import Search, Q
 from apps.group_administration.decorators import room_admin_required
 from django.views.decorators.http import require_http_methods
 import json
+from apps.group_activity.models import UserActivityInfo
 
 def start_creation(request):
     goals = Goal.objects.filter(user = request.user).filter(is_in_group = False).filter(is_completed = False)
@@ -29,6 +30,7 @@ def create_room(request):
         penalty = request.POST.get('penalty', 0)
         favor_offline_str = request.POST.get('favor_offline', 'False')
         favor_offline = favor_offline_str == 'True'
+        deposit = request.POST.get('deposit', 0)
 
         # 서버사이드 validation
         # if not goal_id or not title or not detail:
@@ -57,6 +59,15 @@ def create_room(request):
         my_goal.is_in_group = True
         my_goal.belonging_group_id = room.id
         my_goal.save()
+
+        # 활동정보 인스턴스 추가, 코인 징수
+        UserActivityInfo.objects.create(
+            user = request.user,
+            room = room,
+            deposit_left = deposit,
+        )
+        request.user.coin -= deposit
+        request.user.save()
 
         url = reverse('group_management:recommendation_page', kwargs={'room_id': room.pk})
         return redirect(url)

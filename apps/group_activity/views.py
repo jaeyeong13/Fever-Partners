@@ -7,6 +7,7 @@ from apps.goal_management.models import Goal
 import json
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_http_methods
+from apps.group_activity.models import UserActivityInfo
 
 #room 중복되는 건 추후에 제거 할 예정
 def show_activity_main(request, room_id):
@@ -91,8 +92,12 @@ def verify(request, room_id):
 def accept_auth_log(request, member_auth_id):
     memberAuthentication = MemberAuthentication.objects.get(id=member_auth_id)
     user =  memberAuthentication.user
+    room = memberAuthentication.room
     user.fuel = add_fever(user.fuel)
     user.save()
+    user_info = user.activity_infos.all().get(room=room)
+    user_info.authentication_count += 1
+    user_info.save()
     memberAuthentication.is_auth = True
     memberAuthentication.is_completed = True
     memberAuthentication.save()
@@ -103,8 +108,12 @@ def accept_auth_log(request, member_auth_id):
 def refuse_auth_log(request, member_auth_id):
     memberAuthentication = MemberAuthentication.objects.get(id=member_auth_id)
     user =  memberAuthentication.user
+    room = memberAuthentication.room
     user.fuel = loss_fever(user.fuel)
     user.save()
+    if room.cert_required:
+        user_info = user.activity_infos.all().get(room=room)
+        take_penalty(user_info, room, room.penalty_value)
     memberAuthentication.is_completed = True
     memberAuthentication.save()
 
@@ -119,6 +128,8 @@ def close_authentication(request, room_id, auth_id):
         for member in non_participated_members:
             member.fuel = loss_fever(member.fuel)
             member.save()
+            user_info = member.activity_infos.all().get(room=room)
+            take_penalty(user_info, room, room.penalty_value)
     auth.delete()
     return redirect('group_activity:main_page', room_id=room_id) 
 
@@ -154,6 +165,24 @@ def loss_fever(fever):
     elif 75 < fever <= 100:
         fever_after = fever - 10
     return fever_after
+
+def take_penalty(user_info: UserActivityInfo, room: Room, penalty):
+    if user_info.deposit_left < penalty:
+        expel_from_room(room, user_info.user)
+        room.penalty_bank += user_info.deposit_left
+        room.save()
+    else:
+        user_info.deposit_left -= penalty
+        user_info.save()
+        room.penalty_bank += penalty
+        room.save()
+
+def expel_from_room(room: Room, user):
+    goal = Goal.objects.filter(user=user).get(belonging_group_id=room.pk)
+    goal.belonging_group_id = None
+    goal.is_in_group = False
+    goal.save()
+    room.members.remove(user)
 
 #현황(인증로그) 창으로 이동
 def show_log(request, room_id):

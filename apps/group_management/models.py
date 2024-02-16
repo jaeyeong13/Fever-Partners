@@ -12,10 +12,14 @@ class Room(models.Model):
     tags = models.ManyToManyField(Tag, default=None)
     activityTags = models.ManyToManyField(ActivityTag, default=None)
     cert_required = models.BooleanField(default=False)
-    cert_detail = models.TextField(null=True)
+    cert_detail = models.TextField(null=True, blank=True, default="")
     penalty_value = models.PositiveIntegerField(default=0)
     favor_offline = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
+    deposit = models.PositiveIntegerField(default=0)
+    duration = models.DurationField(default=None)
+    closing_date = models.DateTimeField(default=None)
+    penalty_bank = models.PositiveIntegerField(default=0)
 
     # def __str__(self):
     #     return self.title

@@ -23,3 +23,9 @@ class MemberAuthentication(models.Model):
     image = models.ImageField('사진', upload_to='authentication_images/', null=True, blank=True)
     is_completed = models.BooleanField(default=False)
     created_date = models.DateTimeField(default=timezone.now)
+
+class UserActivityInfo(models.Model):
+    user = models.ForeignKey(User, related_name='activity_infos', on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, related_name='activity_infos', on_delete=models.CASCADE)
+    deposit_left = models.PositiveIntegerField(default=None, null=True, blank=True)
+    authentication_count = models.PositiveIntegerField(default=0)
