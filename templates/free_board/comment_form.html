@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="header">
-  <a href="#"><i class="ri-arrow-drop-left-line back-arrow" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 3.5rem; cursor: pointer; color: white;"></i></a>
+  <a href="{% url 'free_board:detail' study_room_id=study_room_id post_id=post_id %}"><i class="ri-arrow-drop-left-line back-arrow" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 3.5rem; cursor: pointer; color: white;"></i></a>
   <p style="font-weight: bold; margin-bottom: 0">자유게시판</p>
 </div>
 <div class="container">
