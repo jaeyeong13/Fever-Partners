@@ -169,12 +169,6 @@ a.ac-btn:hover {
     justify-content: flex-start;
     gap: 5px;
 }
-.goal-h {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-}
 .group-icon2 {
     display: flex;
     justify-content: flex-start;
@@ -184,4 +178,7 @@ a.ac-btn:hover {
 .group-icon2 > a > span {
     font-size: small;
     color: #909090;
+}
+.goal-btns {
+    margin-top: 1vh;
 }
