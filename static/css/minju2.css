@@ -181,3 +181,7 @@ a.ac-btn:hover {
     align-items: center;   
     gap: 5px;
 }
+.group-icon2 > a > span {
+    font-size: small;
+    color: #909090;
+}

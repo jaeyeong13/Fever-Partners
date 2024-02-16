@@ -27,9 +27,9 @@
                 <div class="group-icon2">
                 <i class="ri-flag-2-line"></i>
                 {% if goal.is_in_group %}
-                <a href="{%url "group_activity:member_list" goal.belonging_group_id %}">{{ goal.title }}</a>
+                <a href="{%url "group_activity:member_list" goal.belonging_group_id %}">{{ goal.title }}    <span>그룹에 참여하고있어요!</span></a>
                 {% else %}
-                <a href="{%url "goal_management:recommendation_page" goal.pk %}">{{ goal.title }}</a>
+                <a href="{%url "goal_management:recommendation_page" goal.pk %}">{{ goal.title }}   <span>새 그룹을 찾아보세요!</span></a>
                 {% endif %}
                 </div>
                 <div>
