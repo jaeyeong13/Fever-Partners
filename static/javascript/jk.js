@@ -37,13 +37,13 @@ function changeTab(tab, event, room_id) {
     var url = '';
     switch (tab) {
     case 'member':
-        url = '../member_list/'+room_id;
+        url = window.location.origin + '/group_activity/member_list/'+room_id;
         break;
     case 'activate':
-        url = '../activate/'+room_id;
+        url = window.location.origin + '/group_activity/activate/'+room_id;
         break;
     case 'show_log':
-        url = '../show_log/'+room_id;
+        url = window.location.origin + '/group_activity/show_log/'+room_id;
         break;
     }
     loadContent(url);
@@ -55,7 +55,7 @@ function defaultActivate(roomId) {
   }
 
 //인증 마감(delete)
-function closeAuth(authId) {
+function closeAuth(roomId, authId) {
     Swal.fire({
       title: "인증을 마감하시겠습니까?",
       text: "마감한 인증은 복구할 수 없어요!",
@@ -67,7 +67,7 @@ function closeAuth(authId) {
       cancelButtonText: "취소",
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch("../delete_auth/" + authId, {
+            fetch("../close_auth/" + roomId + "/" + authId , {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",

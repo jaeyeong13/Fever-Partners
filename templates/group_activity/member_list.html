@@ -2,8 +2,8 @@
 {% block content %}
 
     <div id="group-member-list">
-        {% for member, goal in member_goal_pairs.items %}
-            <p id="member-list-text">멤버 list</p>
+        <p id="member-list-text">멤버 list</p>
+        {% for member, inner_dict in member_dict.items %}
             <div class="group-member-intro">
                 {% if member.profile_image.url != '' %}
                 <img
@@ -20,7 +20,8 @@
                 {% endif %}
                 <div class="member-intro-text">
                     <h3>닉네임: {{ member.nickname }}</h3>
-                    <div>목표: {{goal.title}}</div>
+                    <div>목표: {{inner_dict.goal.title}}</div>
+                    <div>남은 보증금: {{inner_dict.user_info.deposit_left}}</div>
                 </div>
             </div>
         {% endfor %}

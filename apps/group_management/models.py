@@ -17,8 +17,8 @@ class Room(models.Model):
     favor_offline = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     deposit = models.PositiveIntegerField(default=0)
-    duration = models.DurationField(default=None)
-    closing_date = models.DateTimeField(default=None)
+    duration = models.DurationField(default=None, null=True)
+    closing_date = models.DateTimeField(default=None, null=True)
     penalty_bank = models.PositiveIntegerField(default=0)
 
     # def __str__(self):

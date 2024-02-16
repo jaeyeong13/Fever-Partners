@@ -18,7 +18,7 @@
             <div>{{auth.start | date:"m월 d일"}} {{auth.start | time:"H:i"}} ~ {{auth.end | date:"m월 d일"}} {{auth.end | time:"H:i"}}</div>
             <div class="activate-auth-bottom">
                 <div></div>
-                <a href="#" onclick="closeAuth({{ auth.pk }})" class="blue-bc-text">인증마감</a>
+                <a href="#" onclick="closeAuth({{room.pk}},{{ auth.pk }})" class="blue-bc-text">인증마감</a>
             </div>
         </div>
         {% endif %}

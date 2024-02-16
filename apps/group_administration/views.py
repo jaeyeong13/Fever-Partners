@@ -79,9 +79,9 @@ def activate_room(request, room_id):
         room.is_active = True
         room.closing_date = timezone.now() + room.duration
         room.save()
-        url = reverse('group_activity:member_list', kwargs={'room_id': room_id})
+        url = reverse('group_activity:main_page', kwargs={'room_id': room_id})
         return redirect(url)
-    except Exception:
+    except Exception as e:
         return HttpResponse(status=404)
 
 @require_http_methods(["DELETE"])
@@ -122,6 +122,8 @@ def distribute_reward(room: Room):
         penalty_bank = room.penalty_bank
         reward = (penalty_bank * activity_count) / total_count
         user.coin += int(reward)
+        user.coin += activity_info.deposit_left
+        print(user.nickname,"에게",reward,"코인의 보상을 지급.")
         user.save()
 
 @room_admin_required  

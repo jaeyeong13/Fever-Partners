@@ -62,7 +62,7 @@ def accept_request(request, alarm_id):
         goal.belonging_group_id = room.pk
         goal.save()
         UserActivityInfo.objects.create(
-            user = request.user,
+            user = alarm.alarm_from,
             room = room,
             deposit_left = room.deposit,
         )
@@ -78,7 +78,7 @@ def accept_request(request, alarm_id):
         goal.belonging_group_id = room.pk
         goal.save()
         UserActivityInfo.objects.create(
-            user = request.user,
+            user = alarm.alarm_to,
             room = room,
             deposit_left = room.deposit,
         )
@@ -104,7 +104,7 @@ def accept_direct_request(request, alarm_id):
     goal.save()
 
     UserActivityInfo.objects.create(
-        user = request.user,
+        user = alarm.alarm_to,
         room = room,
         deposit_left = room.deposit,
     )

@@ -11,6 +11,8 @@ from apps.group_administration.decorators import room_admin_required
 from django.views.decorators.http import require_http_methods
 import json
 from apps.group_activity.models import UserActivityInfo
+from django.utils import timezone
+import isodate
 
 def start_creation(request):
     goals = Goal.objects.filter(user = request.user).filter(is_in_group = False).filter(is_completed = False)
@@ -28,9 +30,11 @@ def create_room(request):
         cert_required = request.POST.get('cert_required')
         cert_detail = request.POST.get('cert_detail', '')
         penalty = request.POST.get('penalty', 0)
+        duration = request.POST.get('room-duration')
         favor_offline_str = request.POST.get('favor_offline', 'False')
         favor_offline = favor_offline_str == 'True'
         deposit = request.POST.get('deposit', 0)
+        print(duration)
 
         # 서버사이드 validation
         # if not goal_id or not title or not detail:
@@ -43,7 +47,9 @@ def create_room(request):
             detail = detail,
             master=request.user,
             cert_required = bool(cert_required),
-            favor_offline = favor_offline
+            favor_offline = favor_offline,
+            duration = isodate.parse_duration(duration),
+            deposit = int(deposit),
         )
 
         if bool(cert_required):
@@ -64,9 +70,9 @@ def create_room(request):
         UserActivityInfo.objects.create(
             user = request.user,
             room = room,
-            deposit_left = deposit,
+            deposit_left = int(deposit),
         )
-        request.user.coin -= deposit
+        request.user.coin -= int(deposit)
         request.user.save()
 
         url = reverse('group_management:recommendation_page', kwargs={'room_id': room.pk})
@@ -146,7 +152,7 @@ def suggest_join(request, room_id):
 def show_group_list(request):
     user = request.user
     rooms = Room.objects.filter(members__in = [user])
-    return render(request, 'group_management/group_list.html', {'rooms': rooms})
+    return render(request, 'group_management/group_list.html', {'rooms': rooms, 'current_time': timezone.localtime()})
 
 def check_user_goal(request):
     available_goals = Goal.objects.filter(user=request.user).exclude(is_completed=True).exclude(is_in_group=True)
