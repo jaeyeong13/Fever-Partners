@@ -5,20 +5,63 @@
   --green: #00AD26;
 }
 
+.page_back{
+  cursor: pointer;
+}
+
+#group-activat-box{
+  width: 100vw;
+}
+
 #group-introbox {
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: space-around;
   background-color: var(--main-color);
   color: white;
   height: 35vh;
 }
 
+#group-intro-text{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}
+
+.white-title{
+  font-weight: bold;
+  font-size: 3em;
+  color: white;
+}
+
+.group-intro-tag{
+  display: flex;
+  gap: 1em;
+}
+
+#group-admin-or-withdraw{
+  display: flex;
+  gap: 1em;
+}
+
+.group-btn{
+  color: var(--main-color);
+  background-color: white;
+  font-size: 0.8em;
+  text-decoration: none;
+  padding: 0.3em 0.5em;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
 #group-select-activity-list {
-  height: 5vh;
+  height: 4.7vh;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  border-bottom: solid 1px var(--main-color);
+  border-bottom: solid 0.3vh var(--main-color);
   font-weight: bold;
 }
 
@@ -28,22 +71,25 @@
   text-decoration: none;
 }
 
-#group-activity-content {
-  height: 46vh;
+.selected-group-tab{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-weight: bolder;
+  border-bottom: 4px solid black;
 }
 
-footer {
-  height: 10vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+#group-activity-content {
+  height: 46vh;
+  padding: 2vh;
 }
 
 #auth-logs{
   display: flex;
   flex-direction: column;
   gap: 1em;
-  margin: 2vh ;
+  height: 100%;
+  overflow-y: scroll;
 }
 
 .auth-log{
@@ -51,6 +97,7 @@ footer {
   border-radius: 8px;
   font-size: 1.2em;
   font-weight: bold;
+  box-shadow: 2px 2px var(--main-color);
 }
 
 .auth-text{
@@ -74,6 +121,11 @@ footer {
   font-size: 0.8em;
 }
 
+.main-color-08em{
+  color: var(--main-color);
+  font-size: 0.8em;
+}
+
 .main-color-bold{
   color: var(--main-color);
 }
@@ -84,4 +136,381 @@ footer {
 
 .auth-fail{
   color: var(--red);
+}
+
+/*group_activate.html*/
+#activate-auths{
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.activate-auth{
+  border: 1px solid var(--main-color);
+  border-radius: 8px;
+  font-size: 1.2em;
+  font-weight: bold;
+  box-shadow: 2px 2px var(--main-color);
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+  padding: 0.5em;
+}
+
+.activate-auth-bottom{
+  display: flex;
+  justify-content: space-between;;
+  align-items: center;
+}
+
+.blue-bc-text{
+  color: var(--gray);
+  font-size: 0.8em;
+  background-color: skyblue;
+  padding: 0.3em 0.5em;
+  border-radius: 5px;
+}
+
+.green-bc-text{
+  color: white;
+  font-size: 0.8em;
+  background-color: var(--green);
+  padding: 0.3em 0.5em;
+  border-radius: 5px;
+}
+
+.auth-btn-style{
+  color: white;
+  background-color: var(--main-color);
+  font-size: 0.8em;
+  text-decoration: none;
+}
+
+.red-btn{
+  padding: 0.3em 0.5em;
+  border-radius: 5px;
+  background-color: var(--main-color);
+  color: white;
+}
+
+.create-auth-btn{
+  height: 2em;
+  width: 2em;
+  font-size: 1.4em;
+  font-weight: bold;
+  text-align: center;
+  padding: 0.5em;
+  border-radius: 0.8em;
+  position: absolute;
+  top: 78%;
+  left: 80%;
+}
+
+#auth-restart{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.fa-rotate-right{
+  color: var(--gray);
+}
+
+/* member_list.html */
+#group-member-list{
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+#member-list-text{
+  color: var(--main-color);
+  font-size: 2.5em;
+  font-weight: bold;
+  text-shadow: 0.05em 0.05em 5px var(--gray);
+}
+
+.group-member-intro{
+  border: 2px solid var(--main-color);
+  border-radius: 8px;
+  display: flex;
+}
+
+.member-intro-text{
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  justify-content: center;
+}
+
+.profile-image-group{
+  height: 5em;
+  width: 5em;
+  border: 1px solid var(--main-color);
+  border-radius: 50%;
+  margin: 1em;
+}
+/* forms.py */
+
+.create-auths{
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+
+.form-group{
+  display: flex;
+  flex-direction: column;
+  margin: 2em;
+  gap: 0.5em;
+  font-weight: bold;
+}
+
+.auth-info-text{
+  margin: 2em;
+}
+
+.black-bold{
+  font-weight: bold;
+  font-size: 3em;
+}
+
+.big-btn{
+  height: 5em;
+  margin-top: 5em;
+}
+
+
+
+/* 목표 등록 후 */
+#success-goal-container{
+  height: 90vh;
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
+}
+
+#success-goal-body{
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#choice-master-or-member{
+  display: flex;
+  gap: 5vw;
+}
+
+#group-master-text,
+#group-member-text{
+  width: 35vw;
+  text-align: center;
+}
+
+#group-master-text > a{
+  text-decoration: none;
+  color: #8B8B8B;
+  transition: 0.5s;
+}
+
+#group-member-text button{
+  border: 0;
+  outline: 0;
+  color: #8B8B8B;
+  background-color: white;
+  transition: 0.5s;
+}
+
+#group-master-text > a:hover,
+#group-member-text button:hover{
+  color: var(--main-color);
+}
+
+.bold-12em{
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+
+
+
+/* 그룹장이 방 생성하기 */
+
+#create-room-container{
+  height: 90vh;
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.group-form-setting{
+  display: flex;
+  flex-direction: column;
+  gap: 1.2vh;
+}
+
+
+
+
+
+/* 알림창 */
+#group-request-container{
+  height: 90vh;
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
+}
+
+#group-request-container > ul {
+  padding: 0;
+  margin-top: 5vh;
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
+  overflow-y: scroll;
+}
+
+#group-request-container > ul::-webkit-scrollbar {
+  display: none;
+}
+
+#group-request-container > ul > li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#group-request-container > ul > li > div{
+  font-weight: bold;
+}
+
+.request-detail-btn{
+  text-decoration: none;
+  text-align: center;
+  color: white;
+  background-color: var(--main-color);
+  border-radius: 15px;
+  font-size: 0.8em;
+  padding: 0.5em 1.5em;
+}
+
+
+
+/* 알림 디테일 */
+.suggest-join-group{
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  margin-top: 5vh;
+}
+
+.fs15em-bold{
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.fs12em-bold{
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.horizontal-btns{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10vh;
+}
+
+.white-main-btn{
+  color: var(--main-color);
+  background-color: white;
+  border-radius: 15px;
+  width: 6em;
+  height: 2em;
+  border: 2px solid var(--main-color);
+  transition: 0.3s;
+}
+
+.white-main-btn:hover{
+  color: white;
+  background-color: var(--main-color);
+}
+
+/*마이페이지*/
+#mypage-container{
+  height: 90vh;
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
+}
+
+.mt5vh-bold-text{
+  font-weight: bold;
+}
+
+.profile-image-my{
+  height: 7em;
+  width: 7em;
+  border-radius: 50%;
+  border: 2px solid var(--main-color);
+}
+
+.user-detail-box{
+  border: 1px solid white;
+  border-radius: 7px;
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+  padding-left: 5vw;
+}
+
+.a-to-btn{
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* =====footer===== */
+.footer {
+  height: 10vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #f2f2f2;
+  position: sticky;
+}
+
+.footer-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.footer-icon {
+  font-size: 30px; 
+  color: #db4455;
+  margin-bottom: 10px;
+}
+
+.footer-text {
+  color: #db4455;
+  font-size: 16px;
+	font-style: italic;
+}
+
+.footer-link {
+  text-decoration: none;
+  display: inline;
+}
+
+.ri-file-list-3-line{
+  margin-bottom: 0;
 }

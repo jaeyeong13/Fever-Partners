@@ -1,0 +1,286 @@
+:root {
+    --red: #db4455;
+    --white: #ffffff;
+    --gray: #8b8b8b;
+    --height: 100vh;
+}
+
+/* start.html */
+#start_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: var(--height);
+    background-color: var(--red);
+    justify-content: space-evenly;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo img {
+    width: 60%;
+}
+
+.start_btn {
+    background-color: var(--white);
+}
+
+.start_btn a {
+    font-size: 3rem;
+    color: var(--red);
+    text-decoration: none; /* 밑줄을 없애는 속성 */
+}
+
+/* login.html */
+#login_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: var(--height);
+    background-color: var(--white);
+    justify-content: space-between;
+}
+
+.page_back_header {
+    margin-top: 1rem;
+    width: 90%;
+}
+
+#login_box {
+    height: 30vh;
+}
+
+#login_box span {
+    color: var(--red);
+}
+
+#login_form {
+    display: flex;
+    flex-direction: column;
+}
+
+#login_form input {
+    border: none; /* 모든 테두리를 제거합니다. */
+    border-bottom: 0.1rem solid var(--gray); /* 아래쪽 테두리를 추가합니다. 여기서는 검은색 1px 선을 사용했습니다. */
+    outline: none; /* 포커스 효과 테두리를 제거합니다. */
+    margin-top: 1rem;
+}
+
+#login_form button {
+    margin-top: 2rem;
+    color: var(--white);
+    background-color: var(--red);
+    border: none; /* 모든 테두리를 제거합니다. */
+    border-radius: 10%;
+    font-size: 1rem;
+}
+
+#login_service {
+    margin-top: 2rem;
+}
+
+#login_service a {
+    text-decoration: none; /* 밑줄을 없애는 속성 */
+    color: var(--gray); /* 링크 색상을 상위 요소의 색으로 상속합니다. */
+}
+
+#social_login {
+    height: 30vh;
+}
+
+/* signup_how.html */
+#signup_how_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: var(--height);
+    justify-content: space-between;
+}
+
+.page_back_header > p:nth-child(3) {
+    color: var(--red);
+}
+
+#signup_method div {
+    border: solid 1px black;
+    margin-top: 1rem;
+}
+
+#return_login {
+    height: 30vh;
+}
+
+#return_login a {
+    color: var(--red);
+    text-decoration: none; /* 밑줄을 없애는 속성 */
+}
+
+/* signup_email.html */
+#signup_email_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: var(--height);
+    background-color: var(--white);
+    justify-content: space-between;
+}
+
+.signup_email_form {
+    height: 70vh;
+}
+
+.signup_email_form div {
+    margin-top: 1rem;
+}
+
+.signup_email_form > span {
+    color: var(--red);
+}
+
+.signup_email_form button {
+    margin-top: 2rem;
+    color: var(--white);
+    background-color: var(--red);
+    border: none; /* 모든 테두리를 제거합니다. */
+    border-radius: 10%;
+    font-size: 1rem;
+}
+
+/* input_nickname.html */
+#input_nickname_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: var(--height);
+    background-color: var(--white);
+    justify-content: space-between;
+}
+
+.input_nickname_form {
+    height: 70vh;
+}
+
+.input_nickname_form div {
+    margin-top: 1rem;
+}
+
+.input_nickname_form > span {
+    color: var(--red);
+}
+
+.input_nickname_form button {
+    margin-top: 2rem;
+    color: var(--white);
+    background-color: var(--red);
+    border: none; /* 모든 테두리를 제거합니다. */
+    border-radius: 10%;
+    font-size: 1rem;
+}
+
+/* main.html */
+#main_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: var(--height);
+    background-color: var(--white);
+    justify-content: space-between;
+}
+
+.main_container_top_part {
+    height: 50vh;
+    background-color: var(--red);
+}
+
+.main_container_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.main_container_header img {
+    height: 5vh;
+    width: auto;
+}
+
+#main_container div {
+    width: 100%;
+}
+
+.main_top_part {
+    height: 45vh;
+}
+
+.main_top_part > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.main_top_part > div div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+.main_container_bottom_part {
+    height: 40vh;
+}
+
+.main_container_bottom_part_content {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.main_container_bottom_part_content a {
+    text-decoration: none;
+    -webkit-text-stroke-width: 1px; /* 테두리의 너비를 지정합니다. */
+    -webkit-text-stroke-color: var(--red); /* 테두리의 색상을 지정합니다. */
+    color: var(--white);
+}
+
+/* footer */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f2f2f2;
+}
+  
+.footer-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+  
+.footer-icon {
+    font-size: 30px; 
+    color: #db4455;
+    margin-bottom: 10px;
+}
+  
+.footer-text {
+    color: #db4455;
+    font-size: 16px;
+    font-style: italic;
+    text-decoration: none;
+}
+  
+.footer-link {
+    text-decoration: none;
+    display: inline;
+}

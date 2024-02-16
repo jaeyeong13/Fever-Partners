@@ -1,9 +1,32 @@
-<form
-  action="{% url 'group_activity:create_authentication' pk %}"
-  method="post"
-  enctype="multipart/form-data"
->
-  {%csrf_token%} {{form.as_p}}
-  <input type="hidden" name="room_id" value="{{ room.id }}" />
-  <button type="submit">인증완료</button>
-</form>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{%static 'css/reset.css' %}" />
+  <link rel="stylesheet" href="{%static 'css/jk.css' %}" />
+  <title>Document</title>
+</head>
+<body>
+  <div class="create-auth-container">
+    <div class="auth-info-text">
+      <p class="gray-08em">인증기간</p>
+      <div class="fs12em-bold">{{auth.start | date:"m월 d일"}} {{auth.start | time:"H:i"}} ~ {{auth.end | date:"m월 d일"}} {{auth.end | time:"H:i"}}</div>
+    </div>
+
+    <form action="{% url 'group_activity:create_authentication' room_id auth_id %}" method="post" enctype="multipart/form-data" class="create-auths">
+      {%csrf_token%}
+      {% for field in form %}
+        <div class="form-group">
+          {{ field.label }}
+          {{ field }}
+        </div>
+      {% endfor %}
+    
+      <button type="submit" class="red-btn big-btn">제출하기</button>
+    </form>
+  </div>
+</body>
+</html>
+

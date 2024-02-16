@@ -1,8 +1,12 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{%static 'javascript/main.js'%}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
     <title>Document</title>
 </head>
 <body>
@@ -60,13 +64,7 @@
             {% endfor %}
             <div>목표: {{ goal.title }}</div>
             <br>
-            <form action="{% url 'group_management:suggest_join' room.pk %}" method="post">
-                {% csrf_token %}
-                <input type="hidden" name="user_id" value="{{ goal.user.id }}">
-                <input type="hidden" name="room_id" value="{{ room.id }}">
-                <input type="hidden" name="goal_id" value="{{ goal.id }}">
-                <button type="submit">가입제안</button>
-            </form>
+            <button onclick="suggestJoin(this, '{{goal.user.nickname}}', {{goal.user.id}}, {{room.id}}, {{goal.id}})">가입제안</button>
         </div>
 
     {% endfor %}

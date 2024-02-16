@@ -8,16 +8,40 @@
     <link rel="stylesheet" href="{%static 'css/tag_selection.css'%}">
     <link rel="stylesheet" href="{%static 'css/group_creation.css'%}">
     <link rel="stylesheet" href="{% static 'css/free_board.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jk.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
+    <script src="https://kit.fontawesome.com/aa0228ade6.js" crossorigin="anonymous"></script>
     <script src="{%static 'javascript/main.js'%}" defer></script>
     <script src="{%static 'javascript/invite.js'%}" defer></script>
     <title>Document</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css">
-    <script src="https://kit.fontawesome.com/aa0228ade6.js" crossorigin="anonymous"></script>
+    <!-- BOOTSTRAP LINK -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
     <div id='center-wrap'>
         {% block content %}
         {% endblock content %}
+    </div>
+    <div class="footer">
+      <a href="{% url 'group_management:group_list' %}" class="footer-link" style="display: flex;">
+        <div class="footer-item">
+          <i class="fa-solid fa-user-group footer-icon"></i>
+          <div class="footer-text">Group</div>
+        </div>
+      </a>
+      <a href="{% url 'goal_management:goal_list' %}" class="footer-link" style="display: flex;">
+        <div class="footer-item">
+          <i class="fa-solid fa-bullseye footer-icon"></i>
+          <div class="footer-text">MyGoal</div>
+        </div>
+      </a>
+      <a href="#" class="footer-link" style="display: flex;">
+        <div class="footer-item">
+          <i class="ri-file-list-3-line footer-icon"></i>
+          <div class="footer-text">null</div>     <!-- 이 부분 이름은 나중에 수정 필요 -->
+        </div>
+      </a>
     </div>
 </body>
 </html>

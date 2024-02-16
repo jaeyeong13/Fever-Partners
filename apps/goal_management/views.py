@@ -8,6 +8,7 @@ from elasticsearch_dsl import Search, Q
 from apps.group_management.models import Room
 from django.views.decorators.http import require_http_methods
 from .decorators import goal_ownership_required
+import json
 
 def start_creation(request):
     tags = Tag.objects.filter(parent_tag__isnull=True).order_by('tag_name')
@@ -154,18 +155,20 @@ def recommend_group(request, goal_id):
     }
     return render(request, 'goal_management/group_recom.html', cnt)
 
+@goal_ownership_required
+@require_http_methods(["POST"])
 def suggest_join(request, goal_id):
-    if request.method == 'POST':
-        user_id = request.POST.get('user_id')
-        room_id = request.POST.get('room_id')
+    try:
+        data = json.loads(request.body)
+        user_id = data.get('user_id')
+        room_id = data.get('room_id')
         user = get_object_or_404(get_user_model(), id=user_id)
-        goal = get_object_or_404(Goal, id=goal_id)  # 방 정보 가져오기
+        goal = get_object_or_404(Goal, id=goal_id)
         room = get_object_or_404(Room, id=room_id)
-        # 새 알람 객체 생성 시 인스턴스로 변환된 사용자를 할당
         Alarm.objects.create(alarm_from=request.user, alarm_to=user, goal = goal, room = room)
-        return redirect(f'/goal/group_recommendation/{goal.id}')
-    else:
-        return redirect('/')# POST 요청이 아닌 경우 홈페이지로 리다이렉트
+        return HttpResponse(status=204)
+    except Exception:
+        return HttpResponse(status=400)
 
 def show_achievement_report_list(request):
     reports = AchievementReport.objects.all()
@@ -203,3 +206,35 @@ def create_achievement_report(request, goal_id):
             'goal':goal,
         }
         return render(request, 'goal_management/achievement_reporting_form.html', cnt)
+    
+def update_react_count(request, report_id):
+    json_data = json.loads(request.body)
+    report = AchievementReport.objects.get(pk=report_id)
+    action = json_data.get('action')
+    if action == 'love':
+        love_count = report.reacted_love.count()
+        if request.user in report.reacted_love.all():
+            love_count -= 1
+            report.reacted_love.remove(request.user)
+        else:
+            love_count += 1
+            report.reacted_love.add(request.user)
+        return JsonResponse({'love_count':love_count}, status=200)
+    elif action == 'like':
+        like_count = report.reacted_respectful.count()
+        if request.user in report.reacted_respectful.all():
+            like_count -= 1
+            report.reacted_respectful.remove(request.user)
+        else:
+            like_count += 1
+            report.reacted_respectful.add(request.user)
+        return JsonResponse({'like_count':like_count}, status=200)
+    elif action == 'dislike':
+        dislike_count = report.reacted_dislike.count()
+        if request.user in report.reacted_dislike.all():
+            dislike_count -= 1
+            report.reacted_dislike.remove(request.user)
+        else:
+            dislike_count += 1
+            report.reacted_dislike.add(request.user)
+        return JsonResponse({'dislike_count':dislike_count}, status=200)

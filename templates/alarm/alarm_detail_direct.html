@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div id="group-request-container">
+        <div class='goal-header'>
+            <div class="page_back_header">
+                <span onclick="goBack()" class="page_back">
+                    <i class="fa-solid fa-chevron-left main-color-text"></i>
+                </span>
+            </div>
+            <div></div>
+        </div>
+
+        <div class="suggest-join-group">
+            <p class="fs15em-bold"><span class="main-color-text">{{ alarm.alarm_from.nickname }}</span> 님의 그룹가입 제안</p>
+            <p><span class="main-color-text">{{ alarm.alarm_from.nickname }}</span> 님이 그룹에 직접 초대하셨습니다. 가입을 원하시면 목표를 설정해주세요.</p>
+            <p>제안된 그룹: <span class="main-color-text">{{ alarm.room.title }}</span></p>
+            <div class="horizontal-btns">
+                <select name="goal" id="goal" required>
+                {% for goal in goals %}
+                    <option value="{{ goal.id }}">{{ goal.title }}</option>
+                {% endfor %}
+                </select>
+                <button onclick="acceptDirectRequest({{alarm.id}})" type="submit" class="white-main-btn">수락</button>
+                <form method="POST" action="{% url 'alarm:reject_request' alarm.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="white-main-btn">거절</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
