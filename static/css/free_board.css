@@ -263,6 +263,7 @@ ul.pagination li a.disabled {
   margin-right: 10px;
   margin-left: 8px;
   margin-top: 8px;
+  display: inline;
 }
 .post-author,
 .post-created-time {
@@ -320,13 +321,15 @@ ul.pagination li a.disabled {
   transform: translateX(-50%);
   margin: 0;
 }
-
+.post-info, .mod-del {
+  margin-top: -4px;
+}
 .mod-del {
   text-align: right;
-  margin-top: 12px;
-  margin-bottom: 8px;
   font-size: 0.8rem;
+  margin-top: 1px;
 }
+
 .separator {
   margin: 0 2px;
   color: #d9d9d9;
@@ -500,6 +503,12 @@ ul.pagination li a.disabled {
   margin-bottom: 10px;
   font-size: 1.2rem;
   color: #616161;
+}
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px; /* 상단 여백 조정 */
 }
 .post-create-submit-btn {
   background-color: #db4455;
