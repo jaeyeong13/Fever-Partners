@@ -1,29 +1,104 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="{%static 'javascript/main.js'%}" defer></script>
+    <script src="{% static 'javascript/main.js' %}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/minju2.css' %}">
+    <script src="https://kit.fontawesome.com/aa0228ade6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/2.5.0/remixicon.css">
     <title>Document</title>
 </head>
 <body>
-    <div>{{user.nickname}}님이 속한 방이에요!</div>
-    <br>
+    <header>
+        <a class="go_back" href="{% url 'user_management:main'%}">
+            <i class="ri-arrow-left-s-line"></i>
+        </a>
+        <p class="room-title">그룹</p>
+        <i class="ri-arrow-left-s-line hide-arrow"></i>
+    </header>
+    <div class="group-wrap">
     {% for room in rooms %}
-    {% if room.is_active %}
-    <a href="{%url 'group_activity:main_page' room.pk %} "><h3>{{room.title}}</h3></a>
-    {% else %} 
-        {% if user.pk == room.master.pk %}
-        <a href="{%url 'group_management:recommendation_page' room.pk %}"><h3>{{room.title}}</h3></a>
-        <a href="{%url 'group_administration:activate_room' room.pk %}">활동개시</a>
+    <div class="group-div">
+        {% if room.is_active %}
+            <div class="group-icon">
+                <i class="ri-group-line"></i>
+                <a href="{% url 'group_activity:main_page' room.pk %}"><h3>{{ room.title }}</h3></a>
+            </div>
+            <div class="room-detail">
+                <p><span>태그</span>
+                    {% for tag in room.tags.all %}
+                        {{ tag.tag_name }}
+                    {% endfor %}
+                </p>
+                {% comment %} <p>멤버:
+                    {% for member in room.members.all %}
+                        {{ member.nickname }}
+                    {% endfor %}
+                </p> {% endcomment %}
+                <p><span>방장</span> {{ room.master.nickname }}</p>
+                <p><span>활동태그</span>
+                    {% for activity_tag in room.activityTags.all %}
+                        {{ activity_tag.tag_name }}
+                    {% endfor %}
+                </p>
+            </div>
         {% else %}
-        <a onclick="NotActiveYetModal()"><h3>{{room.title}}</h3></a>
+            {% if user.pk == room.master.pk %}
+                <div class="no-ac">
+                    <div class="group-icon">
+                        <i class="ri-group-line"></i>
+                        <a href="{% url 'group_management:recommendation_page' room.pk %}"><h3>{{ room.title }}</h3></a>
+                    </div>
+                    <a class="ac-btn" href="{% url 'group_administration:activate_room' room.pk %}">활동개시</a>
+                </div>
+                <div class="room-detail">
+                    <p><span>태그</span>
+                        {% for tag in room.tags.all %}
+                            {{ tag.tag_name }}
+                        {% endfor %}
+                    </p>
+                    {% comment %} <p>멤버:
+                        {% for member in room.members.all %}
+                            {{ member.nickname }}
+                        {% endfor %}
+                    </p> {% endcomment %}
+                    <p><span>방장</span> {{ room.master.nickname }}</p>
+                    <p><span>활동태그</span>
+                        {% for activity_tag in room.activityTags.all %}
+                            {{ activity_tag.tag_name }}
+                        {% endfor %}
+                    </p>
+                </div>
+            {% else %}
+                <a onclick="NotActiveYetModal()"><h3>{{ room.title }}</h3></a>
+            {% endif %}
         {% endif %}
-    {% endif %}
-    <br>
-    {% endfor %}
+    </div>
+    
+        {% endfor %}
+    </div> 
+    <div class="footer">
+        <a href="{% url 'group_management:group_list' %}" class="footer-link" style="display: flex;">
+          <div class="footer-item">
+            <i class="fa-solid fa-user-group footer-icon"></i>
+            <a href="{% url 'group_management:group_list' %}" class="footer-text">내 그룹</a>
+          </div>
+        </a>
+        <a href="{% url 'goal_management:goal_list' %}" class="footer-link" style="display: flex;">
+          <div class="footer-item">
+            <i class="fa-solid fa-bullseye footer-icon"></i>
+            <a href="{% url 'goal_management:goal_list' %}" class="footer-text">내 목표</a>
+          </div>
+        </a>
+        <a href="{% url 'goal_management:achievement_report_list'%}" class="footer-link" style="display: flex;">
+          <div class="footer-item">
+            <i class="ri-file-list-3-line footer-icon"></i>
+            <a href="{% url 'goal_management:achievement_report_list'%}" class="footer-text">달성보고</a>    <!-- 이 부분 이름은 나중에 수정 필요 -->
+          </div>
+        </a>
+      </div>
 </body>
 </html>

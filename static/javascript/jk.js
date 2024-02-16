@@ -6,60 +6,64 @@ function goBack() {
 //group_activity에서 ajax 처리
 function loadContent(url) {
     fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        })
-        .then(data => {
-            document.getElementById('group-activity-content').innerHTML = data;
-        })
-        .catch(error => {
-            console.error('Error during fetch operation:', error);
-        });
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(data => {
+        document.getElementById('group-activity-content').innerHTML = data;
+    })
+    .catch(error => {
+        console.error('Error during fetch operation:', error);
+    });
+}
+
+function changeTab(tab, event, room_id) {
+    event.preventDefault();
+
+    // 모든 링크에서 selected-group-tab 클래스 제거
+    var links = document.querySelectorAll('#group-select-activity-list a');
+    links.forEach(function(link) {
+    link.classList.remove('selected-group-tab');
+    });
+
+    // 클릭한 링크에 selected-group-tab 클래스 추가
+    var selectedLink = event.currentTarget;
+    selectedLink.classList.add('selected-group-tab');
+
+
+    var url = '';
+    switch (tab) {
+    case 'member':
+        url = '../member_list/'+room_id;
+        break;
+    case 'activate':
+        url = '../activate/'+room_id;
+        break;
+    case 'show_log':
+        url = '../show_log/'+room_id;
+        break;
+    }
+    loadContent(url);
+}
+
+//기본 페이지 설정
+function defaultActivate(roomId) {
+    loadContent('../activate/'+roomId);
   }
 
-  function changeTab(tab, event, room_id) {
-      event.preventDefault();
-
-      // 모든 링크에서 selected-group-tab 클래스 제거
-      var links = document.querySelectorAll('#group-select-activity-list a');
-      links.forEach(function(link) {
-        link.classList.remove('selected-group-tab');
-      });
-    
-      // 클릭한 링크에 selected-group-tab 클래스 추가
-      var selectedLink = event.currentTarget;
-      selectedLink.classList.add('selected-group-tab');
-
-
-      var url = '';
-      switch (tab) {
-        case 'member':
-            url = '../member_list/'+room_id;
-            break;
-        case 'activate':
-            url = '../activate/'+room_id;
-            break;
-        case 'show_log':
-            url = '../show_log/'+room_id;
-            break;
-      }
-      loadContent(url);
-  }
-
-  //인증 마감(delete)
-  // Goal 삭제시 팝업되는 confirm창
+//인증 마감(delete)
 function closeAuth(authId) {
     Swal.fire({
-      title: "정말 삭제하시겠습니까?",
-      text: "삭제한 인증은 복구할 수 없어요!",
+      title: "인증을 마감하시겠습니까?",
+      text: "마감한 인증은 복구할 수 없어요!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "삭제",
+      confirmButtonText: "마감",
       cancelButtonText: "취소",
     }).then((result) => {
         if (result.isConfirmed) {
@@ -86,7 +90,7 @@ function closeAuth(authId) {
                 })
                 .then((json_data) => {
                     Swal.fire({
-                        title: "삭제 완료",
+                        title: "마감 완료",
                         text: json_data.message,
                         icon: "success",
                     });
@@ -95,7 +99,7 @@ function closeAuth(authId) {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire({
           title: "취소됨",
-          text: "인증 삭제가 취소되었습니다.",
+          text: "인증 마감이 취소되었습니다.",
           icon: "error",
           confirmButtonText: "확인",
         });
