@@ -42,20 +42,34 @@
 
         <!-- 게시글의 내용 -->
         <div class="post-body">
-          <div class="post-info">
-            <div class="post-author">
-              {{ post.author.nickname }} |
-            </div>
-            <div class="post-created-time">
-              {{ post.created_at|date:"y-m-d H:i" }}
-            </div>
-          </div>
-          <div class="post-writing">
-            <div class="post-text">
-              {{ post.content }}
-            </div>
-          </div>
-        </div>
+  <div class="post-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div class="post-info">
+      <div class="post-author">
+        {{ post.author.nickname }} |
+      </div>
+      <div class="post-created-time">
+        {{ post.created_at|date:"y-m-d H:i" }}
+      </div>
+    </div>
+    {% if request.user == post.author %}
+    <div class="mod-del">
+      <a href="{% url 'free_board:modify_post' study_room_id post.id %}" class="btn-mod">수정</a>
+      <span class="separator">|</span>
+      <form action="{% url 'free_board:post_delete' study_room_id post.id %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <input type="hidden" name="post_id" value="{{ post.id }}">
+        <button type="submit" class="btn-del" onclick="return confirm('정말로 글을 삭제하시겠습니까?');">삭제</button>
+      </form>
+    </div>
+    {% endif %}
+  </div>
+  <div class="post-writing">
+    <div class="post-text">
+      {{ post.content }}
+    </div>
+  </div>
+</div>
+
 
         <!-- 좋아요 버튼 -->
         <div class="post-vote">
@@ -67,17 +81,6 @@
             {{ post.voter.count }}
           </div>
         </div>
-        {% if request.user == post.author %}
-        <div class="mod-del">
-          <a href="{% url 'free_board:modify_post' study_room_id post.id %}" class="btn-mod">수정</a>
-         <span class="separator">|</span>
-          <form action="{% url 'free_board:post_delete' study_room_id post.id %}" method="post" style="display: inline;">
-            {% csrf_token %}
-            <input type="hidden" name="post_id" value="{{ post.id }}">
-            <button type="submit" class="btn-del" onclick="return confirm('정말로 글을 삭제하시겠습니까?');">삭제</button>
-          </form>
-        </div>
-        {% endif %}
         {% if post.updated_at %}
           <div class="post-update-time">
             마지막 수정 시간 "{{ post.updated_at|date:"y-m-d H:i" }}"
