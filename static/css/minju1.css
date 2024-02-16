@@ -179,3 +179,8 @@ header i::before {
     display: flex;
     justify-content: flex-end; /* 오른쪽 정렬 */
 }
+.profile-image-my {
+    max-width: 100px; 
+    height: auto; 
+    margin-bottom: 3vh;
+}
