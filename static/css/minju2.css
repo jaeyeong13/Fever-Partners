@@ -169,12 +169,6 @@ a.ac-btn:hover {
     justify-content: flex-start;
     gap: 5px;
 }
-.goal-h {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-}
 .group-icon2 {
     display: flex;
     justify-content: flex-start;
@@ -184,4 +178,120 @@ a.ac-btn:hover {
 .group-icon2 > a > span {
     font-size: small;
     color: #909090;
+}
+.goal-btns {
+    margin-top: 1vh;
+}
+.member-recom {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0;
+}
+.my-goal {
+    margin: 0;
+    margin-bottom: 1vh;
+}
+.member-recom img {
+    width: 100px;
+    margin-right: 20px;
+}
+.join-button {
+    background-color: var(--main-color); 
+    border: none;
+    color: white;
+    padding: 7px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: small;
+    margin-top: 1vh;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.join-button:hover {
+    background-color: #45a049;
+}
+.h5 {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 90vw;
+}
+.group-wrap h5 {
+    color: var(--font-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    margin-top: 3vh;
+    margin-bottom: 1vh;
+    font-weight: 600;
+}
+/* Container */
+.ach-wrap {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 10vh;
+    margin-bottom: 15vh;
+    height: calc(100vh - 10vh - 15vh);
+    overflow-y: auto;
+}
+
+.ach-w-w {
+    padding: 0 10vw;
+    margin-top: 2vh;
+    background-color: #ffffff;
+    border-radius: 5px;
+    height: 80vh;
+}
+
+.ach-wrap > div {
+    margin-bottom: 3vh;
+}
+
+.ach-wrap label {
+    font-weight: normal;
+    color: #333333;
+}
+.ach-wrap h3 {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 3vh;
+    font-weight: normal;
+}
+.ach-wrap textarea, .ach-wrap input[type="file"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    margin-bottom: 10px;
+    font-size: 16px;
+    background-color: #f6f8fa;
+    margin-top: 1vh;
+}
+
+.warning {
+    color: red;
+    font-size: 12px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.btn {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 3vh;
+}
+.btn button{
+    border-radius: 5px;
+    border: none;
+    font-size:medium;
+    font-weight: lighter;
+    color: #ffffff;
+    background-color: var(--main-color);
+    text-decoration: none;
+    text-align: center;
+    padding: 7px 15px;
 }
