@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap');
 :root {
     --main-color: #db4455;
     --white-color: #ffffff;
@@ -9,6 +10,11 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
+}
+body, html {
+    font-family: "IBM Plex Sans KR", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 header {
     display: flex;
@@ -118,12 +124,6 @@ header i::before {
     font-weight: bold;
     margin: 0;
 }
-.group-div h3:hover,
-.group-div .group-icon:hover a,
-.group-div .group-icon:hover i {
-    color: var(--main-color);
-    text-decoration: none;
-}
 .room-detail {
     display: flex;
     flex-direction: column;
@@ -152,6 +152,7 @@ a.ac-btn {
     background-color: var(--main-color); 
     border-radius: 5px; 
     transition: background-color 0.3s ease; /* 배경색 변경 시 부드러운 효과 */
+    margin-top: 1vh;
 }
 
 a.ac-btn:hover {
@@ -166,7 +167,8 @@ a.ac-btn:hover {
 .group-icon {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
+    width: 100%;
     gap: 5px;
 }
 .group-icon2 {
@@ -174,10 +176,6 @@ a.ac-btn:hover {
     justify-content: flex-start;
     align-items: center;   
     gap: 5px;
-}
-.group-icon2 > a > span {
-    font-size: small;
-    color: #909090;
 }
 .goal-btns {
     margin-top: 1vh;
@@ -187,6 +185,7 @@ a.ac-btn:hover {
     justify-content: flex-start;
     align-items: center;
     margin: 0;
+    margin-bottom: 3vh;
 }
 .my-goal {
     margin: 0;
@@ -294,4 +293,27 @@ a.ac-btn:hover {
     text-decoration: none;
     text-align: center;
     padding: 7px 15px;
+}
+.group-icon2 > a > span{
+    font-size: small;
+    color: #909090;
+}
+.group-icon >.small-w  {
+    font-size: small;
+    color: #909090;
+    font-weight: bold;
+}
+.icon {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.icon i {
+    margin-right: 1vw;
+}
+.join-button.applied {
+    background-color: gray; /* 변경할 색상을 여기에 지정하세요 */
+    color: white; /* 변경할 텍스트 색상을 여기에 지정하세요 */
+    cursor: not-allowed; /* 비활성 상태를 나타내기 위해 커서를 변경합니다 */
 }
