@@ -75,21 +75,15 @@ function loadContentManage(url) {
 function changeTabManage(tab, event, room_id) {
     event.preventDefault();
 
-    // 모든 링크에서 selected-group-tab 클래스 제거
+    // 모든 링크에서 selected-group-admin-tab 클래스 제거
     var links = document.querySelectorAll('.nav a');
     links.forEach(function(link) {
-    link.classList.remove('selected-group-tab');
+    link.classList.remove('selected-group-admin-tab');
     });
 
-    // 모든 링크에서 selected-group-tab 클래스 제거
-    var links = document.querySelectorAll('#group-select-activity-list a');
-    links.forEach(function(link) {
-    link.classList.remove('selected-group-tab');
-    });
-
-    // 클릭한 링크에 selected-group-tab 클래스 추가
+    // 클릭한 링크에 selected-group-admin-tab 클래스 추가
     var selectedLink = event.currentTarget;
-    selectedLink.classList.add('selected-group-tab');
+    selectedLink.classList.add('selected-group-admin-tab');
 
 
     var url = '';

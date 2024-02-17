@@ -102,7 +102,7 @@ def accept_auth_log(request, member_auth_id):
     memberAuthentication.is_completed = True
     memberAuthentication.save()
 
-    return redirect('group_activity:verify', memberAuthentication.room.id)
+    return redirect('group_administration:group_admin_main', memberAuthentication.room.id)
 
 #인증 거절을 눌렀을 때
 def refuse_auth_log(request, member_auth_id):
@@ -117,7 +117,7 @@ def refuse_auth_log(request, member_auth_id):
     memberAuthentication.is_completed = True
     memberAuthentication.save()
 
-    return redirect('group_activity:verify', memberAuthentication.room.id)
+    return redirect('group_administration:group_admin_main', memberAuthentication.room.id)
 
 @require_http_methods(["DELETE"])
 def close_authentication(request, room_id, auth_id):

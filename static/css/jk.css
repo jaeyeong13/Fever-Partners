@@ -82,7 +82,13 @@ body {
   display: flex;
   align-items: center;
   font-weight: bolder;
-  border-bottom: 4px solid black;
+  border-bottom: 3px solid black;
+}
+
+.selected-group-admin-tab{
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid black;
 }
 
 #group-activity-content {
@@ -241,6 +247,12 @@ body {
 
 .group-member-intro{
   border: 2px solid var(--main-color);
+  border-radius: 8px;
+  display: flex;
+}
+
+.group-master-intro{
+  border: 2px solid rgb(58, 58, 212);
   border-radius: 8px;
   display: flex;
 }

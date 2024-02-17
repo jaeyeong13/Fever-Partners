@@ -11,7 +11,11 @@
                 class="profile-image"
                 />
                 {% else %}
-                <div>No image</div>
+                <img
+                    src="{% static 'image/noimage.png' %}"
+                    alt="프로필 이미지"
+                    class="profile-image"
+                />
                 {% endif %}
                 <h3 class="member-nickname">{{ member.nickname }}</h3>
                 <div class="action-buttons">
