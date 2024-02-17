@@ -51,9 +51,11 @@ def create_comment(request, study_room_id, post_id):
             comment.author = request.user
             comment.save()
             return redirect('free_board:detail', study_room_id=study_room_id, post_id=post.id)
+        else:
+            messages.error(request, '댓글을 입력해주세요.')
     else:
         form = CommentForm()
-    context = {'post': post, 'form': form}
+    context = {'post': post, 'form': form, 'study_room_id': study_room_id}  # study_room_id 추가
     return render(request, 'free_board/post_detail.html', context)
 
 

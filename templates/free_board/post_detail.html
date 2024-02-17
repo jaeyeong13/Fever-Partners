@@ -124,14 +124,11 @@
         <form action="{% url 'free_board:create_comment' study_room_id post.id %}" method="post" class="my-3">
         {% csrf_token %}
         {% if form.errors %}
-          <div class="alert alert-danger" role="alert">
             {% for field in form %}
               {% if field.errors %}
-                <strong>{{ field.label }}</strong>
-                {{ field.errors }}
+
               {% endif %}
             {% endfor %}
-          </div>
         {% endif %}
           <div class="comment-form">
             <textarea name="content" id="content" {% if not user.is_authenticated %} disabled {% endif %} cols="30" rows="10"></textarea>
