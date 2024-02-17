@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="{%static 'css/tag_selection.css' %}" />
   <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
   <script src="https://kit.fontawesome.com/aa0228ade6.js" crossorigin="anonymous"></script>
-  <title>Document</title>
+  <title>Fever Partners</title>
 </head>
 <body>
   <div id='center-wrap'>
@@ -31,7 +31,8 @@
           <form action="{% url 'group_activity:create_authentication' room_id auth_id %}" method="post" enctype="multipart/form-data" class="create-auths">
             {%csrf_token%}
             <p>내용:</p><textarea name="content" cols="30" rows="10" placeholder="인증 내용"></textarea>
-            <p>사진:</p><input type="file" name="image" accept="image/*">
+            <label for="input-auth-image" class="add-image-btn"><i class="ri-add-line"></i></label>
+            <input id="input-auth-image" type="file" name="image" accept="image/*">
           
             <button type="submit" class="red-btn big-btn">제출하기</button>
           </form>
