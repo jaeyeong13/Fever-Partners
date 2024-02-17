@@ -12,8 +12,8 @@ class AuthenticationForm(forms.ModelForm):
         model = Authentication
         fields = ['start', 'end']
         widgets = {
-            'start': forms.TextInput(attrs={'class': 'flatpickr'}),
-            'end': forms.TextInput(attrs={'class': 'flatpickr'}),
+            'start': forms.TextInput(attrs={'class': 'flatpickr', 'label':'인증시작'}),
+            'end': forms.TextInput(attrs={'class': 'flatpickr', 'label':'인증종료'}),
         }
 
 class MemberAuthenticationForm(forms.ModelForm):
