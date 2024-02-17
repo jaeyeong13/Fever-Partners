@@ -133,7 +133,7 @@ def direct_invitation(request, room_id):
         'room_id':room_id,
         'room': room,
     }
-    return render(request, 'group_administration/direct_invitation.html', cnt)
+    return render(request, 'group_administration/group_admin_main.html', cnt)
 
 @room_admin_required
 def search_users(request, room_id):
