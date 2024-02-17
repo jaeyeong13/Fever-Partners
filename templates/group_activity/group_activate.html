@@ -38,7 +38,10 @@
         </div>
     {% endif %}
     {% endfor %}
-
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
     {% if user == room.master %}
         <a href="{% url 'group_activity:create_auth' room.pk %}" class="create-auth-btn auth-btn-style">인증 개설</a>
     {% endif %}
