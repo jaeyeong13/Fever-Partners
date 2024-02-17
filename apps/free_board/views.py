@@ -144,7 +144,7 @@ def comment_delete(request, study_room_id, comment_id):
 @login_required(login_url='user_management:login')
 def vote_post(request, study_room_id, post_id):
     post = get_object_or_404(Post, pk=post_id)
-    if request.user != post.author:
+    if request.user == post.author:
         messages.error(request, '본인이 작성한 글은 추천할 수 없습니다.')
     else:
         post.voter.add(request.user)

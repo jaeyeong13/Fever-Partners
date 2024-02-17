@@ -3,17 +3,12 @@ html, body {
   height: 100%;
   margin: 0;
 }
-.content-wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  padding-bottom: 90px;
-}
-.header {
+
+header {
   background-color: #db4455;
   color: white;
   text-align: center;
-  padding: 20px 0;
+  padding: 5px 0;
   font-size: 2em;
   font-family: sans-serif;
   position: fixed;
@@ -21,6 +16,26 @@ html, body {
   left: 0;
   width: 100%;
   z-index: 999;
+  height: 70px;
+}
+.back-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 3.5rem;
+  cursor: pointer;
+  color: white;
+}
+.board-title {
+  font-weight: bold;
+  padding: 0;
+  margin: 12px;
+}
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-bottom: 90px;
 }
 .back-arrow {
   position: absolute;
@@ -30,6 +45,7 @@ html, body {
   font-size: 3.5rem;
   cursor: pointer;
   color: white;
+
 }
 .container {
   margin-top: 10px;
@@ -37,6 +53,7 @@ html, body {
   overflow: auto;
   padding: 20px;
   padding-top: 90px;
+  margin-bottom: 15vh;
 }
 .tab-container {
   display: flex;
@@ -104,26 +121,28 @@ html, body {
 
 .text-center {
   text-align: center;
+  border-bottom: 1.5px solid #ccc;
 }
-
 .text-title {
-  display: flex;
   font-weight: 600;
   justify-content: flex-start;
-  padding-left: 30px;
+  text-align: center;
+  vertical-align: middle;
 }
 .text-title-dimension {
   max-width: 150px;
   display: inline-block;
-  flex-grow: 1;
   line-height: 1.23;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: top;
 }
 .megaphone-icon {
-  flex: none;
-  margin-right: 0;
-  padding-left: 25px;
-  padding-right: 0;
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: 1px;
 }
+
 .post-comment-count {
   align-self: center;
   font-weight: bold;
@@ -132,7 +151,7 @@ html, body {
 }
 .board-table {
   width: 100%;
-  border-collapse: separate;
+  border-collapse: collapse;
   border-spacing: 0;
 }
 
@@ -153,19 +172,10 @@ html, body {
 
 .board-table tbody td {
   padding: 10px 0;
-  border-bottom: 1px solid #ccc;
 }
 
 .board-table tbody tr:first-child td {
   padding-top: 10px;
-}
-
-.board-table tbody tr:last-child td {
-  border-bottom: 1px solid #ccc;
-}
-
-.board-table tbody tr:last-child td:last-child {
-  border-bottom: 1px solid #ccc;
 }
 
 .post-date {
@@ -239,60 +249,94 @@ ul.pagination li a.disabled {
 }
 .notice-container {
   display: inline-block;
-  border-radius: 5px;
-  padding: 5px;
 }
 .notice-tag {
   background-color: dodgerblue;
   color: white;
-  padding: 5px 8px;
-  border-radius: 5px;
+  padding: 3px 5px;
+  border-radius: 3.5px;
   font-weight: bold;
+  font-size: 0.85rem;
 }
-
 .post-info {
   color: grey;
+  font-size: 0.75rem;
   flex: 0 1 auto;
   margin-right: 10px;
   margin-left: 8px;
   margin-top: 8px;
+  display: inline;
 }
-
 .post-author,
-.post-created-time,
-.post-update-time {
+.post-created-time {
   display: inline;
   margin-right: 1px;
+  margin-bottom: 0;
 }
 .post-update-time {
   color: grey;
   font-size: 0.5rem;
   text-align: right;
+  margin-top: 10px;
 }
 .post-text {
   white-space: pre-line;
-  padding: 20px 30px;
+  padding: 5px 30px;
+  padding-bottom: 10px;
   margin: 0 auto;
   display: block;
 }
+
 .post-vote {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
+  width: 40px;
+  height: 40px;
+  margin-left: auto;
+  background-color: rgba(223, 83, 95, 0.26);
+  border-radius: 50%;
+  padding: 10px;
+  flex-direction: column;
+  position: relative;
+}
+.vote-button {
+  background: none;
+  border: none;
+  color: #db4455;
+  font-size: 24px;
+  cursor: pointer;
+  outline: inherit;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -80%);
 }
 .vote-count {
-  margin-right: 10px;
+  color: #db4455;
+  font-size: 16px;
+  font-weight: bold;
+  position: absolute;
+  bottom: 7px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+}
+.post-info, .mod-del {
+  margin-top: -4px;
 }
 .mod-del {
   text-align: right;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  font-size: 0.8rem;
+  margin-top: 1px;
 }
+
 .separator {
   margin: 0 2px;
   color: #d9d9d9;
 }
-
 .btn-mod, .btn-del {
   background: none;
   color: grey;
@@ -303,15 +347,11 @@ ul.pagination li a.disabled {
   text-decoration: none;
   font-size: inherit;
 }
-
-.btn-mod:hover, .btn-del:hover {
-  font-weight: bold;
-  color: #db4455;
-}
 .custom-hr {
   border: 0;
   height: 1px;
   background-color: #ccc;
+  margin-top: 15px;
   margin-bottom: 20px;
 }
 /* 댓글 폼 디자인 부분 */
@@ -324,7 +364,7 @@ ul.pagination li a.disabled {
   display: flex;
   align-items: stretch;
   gap: 10px;
-  padding: 0 5px;
+  padding: 0 3px;
   height: 80px;
   margin-top: 20px;
 }
@@ -354,12 +394,11 @@ ul.pagination li a.disabled {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50px;
+  width: 70px;
   height: 30px;
-  margin-top: 30px;
-  padding: 10px 15px; 
+  padding: 10px 15px;
+  margin-top: 50px;
   float: right;
-  font-weight: bold;
   background-color: #db4455;
   color: white;
   text-decoration: none;
@@ -383,8 +422,17 @@ ul.pagination li a.disabled {
   background-color: #f0f0f0;
   margin-bottom: 5px;
   border-radius: 5px;
+  width: 91%;
+  margin-left: 3px;
 }
-
+.comment-mod-del-btn {
+  padding: .5rem 0;
+  display: flex;
+  justify-content: flex-end;
+  background-color: #f0f0f0;
+  gap: 7px;
+  margin-top: auto;
+}
 .comment-author {
   font-weight: bold;
   display: flex;
@@ -403,30 +451,22 @@ ul.pagination li a.disabled {
   color: #495057;
   margin-left: 8px;
 }
-.comment-mod-del-btn {
-  padding: .5rem 0;
-  display: flex;
-  justify-content: flex-end;
-  background-color: #f0f0f0;
-  gap: 5px;
-}
+
 .comment-content {
-  white-space: pre-line;
+  padding: 10px 10px;
   margin-bottom: 7px;
   margin-left: 7px;
 }
 .btn-comment-action {
-  background-color: #db4455;
-  color: white;
+  background-color: white;
+  color: #db4455;
   border: none;
+  font-weight: bold;
   padding: 5px 10px;
+  border: 1px solid #db4455;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 200ms ease-in-out;
-}
-
-.btn-comment-action:hover {
-  background-color: #b33b4b;
 }
 
 /* post_create.html */
@@ -467,6 +507,12 @@ ul.pagination li a.disabled {
   font-size: 1.2rem;
   color: #616161;
 }
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px; /* 상단 여백 조정 */
+}
 .post-create-submit-btn {
   background-color: #db4455;
   color: white;
@@ -490,7 +536,10 @@ ul.pagination li a.disabled {
   font-size: 1.25rem;
   margin-bottom: 20px;
 }
-
+.post-modify-title,
+.post-modify-body {
+  margin-left: 10px;
+}
 /*  comment_form.html */
 .comment-mod-title {
   font-weight: bold;
@@ -522,37 +571,48 @@ ul.pagination li a.disabled {
   background-color: #c02b2b;
 }
 .post-create-submit-btn {
-  width: 100%;
+  width: 95%;
+  margin-right: 10px;
 }
 
 /* footer 부분 */
-.footer {
-  height: 75px;
+footer {
   position: fixed;
   bottom: 0;
   width: 100%;
+  height: 15vh;
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 10px 0;
   background-color: #f2f2f2;
+  box-sizing: border-box;
+  justify-content:center;
+  padding: 10px;
+  overflow: auto;
 }
 
-.footer-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1200px;
-  width: 100%;
-  padding: 0 30px;
+.footer-item:nth-of-type(2) {
+  margin: 0 10vw;
 }
 .footer-item {
-  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 110px;
+  margin-top: 2px;
 }
-.footer-link {
+.footer-icon {
+  font-size: 30px;
+  color: #db4455;
+  margin-bottom: 7px;
+}
+
+.footer-text {
+  color: #db4455;
+  font-style: italic;
   text-decoration: none;
 }
 
-td {
-  vertical-align: middle;
+.footer-link {
+  text-decoration: none;
 }

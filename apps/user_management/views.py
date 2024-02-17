@@ -33,15 +33,15 @@ def user_update_start(request):
         form = UserUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
             user = form.save()
-            if user.email == "" or user.email == None:
-                user.email = user.id
-                user.new = False
-                user.save()
             return redirect('user_management:main')  # nickname 설정 후 메인 페이지로 이동
     else:
         # 이미 회원가입을 해서 nickname이 있다면 main으로 이동
         if request.user.new == True:
             form = UserUpdateForm(instance=None)
+            if request.user.email == "" or request.user.email == None:
+                request.user.email = request.user.id
+                request.user.new = False
+                request.user.save()
             return render(request, 'user_management/input_nickname.html', {'form': form})
         return redirect("user_management:main")
 
