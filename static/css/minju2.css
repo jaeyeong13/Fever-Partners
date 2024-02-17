@@ -81,7 +81,7 @@ header i::before {
 .footer-link {
     text-decoration: none;
 }
-.group-wrap {
+.group-wrap, main {
     flex: 1;
     overflow-y: auto;
     display: flex;
@@ -129,13 +129,13 @@ header i::before {
     flex-direction: column;
 }
 
-.room-detail p {
+.group-wrap p {
     margin: 0;
     margin-top: 1vh;
     color: var(--font-color);
 }
 
-.room-detail span {
+.group-wrap span {
     color: var(--main-color);
 }
 .no-ac {
@@ -168,4 +168,20 @@ a.ac-btn:hover {
     align-items: center;
     justify-content: flex-start;
     gap: 5px;
+}
+.goal-h {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+.group-icon2 {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;   
+    gap: 5px;
+}
+.group-icon2 > a > span {
+    font-size: small;
+    color: #909090;
 }
