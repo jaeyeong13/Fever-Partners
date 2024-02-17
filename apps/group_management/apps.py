@@ -7,3 +7,4 @@ class GroupManagementConfig(AppConfig):
 
     def ready(self):
         import apps.group_management.search_indexes
+        from . import signal

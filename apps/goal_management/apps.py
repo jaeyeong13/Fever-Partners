@@ -6,3 +6,4 @@ class GoalManagementConfig(AppConfig):
 
     def ready(self):
         import apps.goal_management.search_indexes
+        from . import signal

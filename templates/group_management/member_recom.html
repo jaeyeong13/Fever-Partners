@@ -41,7 +41,7 @@
 </div>
 
 <div class="h5">
-    <h5>추천된 유저 List</h5>
+    <h5>추천된 유저 목록</h5>
 </div>
 
 {% for goal in goals %}
@@ -71,14 +71,27 @@
                     {{tag}}
                 {% endfor %}
                 </p>
-                <p><span>fever</span> {{ goal.user.fuel }}</p>
+                <p><span>대면활동 </span>
+                    {% if goal.favor_offline %}
+                    선호
+                    {% else %}
+                    비선호
+                    {% endif %}
+                </p>
+                <p><span>Fever</span> {{ goal.user.fuel }}<img class="fever-gif" src="{% static 'image/fire.gif' %}" alt="GIF 이미지"></p>
                 <button class="join-button" onclick="suggestJoin(this, '{{ goal.user.nickname }}', {{ goal.user.id }}, {{ room.id }}, {{ goal.id }})">
                     가입제안
                 </button>
             </div>
         </div>
-
     {% endfor %}
+    <style>
+        .fever-gif {
+            width: 20px !important;
+            height: auto;
+            margin-bottom: -1px;
+        }
+    </style>
     </div>
     <div class="footer">
         <a href="{% url 'group_management:group_list' %}" class="footer-link" style="display: flex;">

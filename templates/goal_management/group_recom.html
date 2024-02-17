@@ -56,7 +56,7 @@
                         {{ activity_tag.tag_name }}
                     {% endfor %}
                 </p>
-                <p><span>인증</span> {% if room.cert_required %}O{% else %}X{% endif %}</p>
+                <p><span>인증</span> {% if room.cert_required %}필수{% else %}선택{% endif %} {% if room.cert_required %} <span>벌금</span> {{room.penalty_value}}🪙 <span>보증금</span> {{room.deposit}}🪙 {% endif %}</p>
                 <button class="join-button" onclick="applyForAdmission(this,'{{room.title}}',{{room.master.id}},{{room.id}},{{goal.id}})">가입신청</button>
             </div>
         </div>
