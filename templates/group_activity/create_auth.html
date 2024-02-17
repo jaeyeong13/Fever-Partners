@@ -7,22 +7,42 @@
   <link rel="stylesheet" href="{%static 'css/reset.css' %}" />
   <link rel="stylesheet" href="{%static 'css/main.css' %}" />
   <link rel="stylesheet" href="{%static 'css/jk.css' %}" />
+  <link rel="stylesheet" href="{%static 'css/tag_selection.css' %}" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/aa0228ade6.js" crossorigin="anonymous"></script>
   <script src="{%static 'javascript/main.js'%}" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
   <title>Document</title>
 </head>
 <body>
-  <form id="authentication-form" action="{% url 'group_activity:create_auth' room_id %}" method="post" class="create-auths">
-    {% csrf_token %}
-    {% for field in form %}
-      <div class="form-group">
-        {{ field.label }}
-        {{ field }}
+  <div id='center-wrap'>
+    <div id="create-auth-container">
+      <div class='header-10vh'>
+          <div class="page_back_header">
+              <a href="{% url 'group_activity:main_page' room_id %}" class="page_back">
+                  <i class="fa-solid fa-chevron-left main-color-text"></i>
+              </a>
+          </div>
+          <div></div>
       </div>
-    {% endfor %}
-    <button type="button" onclick="validateTime()" class="red-btn big-btn">인증개설</button>
-  </form>
+
+      <div class="auth-create-wrap">
+        <form id="authentication-form" action="{% url 'group_activity:create_auth' room_id %}" method="post" class="create-auths">
+          {% csrf_token %}
+          <!-- <p>인증시작:</p><input name="start">
+          <p>인증종료:</p><input name="end"> -->
+          {% for field in form %}
+            <div class="form-group">
+              {{ field.label }}
+              {{ field }}
+            </div>
+          {% endfor %}
+          <button type="button" onclick="validateTime()" class="red-btn big-btn">인증개설</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
