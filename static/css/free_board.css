@@ -124,23 +124,25 @@ header {
   border-bottom: 1.5px solid #ccc;
 }
 .text-title {
-  display: flex;
   font-weight: 600;
   justify-content: flex-start;
-  padding-left: 30px;
+  text-align: center;
+  vertical-align: middle;
 }
 .text-title-dimension {
   max-width: 150px;
   display: inline-block;
-  flex-grow: 1;
   line-height: 1.23;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: top;
 }
 .megaphone-icon {
-  flex: none;
-  margin-right: 0;
-  padding-left: 10px;
-  padding-right: 0;
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: 1px;
 }
+
 .post-comment-count {
   align-self: center;
   font-weight: bold;
@@ -612,8 +614,4 @@ footer {
 
 .footer-link {
   text-decoration: none;
-}
-
-td {
-  vertical-align: middle;
 }

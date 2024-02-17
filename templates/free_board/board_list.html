@@ -42,25 +42,27 @@
               <tr class="text-center">
                 <td class="text-title">
                   {% if tab == 'free' and post.notice %}
-                  <span class="megaphone-icon" style="color: #db4455"><i class="ri-megaphone-fill"></i></span>
-                  <a class="text-title-dimension" href="{% url 'free_board:detail' post.room.id post.id %}" style="color: black; text-decoration: none;">{{ post.title }}</a>
+                    <span class="megaphone-icon" style="color: #db4455;"><i class="ri-megaphone-fill"></i></span>
+                  {% endif %}
+                  {% if request.user == post.author %}
+                    <a class="text-title-dimension" href="{% url 'free_board:detail' post.room.id post.id %}" style="color: #2666a4;">{{ post.title }}</a>
                   {% else %}
-                    <a class="text-title-dimension" href="{% url 'free_board:detail' post.room.id post.id %}" style="color: black; text-decoration: none; padding-left: 20px;">{{ post.title }}</a>
+                    <a class="text-title-dimension" href="{% url 'free_board:detail' post.room.id post.id %}" style="color: black;">{{ post.title }}</a>
                   {% endif %}
                   {% if post.comments.count > 0 %}
-                  <span class="post-comment-count">[{{ post.comments.count }}]</span>
+                    <span class="post-comment-count">[{{ post.comments.count }}]</span>
                   {% endif %}
                 </td>
                 <td>{{ post.voter.all.count }}</td>
                 <td>{{ post.author.nickname }}</td>
                 <td class="post-date">
-                  <div style="margin-bottom: 7px;">{{ post.created_at|date:"y-m-d" }}</div>
-                  <div>{{ post.created_at|date:"A g:i" }}</div>
+                <div style="margin-bottom: 1px;">{{ post.created_at|date:"y-m-d" }}</div>
+                <div>{{ post.created_at|date:"A g:i" }}</div>
                 </td>
               </tr>
             {% empty %}
               <tr>
-                <td colspan="4">게시물이 없습니다.</td>
+                  <td colspan="4">게시물이 없습니다.</td>
               </tr>
             {% endfor %}
           </tbody>
