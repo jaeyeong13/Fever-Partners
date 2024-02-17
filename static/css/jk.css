@@ -85,6 +85,12 @@ body {
   border-bottom: 4px solid black;
 }
 
+.selected-group-admin-tab{
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid black;
+}
+
 #group-activity-content {
   height: 41vh;
   padding: 2vh;
