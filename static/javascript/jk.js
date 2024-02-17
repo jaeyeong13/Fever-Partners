@@ -51,7 +51,7 @@ function changeTab(tab, event, room_id) {
 
 //기본 페이지 설정
 function defaultActivate(roomId) {
-    loadContent('../activate/'+roomId);
+    loadContent('../member_list/'+roomId);
   }
 
 

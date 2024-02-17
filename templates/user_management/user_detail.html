@@ -49,6 +49,7 @@
         <div class="user-detail-box gray-08em">이메일 : {{user.email}}</div>
         <div class="user-detail-box gray-08em">거주 : {{user.region}}</div>
         <div class="user-detail-box gray-08em">거주 상세 : {{user.region_detail}}</div>
+        <div class="user-detail-box gray-08em">보유 코인 : {{user.coin}}🪙</div>
         <div class="horizontal-btns">
           <a href="{% url "user_management:update" user.id %}" class="white-main-btn a-to-btn">수정</a>
           <a href="{% url "user_management:logout" %}" class="white-main-btn a-to-btn">로그아웃</a>

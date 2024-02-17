@@ -1,4 +1,3 @@
-# search_indexes.py
 from django_elasticsearch_dsl import Document, fields
 from django_elasticsearch_dsl.registries import registry
 from .models import *
@@ -11,6 +10,8 @@ class GoalDocument(Document):
 
     user = fields.ObjectField(properties={
         'id': fields.IntegerField(),
+        'region': fields.TextField(),
+        'region_detail': fields.TextField(),
     })
 
     tags = fields.NestedField(properties={

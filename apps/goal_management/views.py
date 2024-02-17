@@ -132,6 +132,17 @@ def recommend_group(request, goal_id):
     offline_boost_query = Q('term', favor_offline={'value': goal.favor_offline, 'boost': 2})
     should_queries.append(offline_boost_query)
     
+    if goal.favor_offline:
+        region_boost_query = Q('match', master__region={'query': goal.user.region, 'boost': 2})
+        detail_boost_query = Q('match', master__region_detail={'query': goal.user.region_detail, 'boost': 2})
+        should_queries.append(region_boost_query)
+        should_queries.append(detail_boost_query)
+
+    title_boost_query = Q('match', title={'query': goal.title, 'boost': 2})
+    content_boost_query = Q('match', detail={'query': goal.content, 'boost': 2})
+    should_queries.append(title_boost_query)
+    should_queries.append(content_boost_query)
+
     # is_active가 False일때만 추천 목록에 반영 
     is_active_query = Q('term', is_active=False)
     must_queries.append(is_active_query)
@@ -143,11 +154,10 @@ def recommend_group(request, goal_id):
 
     final_query = Q('bool', must=must_queries, should=should_queries, must_not=must_not_queries)
     s = Search(index='rooms').query(final_query)
+    s = s.sort({'_score': {'order': 'desc'}})
     response = s.execute()
-
-    room_ids = [hit.meta.id for hit in response]
-    # 이미 가입신청을 보냈고, 대기 중인 경우 추천 명단에서 제외한다
-    rooms = Room.objects.filter(pk__in=room_ids).exclude(pk__in=is_pending)
+    hit_scores = {hit.meta.id : hit.meta.score for hit in response if hit.meta.id not in is_pending}
+    rooms = sorted(Room.objects.filter(pk__in=hit_scores.keys()), key=lambda room: hit_scores[str(room.pk)], reverse=True)
     cnt = {
         'rooms': rooms,
         'goal': goal
