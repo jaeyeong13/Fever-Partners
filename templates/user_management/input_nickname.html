@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>FeverPartners</title>
+        <title>Fever Partners</title>
         <link rel="stylesheet" href="{% static 'css/reset.css' %}">
         <link rel="stylesheet" href="{% static 'css/jiwoo.css' %}">
         
@@ -20,22 +20,14 @@
                 <p>fever partners</p>
                 <p>회원가입</p>
             </div>
-            <div class="input_nickname_form">
+            <div class="input_nickname_form" style="width: 60vw;">
                 <span>계정</span>
-                <form action="" method="POST">
+                <form action="" method="POST" style="display: flex; flex-direction: column;">
                     {% csrf_token %}
-                    <div>
-                        {{ form.nickname }}
-                    </div>
-                    <div>
-                        {{ form.profile }}
-                    </div>
-                    <div>
-                        {{ form.region }}
-                    </div>
-                    <div>
-                        {{ form.region_detail }}
-                    </div>
+                    {{ form.nickname }}
+                    {{ form.profile }}
+                    {{ form.region }}
+                    {{ form.region_detail }}
                     <button type="submit">회원가입</button>
                 </form>
             </div>

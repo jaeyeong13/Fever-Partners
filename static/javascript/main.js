@@ -370,7 +370,7 @@ function PermissionCheck(user_id, room_id) {
       });
     } else if (response.ok) {
       window.location.href =
-        window.location.origin + "/group_admin/member_list/" + room_id;
+        window.location.origin + "/group_admin/main/" + room_id;
     }
   });
 }

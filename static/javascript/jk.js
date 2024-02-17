@@ -54,6 +54,64 @@ function defaultActivate(roomId) {
     loadContent('../activate/'+roomId);
   }
 
+
+//그룹 관리 탭 ajax
+function loadContentManage(url) {
+    fetch(url)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(data => {
+        document.getElementById('group-admin-content').innerHTML = data;
+    })
+    .catch(error => {
+        console.error('Error during fetch operation:', error);
+    });
+}
+
+function changeTabManage(tab, event, room_id) {
+    event.preventDefault();
+
+    // 모든 링크에서 selected-group-tab 클래스 제거
+    var links = document.querySelectorAll('.nav a');
+    links.forEach(function(link) {
+    link.classList.remove('selected-group-tab');
+    });
+
+    // 모든 링크에서 selected-group-tab 클래스 제거
+    var links = document.querySelectorAll('#group-select-activity-list a');
+    links.forEach(function(link) {
+    link.classList.remove('selected-group-tab');
+    });
+
+    // 클릭한 링크에 selected-group-tab 클래스 추가
+    var selectedLink = event.currentTarget;
+    selectedLink.classList.add('selected-group-tab');
+
+
+    var url = '';
+    switch (tab) {
+    case 'member_list':
+        url = '../member_list/'+room_id;
+        break;
+    case 'direct_invitation':
+        url = '../direct_invitation/'+room_id;
+        break;
+    case 'verify':
+        url = '../../group_activity/verify/'+room_id;
+        break;
+    }
+    loadContentManage(url);
+}
+
+//기본 페이지 설정
+function defaultActivateManage(roomId) {
+    loadContentManage('../member_list/'+roomId);
+}
+
 //인증 마감(delete)
 function closeAuth(roomId, authId) {
     Swal.fire({

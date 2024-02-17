@@ -5,6 +5,12 @@
   --green: #00AD26;
 }
 
+body {
+  font-family: "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
 .page_back{
   cursor: pointer;
 }
@@ -528,11 +534,28 @@
 }
 
 .auth-create-wrap p,
-.auth-create-wrap input,
-.auth-create-wrap textarea{
+.auth-create-wrap input{
   margin-bottom: 1.5vh;
 }
 
+.auth-create-wrap textarea{
+  margin-bottom: 4vh;
+}
+
+#input-auth-image{
+  display: none;
+}
+
+.ri-add-line{
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.add-image-btn{
+  height: 27.6px;
+  width: 37.6px;
+}
 
 /* =====footer===== */
 .footer {
