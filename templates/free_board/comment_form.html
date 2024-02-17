@@ -22,9 +22,7 @@
         {% csrf_token %}
         <div class="form-group">
           <span class="comment-mod-title" style="margin-left: 5px">댓글 수정</span>
-          <textarea name="content" id="content" cols="30" rows="10" class="form-control">
-            {{ form.content.value|default_if_none:'' }}
-          </textarea>
+          <textarea name="content" id="content" cols="30" rows="10" class="form-control">{{ form.content.value|default_if_none:'' }}</textarea>
         </div>
         <div class="comment-button-container">
           <button type="submit" class="comment-modify-submit-btn">수정 완료</button>

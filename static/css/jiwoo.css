@@ -30,12 +30,15 @@ body {
 
 .start_btn {
     background-color: var(--white);
+    padding: 0.5rem;
 }
 
 .start_btn a {
     font-size: 3rem;
     color: var(--red);
     text-decoration: none; /* 밑줄을 없애는 속성 */
+    font-weight: bold;
+    padding: 0.5rem;
 }
 
 /* login.html */
@@ -71,6 +74,7 @@ body {
     border-bottom: 0.1rem solid var(--gray); /* 아래쪽 테두리를 추가합니다. 여기서는 검은색 1px 선을 사용했습니다. */
     outline: none; /* 포커스 효과 테두리를 제거합니다. */
     margin-top: 1rem;
+    height: 2rem;
 }
 
 #login_form button {
@@ -91,8 +95,29 @@ body {
     color: var(--gray); /* 링크 색상을 상위 요소의 색으로 상속합니다. */
 }
 
+#login_service a + a::before {
+    content: "|";
+    margin: 0 5px; /* 막대와 텍스트 사이의 간격을 조절합니다. */
+}
+
 #social_login {
-    height: 30vh;
+    height: 35vh;
+    display: flex;
+}
+
+#social_login form {
+    margin: 0 0.5rem;
+}
+
+#social_login form button {
+    background-color: transparent; /* 배경색을 투명으로 설정합니다. */
+    border: none; /* 테두리를 없앱니다. */
+    box-shadow: none; /* 그림자를 없앱니다. */
+}
+
+#social_login form img {
+    height: 2rem;
+    width: auto;
 }
 
 /* signup_how.html */

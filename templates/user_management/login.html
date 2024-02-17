@@ -37,15 +37,21 @@
         <div id="social_login">
             <form action="{% provider_login_url 'naver'%}" method="POST">
                 {% csrf_token %}
-                <button type="submit">네이버</button>
+                <button type="submit">
+                    <img src="{% static 'image/naver.png' %}" alt="">
+                </button>
             </form>
             <form action="{% provider_login_url 'google'%}" method="POST">
                 {% csrf_token %}
-                <button type="submit">구글</button>
+                <button type="submit">
+                    <img src="{% static 'image/google.webp' %}" alt="">
+                </button>
             </form>
             <form action="{% provider_login_url 'kakao'%}" method="POST">
                 {% csrf_token %}
-                <button type="submit">카카오</button>
+                <button type="submit">
+                    <img src="{% static 'image/kakao.png' %}" alt="">
+                </button>
             </form>
         </div>
     </div>
