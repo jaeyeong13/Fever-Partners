@@ -8,6 +8,7 @@
     <script src="{%static 'javascript/main.js'%}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
     <link rel="stylesheet" type="text/css" href="{% static 'css/minju.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jk.css' %}">
     <script src="https://kit.fontawesome.com/aa0228ade6.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/2.5.0/remixicon.css">
     <script src="{%static 'javascript/jk.js'%}" defer></script>
@@ -22,7 +23,7 @@
     <i class="ri-arrow-left-s-line hide-arrow"></i>
   </header>
   <div class="nav">
-    <a href="{%url 'group_administration:member_list' room_id %}" onclick="changeTabManage('member_list', event, {{room_id}})" class="selected-group-tab">멤버 관리</a>
+    <a href="{%url 'group_administration:member_list' room_id %}" onclick="changeTabManage('member_list', event, {{room_id}})" class="selected-group-admin-tab">멤버 관리</a>
     <a href="{% url 'group_activity:verify' room_id %}" onclick="changeTabManage('verify', event, {{room_id}})" >인증 수락</a>
     <a href="{%url 'group_administration:direct_invitation' room_id %}" onclick="changeTabManage('direct_invitation', event, {{room_id}})">유저 초대</a>
   </div>

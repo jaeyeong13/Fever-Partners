@@ -44,12 +44,15 @@ header i::before {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: 2.5vh 0;
+    height: 5vh;
     border-bottom: 1.5px solid var(--gray-color);
 }
 .nav a {
+    height: 100%;
     color: var(--font-color);
     text-decoration: none;
+    display: flex;
+    align-items: center;
 }
 
 #group-admin-content {
