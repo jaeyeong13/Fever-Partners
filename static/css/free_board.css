@@ -351,7 +351,7 @@ ul.pagination li a.disabled {
   border: 0;
   height: 1px;
   background-color: #ccc;
-  margin-top: 20px;
+  margin-top: 15px;
   margin-bottom: 20px;
 }
 /* 댓글 폼 디자인 부분 */
