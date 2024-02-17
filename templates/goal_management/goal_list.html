@@ -11,6 +11,12 @@
     <script src="https://kit.fontawesome.com/aa0228ade6.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/2.5.0/remixicon.css">
     <title>Fever Partners</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&family=Noto+Sans+KR:wght@100..900&display=swap');
+      div {
+        font-family: "IBM Plex Sans KR", sans-serif;
+      }
+    </style>
 </head>
 <body>
     <header>
@@ -45,7 +51,7 @@
                   <div class="goal-btns">
                       <a onclick="GoalDeletionConfirm({{goal.pk}})" class="ac-btn">삭제</a>
                       {% if not goal.is_completed %}
-                          <a class="ac-btn" href="{%url "goal_management:create_achievement_report" goal.pk %}">목표 달성 보고(임시)</a>
+                          <a class="ac-btn" href="{%url "goal_management:create_achievement_report" goal.pk %}">목표 달성 보고</a>
                       {% endif %}
                   </div>
     </div>

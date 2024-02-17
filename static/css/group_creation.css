@@ -29,11 +29,11 @@
 }
 
 .toggle-label:before {
-    content: 'OFF';
+    content: 'NO';
     color: white;
     transition: transform 0.3s;
 }
 
 .toggle-checkbox:checked + .toggle-label:before {
-    content: 'ON';
+    content: 'YES';
 }
