@@ -245,6 +245,12 @@ body {
   display: flex;
 }
 
+.group-master-intro{
+  border: 2px solid rgb(58, 58, 212);
+  border-radius: 8px;
+  display: flex;
+}
+
 .member-intro-text{
   display: flex;
   flex-direction: column;
