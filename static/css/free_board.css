@@ -277,6 +277,7 @@ ul.pagination li a.disabled {
   color: grey;
   font-size: 0.5rem;
   text-align: right;
+  margin-top: 10px;
 }
 .post-text {
   white-space: pre-line;
