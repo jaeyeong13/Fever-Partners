@@ -7,21 +7,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="{%static 'javascript/main.js'%}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/minju2.css' %}">
+    <script src="https://kit.fontawesome.com/aa0228ade6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/2.5.0/remixicon.css">
     <title>Document</title>
 </head>
 <body>
-    <div>그룹 추천 페이지입니다</div>
-    <div>현재 접속한 유저 : {{user.nickname}}</div>
-    <div>기준 목표 : {{goal.title}}</div>
-    <h1>추천하는 그룹</h1>
-    {% for room in rooms %}
-    <div>
-        <p>group: {{room.title}} </p>
-        <p>master: {{room.master.nickname}}</p>
-        <p>detail: {{room.detail}}</p>
-        <p>인증: {{room.cert_required}}</p>
-        <button onclick="applyForAdmission(this,'{{room.title}}',{{room.master.id}},{{room.id}},{{goal.id}})">가입신청</button>
+    <header>
+        <a class="go_back" href="{% url 'goal_management:goal_list'%}">
+            <i class="ri-arrow-left-s-line"></i>
+        </a>
+        <p class="room-title">그룹추천</p>
+        <i class="ri-arrow-left-s-line hide-arrow"></i>
+    </header>
+    <div class="group-wrap">
+        <div class="h5">
+            <h5>나의 목표</h5>
+        </div>
+    <div class="group-div my-goal">
+    <h3>{{ goal.title }}</h3>
+    <p><span>내용</span> {{ goal.content }}</p>
+    <p><span>태그</span> 
+        {% for tag in goal.tags.all %}
+        {{tag}}
+    {% endfor %}
+    </p>
+    <p><span>활동태그</span> 
+        {% for activity_tag in goal.activityTags.all %}
+        {{activity_tag}}
+        {% endfor %}
+    </p>
+</div>
+<div class="h5">
+    <h5>추천된 그룹 List</h5>
+</div>
+{% for room in rooms %}
+        <div class="group-div member-recom">
+            <div>
+                <h3>{{ room.title }}</h3>
+                <p><span>방장</span> {{ room.master.nickname }}</p>
+                <p><span>태그</span>
+                    {% for tag in room.tags.all %}
+                        {{ tag.tag_name }}
+                    {% endfor %}
+                </p>
+                <p><span>활동태그</span>
+                    {% for activity_tag in room.activityTags.all %}
+                        {{ activity_tag.tag_name }}
+                    {% endfor %}
+                </p>
+                <p><span>인증</span> {% if room.cert_required %}O{% else %}X{% endif %}</p>
+                <button class="join-button" onclick="applyForAdmission(this,'{{room.title}}',{{room.master.id}},{{room.id}},{{goal.id}})">가입신청</button>
+            </div>
+        </div>
+
     </div>
+    <div class="footer">
+        <a href="{% url 'group_management:group_list' %}" class="footer-link" style="display: flex;">
+          <div class="footer-item">
+            <i class="fa-solid fa-user-group footer-icon"></i>
+            <a href="{% url 'group_management:group_list' %}" class="footer-text">내 그룹</a>
+          </div>
+        </a>
+        <a href="{% url 'goal_management:goal_list' %}" class="footer-link" style="display: flex;">
+          <div class="footer-item">
+            <i class="fa-solid fa-bullseye footer-icon"></i>
+            <a href="{% url 'goal_management:goal_list' %}" class="footer-text">내 목표</a>
+          </div>
+        </a>
+        <a href="{% url 'goal_management:achievement_report_list'%}" class="footer-link" style="display: flex;">
+          <div class="footer-item">
+            <i class="ri-file-list-3-line footer-icon"></i>
+            <a href="{% url 'goal_management:achievement_report_list'%}" class="footer-text">달성보고</a>    <!-- 이 부분 이름은 나중에 수정 필요 -->
+          </div>
+        </a>
+      </div>
 {% endfor %}
 </body>
 </html>
