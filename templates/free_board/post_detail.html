@@ -21,14 +21,13 @@
         <p class="board-title">자유게시판</p>
       </header>
       <div class="container">
-        <!-- 사용자가 로그인 안 했을 경우 -->
+        <!-- 사용자가 본인의 글에 좋아요를 누를 경우 -->
         {% if messages %}
-        <div class="alert alert-danger my-3" role="alert">
-          {% for message in messages %}
-            <strong>{{ message.tags }}</strong>
-            <ul><li>{{ message.message }}</li></ul>
-          {% endfor %}
-        </div>
+            <script>
+            {% for message in messages %}
+                alert("{{ message }}");
+            {% endfor %}
+            </script>
         {% endif %}
 
         <!-- 이 글이 공지글일 경우 -->
