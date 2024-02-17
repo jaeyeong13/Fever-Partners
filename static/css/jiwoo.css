@@ -133,9 +133,50 @@ body {
     color: var(--red);
 }
 
+.page_back_header p {
+    font-size: 1.5rem;
+}
+
+#signup_method {
+    width: 50vw;
+}
+
 #signup_method div {
     border: solid 1px black;
     margin-top: 1rem;
+    height: 2rem;
+    width:50wh;
+}
+
+#signup_method div form {
+    height: 100%;
+    width: 100%;
+}
+
+#signup_method div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5%;
+}
+
+#signup_method a {
+    text-decoration: none; /* 밑줄을 없애는 속성 */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+}
+
+#signup_method div button {
+    background-color: transparent; /* 배경색을 투명으로 설정합니다. */
+    border: none; /* 테두리를 없앱니다. */
+    box-shadow: none; /* 그림자를 없앱니다. */
+    width: 100%;
+    height: 100%;
+    font-size: 1rem;
 }
 
 #return_login {
@@ -249,12 +290,19 @@ body {
     align-items: center;
     height: 100%;
 }
+.main_top_part_content div {
+    color: var(--white);
+}
+
+.main_top_part_content div {
+    margin-top: 1rem;
+}
 
 .main_top_part > div div {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
 }
 
 .main_container_bottom_part {
@@ -319,4 +367,76 @@ body {
 
 .footer-link {
     text-decoration: none;
+}
+
+.main_container_header span a {
+    margin-right: 0.5rem;
+    text-decoration: none;
+    color: var(--white);
+    text-decoration: none; /* 밑줄을 없애는 속성 */
+}
+
+.header_icons {
+    height: 5vh;
+    display: flex;
+    align-items: center;
+}
+
+.header_icons a {
+    margin-right: 1rem;
+    font-size: 1.5rem;
+}
+
+progress {
+    width: 70%;
+    height: 20px; /* 높이를 조절하여 두껍게 만듭니다. */
+    border: none;
+    background-color: #f0f0f0; /* progress 바의 배경색을 설정합니다. */
+}
+
+/* progress 바의 값에 대한 스타일 */
+progress[value] {
+    appearance: none; /* 기본 스타일링 제거 */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+  
+/* progress 바의 값에 대한 색상과 네모난 형태 설정 */
+progress[value]::-webkit-progress-bar {
+    background-color: #f0f0f0; /* progress 바의 배경색을 설정합니다. */
+}
+  
+/* progress 바의 값에 대한 색상과 네모난 형태 설정 */
+progress[value]::-webkit-progress-value {
+    background-color: #007bff; /* progress 바의 색상을 설정합니다. */
+}
+
+.signup_email_form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.signup_email_form input {
+    border: none; /* 모든 테두리를 제거합니다. */
+    border-bottom: 0.1rem solid var(--gray); /* 아래쪽 테두리를 추가합니다. 여기서는 검은색 1px 선을 사용했습니다. */
+    outline: none; /* 포커스 효과 테두리를 제거합니다. */
+    margin-top: 1rem;
+    height: 2rem;
+}
+
+.signup_email_form button {
+    margin-top: 2rem;
+    color: var(--white);
+    background-color: var(--red);
+    border: none; /* 모든 테두리를 제거합니다. */
+    border-radius: 10%;
+    font-size: 1rem;
+}
+
+.input_nickname_form input {
+    border: none; /* 모든 테두리를 제거합니다. */
+    border-bottom: 0.1rem solid var(--gray); /* 아래쪽 테두리를 추가합니다. 여기서는 검은색 1px 선을 사용했습니다. */
+    outline: none; /* 포커스 효과 테두리를 제거합니다. */
+    margin-top: 1rem;
+    height: 2rem;
 }

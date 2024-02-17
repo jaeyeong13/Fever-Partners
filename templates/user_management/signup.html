@@ -16,44 +16,44 @@
 <body>
     <div id="signup_how_container">
         <div class="page_back_header">
-            <span class="page_back">
+            <span class="page_back" onclick="goBack()">
                 <i class="fa-solid fa-chevron-left"></i>
             </span>
-            <p>fever partners</p>
+            <p  style="margin-top: 1rem;">fever partners</p>
             <p>가입하기</p>
         </div>
         <div id="signup_method">
             <div>
                 <span>
-                    <i></i>
+                    <img src="{% static 'image/email.png' %}" alt="" style="height: 1.2rem; width: auto; margin-left: 0.5rem;">
                 </span>
                 <a href="{% url 'user_management:signup_email' %}">이메일로 시작하기</a>
             </div>
             <div>
                 <span>
-                    <i></i>
+                    <img src="{% static 'image/naver.png' %}" alt="" style="height: 1.2rem; width: auto; margin-left: 0.5rem;">
                 </span>
                 <form action="{% provider_login_url 'naver'%}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">네이버로 시작하기</button>
+                </form>
+            </div>
+            <div>
+                <span>
+                    <img src="{% static 'image/google.webp' %}" alt="" style="height: 1.2rem; width: auto; margin-left: 0.5rem;">
+                </span>
+                <form action="{% provider_login_url 'google'%}" method="POST">
                     {% csrf_token %}
                     <button type="submit">구글로 시작하기</button>
                 </form>
             </div>
             <div>
                 <span>
-                    <i></i>
+                    <img src="{% static 'image/kakao.png' %}" alt="" style="height: 1.2rem; width: auto; margin-left: 0.7rem;">
                 </span>
-                <form action="{% provider_login_url 'naver'%}" method="POST">
+                <form action="{% provider_login_url 'kakao'%}" method="POST">
                     {% csrf_token %}
                     <button type="submit">카카오로 시작하기</button>
-                </form>
-            </div>
-            <div>
-                <span>
-                    <i></i>
-                </span>
-                <form action="{% provider_login_url 'naver'%}" method="POST">
-                    {% csrf_token %}
-                    <button type="submit">네이버로 시작하기</button>
                 </form>
             </div>
         </div>
@@ -63,4 +63,9 @@
         </div>
     </div>
 </body>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
 </html>
