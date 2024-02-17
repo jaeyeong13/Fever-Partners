@@ -16,19 +16,25 @@
     <div id="main_container">
         <div class="main_container_top_part">
             <div class="main_container_header">
-                <span>
+                <span style="margin-top: 0.5rem; margin-left: 0.5rem;">
                     <img src="{% static 'image/logo.png' %}" alt="">
                 </span>
-                <span>
+                <span class="header_icons">
                     {% if user.is_authenticated %}
-                    <a href="{% url 'user_management:logout' %}">로그아웃</a>
+                    <a href="{% url 'user_management:logout' %}">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </a>
                     {% endif %}
-                    <a href="{% url 'alarm:show_alarms' %}">알림</a>
-                    <a href="{% url 'user_management:detail' user.pk%}">내 정보</a>
+                    <a href="{% url 'alarm:show_alarms' %}">
+                        <i class="fa-solid fa-bell"></i>
+                    </a>
+                    <a href="{% url 'user_management:detail' user.pk%}">
+                        <i class="fa-solid fa-user"></i>
+                    </a>
                 </span>
             </div>
             <div class="main_top_part">
-                <div>
+                <div class="main_top_part_content">
                     <div>어서오세요 {{ user.nickname }}님</div>
                     <div>
                         <p>
@@ -40,7 +46,8 @@
                             {{ goal_complete }}개의 목표를 달성
                         </p>
                     </div>
-                    <div>
+                    <div style="margin-top: 4rem; flex-direction: column;">
+                        <p style="font-size: 0.9rem; width: 70%;">My Fuel Gage</p>
                         <progress value="{{ user.fuel }}" max="100"></progress>
                     </div>
                 </div>

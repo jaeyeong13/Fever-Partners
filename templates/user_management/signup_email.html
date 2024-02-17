@@ -14,7 +14,7 @@
     <body>
         <div id="signup_email_container">
             <div class="page_back_header">
-                <span class="page_back">
+                <span class="page_back" onclick="goBack()">
                     <i class="fa-solid fa-chevron-left"></i>
                 </span>
                 <p>fever partners</p>
@@ -38,4 +38,9 @@
             </div>
         </div>
     </body>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
 </html>
