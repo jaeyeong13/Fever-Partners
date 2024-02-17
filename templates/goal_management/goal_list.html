@@ -32,22 +32,22 @@
                 <a href="{%url "goal_management:recommendation_page" goal.pk %}">{{ goal.title }}   <span>새 그룹을 찾아보세요!</span></a>
                 {% endif %}
                 </div>
-                <div>
-                    <a onclick="GoalDeletionConfirm({{goal.pk}})" class="ac-btn">삭제</a>
-                    {% if not goal.is_completed %}
-                        <a class="ac-btn" href="{%url "goal_management:create_achievement_report" goal.pk %}">목표 달성 보고(임시)</a>
-                    {% endif %}
-                </div>
-            </div>
-            <p><span>내용</span> {{ goal.content }}</p>
-            <p><span>태그</span>
-            {% for tag in goal.tags.all %}
+              </div>
+              <p><span>내용</span> {{ goal.content }}</p>
+              <p><span>태그</span>
+                {% for tag in goal.tags.all %}
                 {{tag}}
-            {% endfor %} </p>
-            <p><span>활동태그</span>
-            {% for activity_tag in goal.activityTags.all %}
-                {{activity_tag}}
-            {% endfor %} </p>
+                {% endfor %} </p>
+                <p><span>활동태그</span>
+                  {% for activity_tag in goal.activityTags.all %}
+                  {{activity_tag}}
+                  {% endfor %} </p>
+                  <div class="goal-btns">
+                      <a onclick="GoalDeletionConfirm({{goal.pk}})" class="ac-btn">삭제</a>
+                      {% if not goal.is_completed %}
+                          <a class="ac-btn" href="{%url "goal_management:create_achievement_report" goal.pk %}">목표 달성 보고(임시)</a>
+                      {% endif %}
+                  </div>
     </div>
         {% endfor %}
     </div>
