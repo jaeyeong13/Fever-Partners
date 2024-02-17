@@ -410,3 +410,33 @@ progress[value]::-webkit-progress-bar {
 progress[value]::-webkit-progress-value {
     background-color: #007bff; /* progress 바의 색상을 설정합니다. */
 }
+
+.signup_email_form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.signup_email_form input {
+    border: none; /* 모든 테두리를 제거합니다. */
+    border-bottom: 0.1rem solid var(--gray); /* 아래쪽 테두리를 추가합니다. 여기서는 검은색 1px 선을 사용했습니다. */
+    outline: none; /* 포커스 효과 테두리를 제거합니다. */
+    margin-top: 1rem;
+    height: 2rem;
+}
+
+.signup_email_form button {
+    margin-top: 2rem;
+    color: var(--white);
+    background-color: var(--red);
+    border: none; /* 모든 테두리를 제거합니다. */
+    border-radius: 10%;
+    font-size: 1rem;
+}
+
+.input_nickname_form input {
+    border: none; /* 모든 테두리를 제거합니다. */
+    border-bottom: 0.1rem solid var(--gray); /* 아래쪽 테두리를 추가합니다. 여기서는 검은색 1px 선을 사용했습니다. */
+    outline: none; /* 포커스 효과 테두리를 제거합니다. */
+    margin-top: 1rem;
+    height: 2rem;
+}
