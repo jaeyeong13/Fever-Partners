@@ -11,6 +11,9 @@
   <script src="https://kit.fontawesome.com/aa0228ade6.js" crossorigin="anonymous"></script>
   <script src="{%static 'javascript/main.js'%}" defer></script>
   <script src="{%static 'javascript/jk.js'%}" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap" rel="stylesheet">
   <title>Fever Partners</title>
 </head>
 <body>
@@ -46,6 +49,7 @@
         <div class="user-detail-box gray-08em">이메일 : {{user.email}}</div>
         <div class="user-detail-box gray-08em">거주 : {{user.region}}</div>
         <div class="user-detail-box gray-08em">거주 상세 : {{user.region_detail}}</div>
+        <div class="user-detail-box gray-08em">보유 코인 : {{user.coin}}🪙</div>
         <div class="horizontal-btns">
           <a href="{% url "user_management:update" user.id %}" class="white-main-btn a-to-btn">수정</a>
           <a href="{% url "user_management:logout" %}" class="white-main-btn a-to-btn">로그아웃</a>

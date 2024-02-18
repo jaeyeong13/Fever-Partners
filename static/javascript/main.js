@@ -77,56 +77,82 @@ if (certRequired) {
 }
 
 function validateGroupForm() {
-    const goalSelect = document.getElementById('goal');
-    const titleInput = document.getElementById('title');
-    const detailTextarea = document.getElementById('detail');
-    const certRequiredCheckbox = document.getElementById('cert_required');
-    const penaltyInput = document.getElementById('penalty');
-    const certDetail = document.getElementById('cert_detail');
+  const goalSelect = document.getElementById('goal');
+  const titleInput = document.getElementById('title');
+  const detailTextarea = document.getElementById('detail');
+  const certRequiredCheckbox = document.getElementById('cert_required');
+  const penaltyInput = document.getElementById('penalty');
+  const depositInput = document.getElementById('deposit')
+  const certDetail = document.getElementById('cert_detail');
+  const durationRadios = document.getElementsByName('room-duration');
+  const userCoin = document.getElementById('user-coin').value;
 
-    const goalWarning = document.getElementById('goal-warning');
-    const titleWarning = document.getElementById('title-warning');
-    const detailWarning = document.getElementById('detail-warning');
-    const penaltyWarning = document.getElementById('penalty-warning');
-    const certDetailWarning = document.getElementById('cert-detail-warning');
+  const goalWarning = document.getElementById('goal-warning');
+  const titleWarning = document.getElementById('title-warning');
+  const detailWarning = document.getElementById('detail-warning');
+  const penaltyWarning = document.getElementById('penalty-warning');
+  const certDetailWarning = document.getElementById('cert-detail-warning');
+  const durationWarning = document.getElementById('duration-warning');
+  const depositWarning = document.getElementById('deposit-warning');
 
-    goalWarning.innerHTML = '';
-    titleWarning.innerHTML = '';
-    detailWarning.innerHTML = '';
-    penaltyWarning.innerHTML = '';
-    certDetailWarning.innerHTML = '';
+  goalWarning.innerHTML = '';
+  titleWarning.innerHTML = '';
+  detailWarning.innerHTML = '';
+  penaltyWarning.innerHTML = '';
+  certDetailWarning.innerHTML = '';
+  durationWarning.innerHTML = '';
+  depositWarning.innerHTML = '';
 
-    if (goalSelect.value === '') {
-        goalWarning.innerHTML = '목표를 선택하세요.';
-    }
+  if (goalSelect.value === '') {
+      goalWarning.innerHTML = '목표를 선택하세요.';
+  }
 
-    if (titleInput.value.trim() === '') {
-        titleWarning.innerHTML = '방의 제목을 입력하세요.';
-    }
+  if (titleInput.value.trim() === '') {
+      titleWarning.innerHTML = '방의 제목을 입력하세요.';
+  }
 
-    if (detailTextarea.value.trim() === '') {
-        detailWarning.innerHTML = '세부사항을 입력하세요.';
-    }
+  if (detailTextarea.value.trim() === '') {
+      detailWarning.innerHTML = '세부사항을 입력하세요.';
+  }
 
-    // 토글 버튼이 On인 경우에만 추가 validation 수행
-    if (certRequiredCheckbox.checked) {
+  let durationChecked = false;
+  for (const durationRadio of durationRadios) {
+      if (durationRadio.checked) {
+          durationChecked = true;
+          break;
+      }
+  }
+  if (!durationChecked) {
+      durationWarning.innerHTML = '활동기간을 선택하세요.';
+  }
 
-        if (certDetail.value.trim() === ''){
-            certDetailWarning.innerHTML = '인증 세부사항을 간단히 적어주세요!(인증주기, 인증시간 등)';
-        }
+  // 토글 버튼이 On인 경우에만 추가 validation 수행
+  if (certRequiredCheckbox.checked) {
+      if (certDetail.value.trim() === '') {
+          certDetailWarning.innerHTML = '인증 세부사항을 간단히 적어주세요!(인증주기, 인증시간 등)';
+      }
 
-        if (penaltyInput.value === '') {
-            penaltyWarning.innerHTML = '벌금을 입력하세요.';
-        }
-    }
+      if (penaltyInput.value === '') {
+          penaltyWarning.innerHTML = '벌금을 입력하세요.';
+      }
 
-    // 유효성 검사 통과 여부 반환 : false이면 폼 제출X
-    return goalWarning.innerHTML === '' &&
-        titleWarning.innerHTML === '' &&
-        detailWarning.innerHTML === '' &&
-        penaltyWarning.innerHTML === '' &&
-        certDetailWarning.innerHTML === '';
+      if (depositInput.value === '') {
+        depositWarning.innerHTML = '보증금을 입력하세요.';
+      }
+      if (depositInput.value > parseInt(userCoin)) {
+        depositWarning.innerHTML = `보유한 코인이 부족합니다.(현재 보유 : ${userCoin}🪙)`;
+      }
+  }
+  // 유효성 검사 통과 여부 반환 : false이면 폼 제출X
+  return goalWarning.innerHTML === '' &&
+      titleWarning.innerHTML === '' &&
+      detailWarning.innerHTML === '' &&
+      penaltyWarning.innerHTML === '' &&
+      certDetailWarning.innerHTML === '' &&
+      durationWarning.innerHTML === '' &&
+      depositWarning.innerHTML === '';
 }
+
 
 function getCookie(name) {
   let cookieValue = null;
@@ -344,7 +370,7 @@ function PermissionCheck(user_id, room_id) {
       });
     } else if (response.ok) {
       window.location.href =
-        window.location.origin + "/group_admin/member_list/" + room_id;
+        window.location.origin + "/group_admin/main/" + room_id;
     }
   });
 }
@@ -364,6 +390,7 @@ function WithdrawalConfirm(user_id, room_id) {
   };
   Swal.fire({
     title: "정말로 탈퇴하겠습니까?",
+    text: "자의적으로 탈퇴할 시 보증금을 반환받을 수 없습니다!",
     icon: "question",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
@@ -427,7 +454,6 @@ function GroupClosureConfirm(room_id) {
   };
   Swal.fire({
     title: "방을 폐쇄하고 활동을 종료하시겠습니까?",
-    text: "이 선택은 되돌릴 수 없습니다. 신중하게 생각하시길 권장드립니다.",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
@@ -458,7 +484,7 @@ function GroupClosureConfirm(room_id) {
         })
         .then((json_data) => {
           Swal.fire({
-            title: "폐쇄 완료",
+            title: "활동 종료",
             text: json_data.message,
             icon: "success",
           })
@@ -472,7 +498,7 @@ function GroupClosureConfirm(room_id) {
     } else if (result.dismiss === Swal.DismissReason.cancel) {
       Swal.fire({
         title: "취소됨",
-        text: "폐쇄 요청이 취소되었습니다.",
+        text: "요청이 취소되었습니다.",
         icon: "error",
         confirmButtonText: "확인",
       });
@@ -692,6 +718,7 @@ function suggestJoin(button, userNickname, userId, roomId, goalId) {
                   });
               } else {
                   button.disabled = true;
+                  button.classList.add('applied');
               }
           }).catch(error => {
               Swal.fire({
@@ -731,6 +758,7 @@ function applyForAdmission(button, roomName, userId, roomId, goalId) {
                 });
             } else {
                 button.disabled = true;
+                button.classList.add('applied');
             }
         }).catch(error => {
             Swal.fire({
@@ -759,6 +787,11 @@ function acceptRequest(alarmId) {
               Swal.fire({
                   title: '이미 방에 가입되거나 완료된 목표입니다.',
                   icon: 'error'
+              });
+          } else if (response.status === 403) {
+              Swal.fire({
+                title: '현재 보유한 코인이 방의 보증금보다 적어서 가입할 수 없습니다.',
+                icon: 'error'
               });
           } else if (response.status === 409) {
               Swal.fire({
@@ -798,6 +831,11 @@ function acceptDirectRequest(alarmId) {
                   title: '이미 해당 방에 가입된 상태입니다.',
                   icon: 'error'
               });
+          } else if (response.status === 403) {
+            Swal.fire({
+              title: '현재 보유한 코인이 방의 보증금보다 적어서 가입할 수 없습니다.',
+              icon: 'error'
+            });
           } else {
               Swal.fire({
                   title: '에러',
@@ -809,5 +847,17 @@ function acceptDirectRequest(alarmId) {
   })
   .catch(error => {
       console.error(error);
+  });
+}
+
+function checkRoomActive(roomId) {
+  fetch(window.location.origin + "/group/check_status/" + roomId)
+  .then(response => {
+    if (response.ok) {
+      window.location.href = window.location.origin + "/group_activity/main/" + roomId
+    }
+    else {
+      NotActiveYetModal()
+    }
   });
 }

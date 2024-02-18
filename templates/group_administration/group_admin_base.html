@@ -8,66 +8,77 @@
     <script src="{%static 'javascript/main.js'%}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
     <link rel="stylesheet" type="text/css" href="{% static 'css/minju.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jk.css' %}">
     <script src="https://kit.fontawesome.com/aa0228ade6.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/2.5.0/remixicon.css">
-    <title>그룹 활동 페이지</title> 
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        var links = document.getElementsByTagName("a");
-      
-        for (let i = 0; i < links.length; i++) {
-          links[i].addEventListener("click", function() {
-            for (var j = 0; j < links.length; j++) {
-              links[j].style.color = ""; 
-            }
-            this.style.color = "#db4455";
-            sessionStorage.setItem('activeLink', i);
-          });
-        }
-        var activeLink = sessionStorage.getItem('activeLink');
-        if (activeLink !== null && links[activeLink]) {
-          links[activeLink].style.color = "#db4455";
-        }
-      });
-      </script>
-      
+    <script src="{%static 'javascript/jk.js'%}" defer></script>
+    <title>그룹 활동 페이지</title>       
   </head>
-  <body>
-    <header>
+<body>
+  <header>
     <a class="go_back" href="{% url 'group_activity:main_page' room_id=room.id %}">
       <i class="ri-arrow-left-s-line"></i>
     </a>
-      <p class="room-title">{{ room.title }}</p>
-      <i class="ri-arrow-left-s-line hide-arrow"></i>
-    </header>
-    <div class="nav">
-      <a href="{%url 'group_administration:member_list' room_id %}">멤버 관리</a>
-      <a href="{% url 'group_activity:verify' room_id %}">인증 수락</a>
-      <a href="{%url "group_administration:direct_invitation" room_id %}">유저 초대</a>
-      <a onclick="GroupClosureConfirm({{room_id}})">방 폐쇄</a>
-    </div>
-    <div id="group-admin-content">
-      {% block content %} {% endblock content %}
-    </div>
-    <div class="footer">
-      <a href="{% url 'group_management:group_list' %}" class="footer-link" style="display: flex;">
-        <div class="footer-item">
-          <i class="fa-solid fa-user-group footer-icon"></i>
-          <a href="{% url 'group_management:group_list' %}" class="footer-text">내 그룹</a>
-        </div>
-      </a>
-      <a href="{% url 'goal_management:goal_list' %}" class="footer-link" style="display: flex;">
-        <div class="footer-item">
-          <i class="fa-solid fa-bullseye footer-icon"></i>
-          <a href="{% url 'goal_management:goal_list' %}" class="footer-text">내 목표</a>
-        </div>
-      </a>
-      <a href="{% url 'goal_management:achievement_report_list'%}" class="footer-link" style="display: flex;">
-        <div class="footer-item">
-          <i class="ri-file-list-3-line footer-icon"></i>
-          <a href="{% url 'goal_management:achievement_report_list'%}" class="footer-text">달성보고</a>    <!-- 이 부분 이름은 나중에 수정 필요 -->
-        </div>
-      </a>
-    </div>
-  </body>
+    <p class="room-title">{{ room.title }}</p>
+    <i class="ri-arrow-left-s-line hide-arrow"></i>
+  </header>
+  <div class="nav">
+    <a href="{%url 'group_administration:member_list' room_id %}" onclick="changeTabManage('member_list', event, {{room_id}})" class="selected-group-admin-tab">멤버 관리</a>
+    <a href="{% url 'group_activity:verify' room_id %}" onclick="changeTabManage('verify', event, {{room_id}})" >인증 수락</a>
+    <a href="{%url 'group_administration:direct_invitation' room_id %}" onclick="changeTabManage('direct_invitation', event, {{room_id}})">유저 초대</a>
+  </div>
+  <div id="group-admin-content">
+    {% block content %} {% endblock content %}
+  </div>
+  <div class="footer">
+    <a href="{% url 'group_management:group_list' %}" class="footer-link" style="display: flex;">
+      <div class="footer-item">
+        <i class="fa-solid fa-user-group footer-icon"></i>
+        <a href="{% url 'group_management:group_list' %}" class="footer-text">내 그룹</a>
+      </div>
+    </a>
+    <a href="{% url 'goal_management:goal_list' %}" class="footer-link" style="display: flex;">
+      <div class="footer-item">
+        <i class="fa-solid fa-bullseye footer-icon"></i>
+        <a href="{% url 'goal_management:goal_list' %}" class="footer-text">내 목표</a>
+      </div>
+    </a>
+    <a href="{% url 'goal_management:achievement_report_list'%}" class="footer-link" style="display: flex;">
+      <div class="footer-item">
+        <i class="ri-file-list-3-line footer-icon"></i>
+        <a href="{% url 'goal_management:achievement_report_list'%}" class="footer-text">달성보고</a>    <!-- 이 부분 이름은 나중에 수정 필요 -->
+      </div>
+    </a>
+  </div>
+</body>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var links = document.getElementsByTagName("a");
+  
+    for (let i = 0; i < links.length; i++) {
+      links[i].addEventListener("click", function() {
+        for (var j = 0; j < links.length; j++) {
+          links[j].style.color = ""; 
+        }
+        this.style.color = "#db4455";
+        sessionStorage.setItem('activeLink', i);
+      });
+    }
+    var activeLink = sessionStorage.getItem('activeLink');
+    if (activeLink !== null && links[activeLink]) {
+      links[activeLink].style.color = "#db4455";
+    }
+  });
+</script>
+<script>
+  //그룹관리 탭에 들어오면 기본 페이지 실행
+  function initializeActManage() {
+    var room_id = {{ room_id }};
+    document.addEventListener('DOMContentLoaded', function () {
+        defaultActivateManage(room_id);
+    });
+  }
+
+  initializeActManage()
+</script>
 </html>

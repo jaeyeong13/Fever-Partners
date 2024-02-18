@@ -1,10 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap');
+
 :root {
   --main-color: #db4455;
   --gray: #838383;
   --red: #EB0000;
   --green: #00AD26;
 }
-
+body, html {
+  font-family: "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
 .page_back{
   cursor: pointer;
 }
@@ -76,7 +82,13 @@
   display: flex;
   align-items: center;
   font-weight: bolder;
-  border-bottom: 4px solid black;
+  border-bottom: 3px solid black;
+}
+
+.selected-group-admin-tab{
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid black;
 }
 
 #group-activity-content {
@@ -228,13 +240,23 @@
 
 #member-list-text{
   color: var(--main-color);
-  font-size: 2.5em;
+  font-size: 2em;
   font-weight: bold;
-  text-shadow: 0.05em 0.05em 5px var(--gray);
+  text-shadow: 0.05em 0.05em 2px var(--gray);
+}
+
+.member-field-span {
+  color: var(--main-color);
 }
 
 .group-member-intro{
   border: 2px solid var(--main-color);
+  border-radius: 8px;
+  display: flex;
+}
+
+.group-master-intro{
+  border: 2px solid rgb(58, 58, 212);
   border-radius: 8px;
   display: flex;
 }
@@ -279,8 +301,11 @@
 }
 
 .big-btn{
-  height: 5em;
+  height: 4em;
   margin-top: 5em;
+  font-family: "IBM Plex Sans KR", sans-serif;
+  font-size: 1em;
+  font-weight: bold;
 }
 
 
@@ -288,17 +313,17 @@
 /* 목표 등록 후 */
 #success-goal-container{
   height: 90vh;
-  width: 90vw;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
 #success-goal-body{
-  height: 70vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
   align-items: center;
+  justify-content: center;
 }
 
 #choice-master-or-member{
@@ -324,6 +349,11 @@
   color: #8B8B8B;
   background-color: white;
   transition: 0.5s;
+  padding: 0;
+  margin: 0;
+  font-family: "IBM Plex Sans KR", sans-serif;
+  font-weight: bolder;
+  font-style: normal;
 }
 
 #group-master-text > a:hover,
@@ -334,28 +364,33 @@
 .bold-12em{
   font-size: 1.2em;
   font-weight: bold;
+  margin-bottom: 10px;
 }
-
-
-
+.for-margin {
+  margin-bottom: 10vh;
+}
 
 /* 그룹장이 방 생성하기 */
 
 #create-room-container{
   height: 90vh;
-  width: 90vw;
+  width: 100%;
   display: flex;
   flex-direction: column;
-}
+  margin-top: 10vh;
+  margin-bottom: 31vh;
 
+}
+#create-room-container > div {
+  margin: 0 5vw;
+}
 .group-form-setting{
   display: flex;
   flex-direction: column;
-  gap: 1.2vh;
 }
-
-
-
+.mar {
+  margin-bottom: 2vh;
+}
 
 
 /* 알림창 */
@@ -591,4 +626,31 @@
 
 .footer-link {
   text-decoration: none;
+}
+/* select 요소 스타일 */
+select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  background-color: white;
+  color: #333;
+  font-size: 14px;
+}
+
+select option:checked {
+  background-color: #e0e0e0;
+}
+.no-margin {
+  margin: 0;
+  padding: 0;
+}
+input[type="number" i] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
 }

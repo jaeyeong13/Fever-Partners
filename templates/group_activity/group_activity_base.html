@@ -12,8 +12,16 @@
     <script src="{%static 'javascript/main.js'%}" defer></script>
     <script src="{%static 'javascript/jk.js'%}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap" rel="stylesheet">
     <title>Fever Partners</title>
-    <style></style>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&family=Noto+Sans+KR:wght@100..900&display=swap');
+      div {
+        font-family: "IBM Plex Sans KR", sans-serif;
+      }
+    </style>
   </head>
   <body>
     <div id="group-activat-box">
@@ -48,8 +56,8 @@
         </div>
       </div>
       <div id="group-select-activity-list">
-        <a href="{%url 'group_activity:member_list' room_id%}" onclick="changeTab('member', event, {{room_id}})">멤버</a>
-        <a href="{% url 'group_activity:activate' room_id %}" onclick="changeTab('activate', event, {{room_id}})" class="selected-group-tab">인증 공간</a>
+        <a href="{%url 'group_activity:member_list' room_id%}" onclick="changeTab('member', event, {{room_id}})" class="selected-group-tab">멤버</a>
+        <a href="{% url 'group_activity:activate' room_id %}" onclick="changeTab('activate', event, {{room_id}})" id="auth-space">인증 공간</a>
         <a href="{% url 'group_activity:show_log' room_id %}" onclick="changeTab('show_log', event, {{room_id}})">활동 현황</a>
         <a href="{% url 'free_board:list' room_id %}">게시판</a>
       </div>
@@ -82,9 +90,17 @@
     //그룹탭 들어오면 기본 페이지 실행
     function initializeAct() {
       var room_id = {{ room_id }};
-      document.addEventListener('DOMContentLoaded', function () {
-          defaultActivate(room_id);
-      });
+      var previousPage = document.referrer;
+      
+      if (previousPage.includes(window.location.origin + '/group_activity/auth/')) {
+          document.addEventListener('DOMContentLoaded', function () {
+              authActivate(room_id)
+          });
+      } else {
+          document.addEventListener('DOMContentLoaded', function () {
+              defaultActivate(room_id);
+          });
+      }
     }
 
     initializeAct()

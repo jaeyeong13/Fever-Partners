@@ -12,6 +12,6 @@ urlpatterns = [
     path("update/", views.user_update, name="update"),
     path("update/start/", views.user_update_start, name="update_start"),
     path("main/", views.main, name="main"), 
-    path('detail/<int:pk>', views.detail, name='detail'),
-    path('update/<int:pk>', views.update, name='update'),
+    path('detail/<int:pk>/', views.detail, name='detail'),
+    path('update/<int:pk>/', views.update, name='update'),
 ]

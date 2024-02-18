@@ -11,18 +11,24 @@ class AuthenticationForm(forms.ModelForm):
     class Meta:
         model = Authentication
         fields = ['start', 'end']
+        labels = {
+            'start': '인증시작',
+            'end': '인증종료',
+        }
         widgets = {
-            'start': forms.TextInput(attrs={'class': 'flatpickr', 'label':'인증시작'}),
-            'end': forms.TextInput(attrs={'class': 'flatpickr', 'label':'인증종료'}),
+            'start': forms.TextInput(attrs={'class': 'flatpickr'}),
+            'end': forms.TextInput(attrs={'class': 'flatpickr'}),
         }
 
 class MemberAuthenticationForm(forms.ModelForm):
     class Meta:
         model = MemberAuthentication
         fields = ['content', 'image']
-
-        widgets = {
-            'content': forms.Textarea(attrs={'class': 'auth-input', 'label': '내용'}),
-            'image': forms.ClearableFileInput(attrs={'class': 'auth-input', 'label': '사진'}),
+        labels = {
+            'content': '내용',
+            'image': '사진',
         }
-        
+        widgets = {
+            'content': forms.Textarea(attrs={'class': 'auth-input'}),
+            'image': forms.ClearableFileInput(attrs={'class': 'auth-input'}),
+        }

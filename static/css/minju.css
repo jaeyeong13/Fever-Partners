@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap');
 :root {
     --main-color: #db4455;
     --white-color: #ffffff;
@@ -9,6 +10,9 @@ html {
     margin: 0;
     padding: 0;
     height: 100%;
+    font-family: "IBM Plex Sans KR", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 body {
@@ -44,12 +48,15 @@ header i::before {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: 2.5vh 0;
+    height: 5vh;
     border-bottom: 1.5px solid var(--gray-color);
 }
 .nav a {
+    height: 100%;
     color: var(--font-color);
     text-decoration: none;
+    display: flex;
+    align-items: center;
 }
 
 #group-admin-content {
@@ -248,4 +255,12 @@ header i::before {
 }
 .action-button:nth-child(1) {
     margin-right: 10px;
+}
+
+.selected-group-tab{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-weight: bolder;
+    border-bottom: 4px solid black;
 }

@@ -9,6 +9,8 @@ from django.http import JsonResponse, HttpResponse
 import json
 from .decorators import room_admin_required
 from django.urls import reverse
+from django.db.models import Sum
+from django.utils import timezone
 
 from django.contrib.auth.decorators import login_required
 
@@ -75,10 +77,11 @@ def activate_room(request, room_id):
     try:
         room = Room.objects.get(pk=room_id)
         room.is_active = True
+        room.closing_date = timezone.now() + room.duration
         room.save()
-        url = reverse('group_activity:member_list', kwargs={'room_id': room_id})
+        url = reverse('group_activity:main_page', kwargs={'room_id': room_id})
         return redirect(url)
-    except Exception:
+    except Exception as e:
         return HttpResponse(status=404)
 
 @require_http_methods(["DELETE"])
@@ -88,6 +91,8 @@ def delete_room(request):
         room_id = data.get('roomId')
         room = Room.objects.get(pk=room_id)
 
+        # 징수한 벌금을 인증 성과에 따라 분배
+        distribute_reward(room)
         # 폐쇄에 따른 로직 => 모든 멤버의 Goal 정보 수정 및 초기화(Master본인 포함)
         members = room.members.all()
         for member in members:
@@ -101,6 +106,25 @@ def delete_room(request):
         return JsonResponse({'message': '폐쇄 작업이 성공적으로 완료되었습니다.'}, status=200)
     except Exception:
         return HttpResponse(status=400)
+
+def distribute_reward(room: Room):
+    # 인증이 필수가 아닌 방은 벌금도 없으므로 바로 return
+    if not room.cert_required:
+        return
+    activity_infos_in_room = room.activity_infos.all()
+    total_count = activity_infos_in_room.aggregate(total_count=Sum('authentication_count'))['total_count']
+    # 한 건의 인증도 이루어지지 않음 / 의미가 없으므로 바로 retrun
+    if total_count == 0:
+        return
+    for activity_info in activity_infos_in_room:
+        user = activity_info.user
+        activity_count = activity_info.authentication_count
+        penalty_bank = room.penalty_bank
+        reward = (penalty_bank * activity_count) / total_count
+        user.coin += int(reward)
+        user.coin += activity_info.deposit_left
+        print(user.nickname,"에게",reward,"코인의 보상을 지급.")
+        user.save()
 
 @room_admin_required  
 def direct_invitation(request, room_id):

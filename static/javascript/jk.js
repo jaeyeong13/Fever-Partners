@@ -37,13 +37,13 @@ function changeTab(tab, event, room_id) {
     var url = '';
     switch (tab) {
     case 'member':
-        url = '../member_list/'+room_id;
+        url = window.location.origin + '/group_activity/member_list/'+room_id;
         break;
     case 'activate':
-        url = '../activate/'+room_id;
+        url = window.location.origin + '/group_activity/activate/'+room_id;
         break;
     case 'show_log':
-        url = '../show_log/'+room_id;
+        url = window.location.origin + '/group_activity/show_log/'+room_id;
         break;
     }
     loadContent(url);
@@ -51,11 +51,73 @@ function changeTab(tab, event, room_id) {
 
 //기본 페이지 설정
 function defaultActivate(roomId) {
-    loadContent('../activate/'+roomId);
+    loadContent('../member_list/'+roomId);
   }
 
+function authActivate(roomId) {
+    loadContent(window.location.origin + '/group_activity/activate/'+roomId);
+    var links = document.querySelectorAll('#group-select-activity-list a');
+    links.forEach(function(link) {
+    link.classList.remove('selected-group-tab');
+    });
+    const authSpaceTab = document.getElementById('auth-space');
+    authSpaceTab.classList.add('selected-group-tab');
+}
+
+
+//그룹 관리 탭 ajax
+function loadContentManage(url) {
+    fetch(url)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(data => {
+        document.getElementById('group-admin-content').innerHTML = data;
+    })
+    .catch(error => {
+        console.error('Error during fetch operation:', error);
+    });
+}
+
+function changeTabManage(tab, event, room_id) {
+    event.preventDefault();
+
+    // 모든 링크에서 selected-group-admin-tab 클래스 제거
+    var links = document.querySelectorAll('.nav a');
+    links.forEach(function(link) {
+    link.classList.remove('selected-group-admin-tab');
+    });
+
+    // 클릭한 링크에 selected-group-admin-tab 클래스 추가
+    var selectedLink = event.currentTarget;
+    selectedLink.classList.add('selected-group-admin-tab');
+
+
+    var url = '';
+    switch (tab) {
+    case 'member_list':
+        url = '../member_list/'+room_id;
+        break;
+    case 'direct_invitation':
+        url = '../direct_invitation/'+room_id;
+        break;
+    case 'verify':
+        url = '../../group_activity/verify/'+room_id;
+        break;
+    }
+    loadContentManage(url);
+}
+
+//기본 페이지 설정
+function defaultActivateManage(roomId) {
+    loadContentManage('../member_list/'+roomId);
+}
+
 //인증 마감(delete)
-function closeAuth(authId) {
+function closeAuth(roomId, authId) {
     Swal.fire({
       title: "인증을 마감하시겠습니까?",
       text: "마감한 인증은 복구할 수 없어요!",
@@ -67,7 +129,7 @@ function closeAuth(authId) {
       cancelButtonText: "취소",
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch("../delete_auth/" + authId, {
+            fetch("../close_auth/" + roomId + "/" + authId , {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",

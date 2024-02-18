@@ -7,6 +7,8 @@ from apps.goal_management.models import Goal
 import json
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_http_methods
+from apps.group_activity.models import UserActivityInfo
+from django.db.models import Case, When, Value, IntegerField
 
 #room 중복되는 건 추후에 제거 할 예정
 def show_activity_main(request, room_id):
@@ -91,42 +93,51 @@ def verify(request, room_id):
 def accept_auth_log(request, member_auth_id):
     memberAuthentication = MemberAuthentication.objects.get(id=member_auth_id)
     user =  memberAuthentication.user
+    room = memberAuthentication.room
     user.fuel = add_fever(user.fuel)
     user.save()
+    user_info = user.activity_infos.all().get(room=room)
+    user_info.authentication_count += 1
+    user_info.save()
     memberAuthentication.is_auth = True
     memberAuthentication.is_completed = True
     memberAuthentication.save()
 
-    return redirect('group_activity:verify', memberAuthentication.room.id)
+    return redirect('group_administration:group_admin_main', memberAuthentication.room.id)
 
 #인증 거절을 눌렀을 때
 def refuse_auth_log(request, member_auth_id):
     memberAuthentication = MemberAuthentication.objects.get(id=member_auth_id)
     user =  memberAuthentication.user
+    room = memberAuthentication.room
     user.fuel = loss_fever(user.fuel)
     user.save()
+    if room.cert_required:
+        user_info = user.activity_infos.all().get(room=room)
+        take_penalty(user_info, room, room.penalty_value)
     memberAuthentication.is_completed = True
     memberAuthentication.save()
 
-    return redirect('group_activity:verify', memberAuthentication.room.id)
-
-def close_authentication(request, room_id, auth_id):
-    room = Room.objects.get(pk=room_id)
-    auth = Authentication.objects.get(pk=auth_id)
-    if room.cert_required:
-        participated_users = auth.participated.all()
-        non_participated_members = room.members.exclude(pk__in=[user.pk for user in participated_users])
-        for member in non_participated_members:
-            member.fuel = loss_fever(member.fuel)
-            member.save()
-    auth.delete()
-    return redirect('group_activity:main_page', room_id=room_id) 
+    return redirect('group_administration:group_admin_main', memberAuthentication.room.id)
 
 @require_http_methods(["DELETE"])
-def delete_auth(request, auth_id):
+def close_authentication(request, room_id, auth_id):
     try:
-        target = Authentication.objects.get(pk=auth_id)
-        target.delete()
+        room = Room.objects.get(pk=room_id)
+        auth = Authentication.objects.get(pk=auth_id)
+        print(room.cert_required)
+        if room.cert_required:
+            print("in function")
+            participated_users = auth.participated.all()
+            print("참가함 : ", participated_users)
+            non_participated_members = room.members.exclude(pk__in=[user.pk for user in participated_users])
+            print("참가 안함 : ", non_participated_members)
+            for member in non_participated_members:
+                member.fuel = loss_fever(member.fuel)
+                member.save()
+                user_info = member.activity_infos.all().get(room=room)
+                take_penalty(user_info, room, room.penalty_value)
+        auth.delete()
         return JsonResponse({'message': '인증이 성공적으로 삭제되었습니다.'}, status=200)
     except Exception:
         return HttpResponse(status=400)
@@ -155,6 +166,24 @@ def loss_fever(fever):
         fever_after = fever - 10
     return fever_after
 
+def take_penalty(user_info: UserActivityInfo, room: Room, penalty):
+    if user_info.deposit_left < penalty:
+        expel_from_room(room, user_info.user)
+        room.penalty_bank += user_info.deposit_left
+        room.save()
+    else:
+        user_info.deposit_left -= penalty
+        user_info.save()
+        room.penalty_bank += penalty
+        room.save()
+
+def expel_from_room(room: Room, user):
+    goal = Goal.objects.filter(user=user).get(belonging_group_id=room.pk)
+    goal.belonging_group_id = None
+    goal.is_in_group = False
+    goal.save()
+    room.members.remove(user)
+
 #현황(인증로그) 창으로 이동
 def show_log(request, room_id):
     room = Room.objects.get(pk=room_id)
@@ -167,15 +196,22 @@ def show_log(request, room_id):
     return render(request, 'group_activity/show_log.html', ctx)
 
 def show_member_list(request, room_id):
-    member_goal_pairs = {}
+    member_list = []
     room = Room.objects.get(id=room_id)
-    for member in room.members.all():
+    members_ordered = room.members.annotate(
+    is_master=Case(
+        When(id=room.master_id, then=Value(0)),
+        default=Value(1),
+        output_field=IntegerField(),
+    )).order_by('is_master')
+    for member in members_ordered.all():
         target_goal = member.goal.all().get(belonging_group_id=room_id)
-        member_goal_pairs[member] = target_goal
+        target_user_info = member.activity_infos.get(room=room)
+        member_list.append({'user':member, 'goal':target_goal, 'user_info':target_user_info})
 
     cnt = {
         'room_id': room_id,
-        'member_goal_pairs': member_goal_pairs,
+        'member_list': member_list,
         'room': room,
     }
 

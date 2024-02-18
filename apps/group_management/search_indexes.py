@@ -13,6 +13,8 @@ class RoomDocument(Document):
 
     master = fields.ObjectField(properties={
         'id': fields.IntegerField(),
+        'region': fields.TextField(),
+        'region_detail': fields.TextField(),
     })
 
     tags = fields.NestedField(properties={
@@ -34,9 +36,6 @@ class RoomDocument(Document):
 
     def prepare_members(self, instance):
         return [{'id': member.id} for member in instance.members.all()]
-
-    def prepare_master(self, instance):
-        return {'id': instance.master.id}
 
     def prepare_tags(self, instance):
         return [{'tag_id': tag.id} for tag in instance.tags.all()]

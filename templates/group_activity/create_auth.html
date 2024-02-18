@@ -30,11 +30,9 @@
       <div class="auth-create-wrap">
         <form id="authentication-form" action="{% url 'group_activity:create_auth' room_id %}" method="post" class="create-auths">
           {% csrf_token %}
-          <!-- <p>인증시작:</p><input name="start">
-          <p>인증종료:</p><input name="end"> -->
           {% for field in form %}
             <div class="form-group">
-              {{ field.label }}
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
               {{ field }}
             </div>
           {% endfor %}
