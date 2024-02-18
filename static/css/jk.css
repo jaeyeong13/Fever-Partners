@@ -462,9 +462,15 @@ body, html {
 .horizontal-btns{
   display: flex;
   justify-content: space-around;
-  margin-top: 10vh;
+  margin-top: 3vh;
+  flex-direction: column;
 }
-
+.horizontal-btns div {
+  display: flex;
+  gap:10px;
+  justify-content: flex-end;
+  margin-top: 1vh;
+}
 .white-main-btn{
   color: var(--main-color);
   background-color: white;

@@ -18,7 +18,7 @@
         <p class="room-title">달성보고</p>
         <i class="ri-arrow-left-s-line hide-arrow"></i>
     </header>
-    <div class="group-wrap">
+    <div class="group-wrap1">
     {% for report in reports %}
     <div class="group-div">
         <a href="{%url "goal_management:achievement_report_detail" report.pk%}">{{report.goal.title}}</a>
