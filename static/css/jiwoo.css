@@ -82,17 +82,22 @@ body {
     color: var(--white);
     background-color: var(--red);
     border: none; /* 모든 테두리를 제거합니다. */
-    border-radius: 10%;
+    border-radius: 20px;
     font-size: 1rem;
+    padding: 5px 0;
 }
 
 #login_service {
     margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #login_service a {
     text-decoration: none; /* 밑줄을 없애는 속성 */
     color: var(--gray); /* 링크 색상을 상위 요소의 색으로 상속합니다. */
+    font-size: small;
 }
 
 #login_service a + a::before {
@@ -117,9 +122,11 @@ body {
 
 #social_login form img {
     height: 2rem;
-    width: auto;
+    width: 2rem;
 }
-
+#social_login div:nth-child(2) {
+    margin: 0 2vw;
+}
 /* signup_how.html */
 #signup_how_container {
     display: flex;
@@ -215,8 +222,9 @@ body {
     color: var(--white);
     background-color: var(--red);
     border: none; /* 모든 테두리를 제거합니다. */
-    border-radius: 10%;
+    border-radius: 20px;
     font-size: 1rem;
+    padding: 5px 0;
 }
 
 /* input_nickname.html */
@@ -429,8 +437,9 @@ progress[value]::-webkit-progress-value {
     color: var(--white);
     background-color: var(--red);
     border: none; /* 모든 테두리를 제거합니다. */
-    border-radius: 10%;
+    border-radius: 20px;
     font-size: 1rem;
+    padding: 5px 0;
 }
 
 .input_nickname_form input {

@@ -2,14 +2,13 @@
 {% block content %}
 
     <div id="group-member-list">
-        <p id="member-list-text">멤버 리스트</p>
         {% for member in member_list %}
             
             {% if member.user == room.master %}
                 <div class="group-master-intro">
                     {% if member.user.profile_image.url != '' %}
                     <img
-                        src="/media/{{member.profile_image}}/"
+                        src="/media/{{member.user.profile_image}}/"
                         alt="프로필 이미지"
                         class="profile-image-group"
                     />
