@@ -119,6 +119,7 @@ header i::before {
     width: 100px;
     height: 100px;
     margin-top: 3vh;
+    border-radius: 50%;
 }
 .mp-h {
     display: flex;
