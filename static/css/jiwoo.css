@@ -4,10 +4,18 @@
     --gray: #8b8b8b;
     --height: 100vh;
 }
+
 body {
     width: 100%;
     height: 100vh;
 }
+
+body, html {
+    font-family: "IBM Plex Sans KR", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
 /* start.html */
 #start_container {
     display: flex;
@@ -271,7 +279,7 @@ body {
 }
 
 .main_container_header img {
-    height: 5vh;
+    height: 3vh;
     width: auto;
 }
 
@@ -370,7 +378,7 @@ body {
 }
 
 .main_container_header span a {
-    margin-right: 0.5rem;
+    margin-right: 1rem;
     text-decoration: none;
     color: var(--white);
     text-decoration: none; /* 밑줄을 없애는 속성 */
@@ -383,7 +391,6 @@ body {
 }
 
 .header_icons a {
-    margin-right: 1rem;
     font-size: 1.5rem;
 }
 
@@ -408,7 +415,7 @@ progress[value]::-webkit-progress-bar {
   
 /* progress 바의 값에 대한 색상과 네모난 형태 설정 */
 progress[value]::-webkit-progress-value {
-    background-color: #007bff; /* progress 바의 색상을 설정합니다. */
+    background-color: purple; /* progress 바의 색상을 설정합니다. */
 }
 
 .signup_email_form form {
