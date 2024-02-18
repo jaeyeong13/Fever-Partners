@@ -32,7 +32,6 @@
                     <i class="fa-solid fa-chevron-left"></i>
                 </a>
             </div>
-            <div></div>
         </div>
         <div id="group-intro-text">
           <p class="white-title">{{ room.title }}</p>
@@ -42,6 +41,16 @@
             {% endfor %}
           </div>
           <p>{{ room.detail }}</p>
+          <p>
+            인증
+            {% if room.cert_required %}필수{% else %}선택{% endif %}
+            {% if room.cert_required %}
+            &nbsp;&nbsp;벌금
+            {{ room.penalty_value}}🪙
+            보증금
+            {{ room.deposit}}🪙
+            {% endif %}
+        </p>
         </div>
         <div id="group-admin-or-withdraw">
           <a

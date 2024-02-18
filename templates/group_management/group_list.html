@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="room-detail">
-                <p><span>방장</span> {{ room.master.nickname }} &nbsp&nbsp <span>인원수 </span>{{room.members.all.count}}</p>
+                <p><span>방장</span> {{ room.master.nickname }} &nbsp;&nbsp; <span>인원수 </span>{{room.members.all.count}}</p>
                 <p><span>태그</span>
                     {% for tag in room.tags.all %}
                         {{ tag.tag_name }}
@@ -66,12 +66,12 @@
                     </div>
                 </div>
                 <div class="room-detail">
+                    <p><span>방장</span> {{ room.master.nickname }} &nbsp;&nbsp; <span>인원수 </span>{{room.members.all.count}}</p>
                     <p><span>태그</span>
                         {% for tag in room.tags.all %}
                             {{ tag.tag_name }}
                         {% endfor %}
                     </p>
-                    <p><span>방장</span> {{ room.master.nickname }}</p>
                     <p><span>활동태그</span>
                         {% for activity_tag in room.activityTags.all %}
                             {{ activity_tag.tag_name }}

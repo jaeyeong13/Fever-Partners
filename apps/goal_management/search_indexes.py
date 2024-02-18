@@ -5,7 +5,7 @@ from .models import *
 @registry.register_document
 class GoalDocument(Document):
     class Index:
-        name = 'goals_local'
+        name = 'goals'
         settings = {'number_of_shards': 1, 'number_of_replicas': 0}
 
     user = fields.ObjectField(properties={

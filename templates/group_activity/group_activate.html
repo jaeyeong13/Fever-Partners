@@ -6,14 +6,14 @@
     {% for auth in authentications %}
     {% if auth.start > current_time %}
         <div id="auth-{{ auth.id }}" class="activate-auth">
-            <div class="gray-08em">아직 인증이 시작되지 않았습니다</div>
+            <div class="gray-08em v1">아직 인증이 시작되지 않았습니다</div>
             <div class="gray-08em">[ 인증시간 ]</div>
             <div>{{auth.start | date:"m월 d일"}} {{auth.start | time:"H:i"}} ~ {{auth.end | date:"m월 d일"}} {{auth.end | time:"H:i"}}</div>
         </div>
     {% elif auth.end < current_time %}
         {% if user == room.master %}
         <div id="auth-{{ auth.id }}" class="activate-auth">
-            <div class="gray-08em">이미 종료된 인증입니다.</div>
+            <div class="gray-08em v1">이미 종료된 인증입니다.</div>
             <div class="gray-08em">[ 인증시간 ]</div>
             <div>{{auth.start | date:"m월 d일"}} {{auth.start | time:"H:i"}} ~ {{auth.end | date:"m월 d일"}} {{auth.end | time:"H:i"}}</div>
             <div class="activate-auth-bottom">
@@ -24,7 +24,7 @@
         {% endif %}
     {% else %}
         <div id="auth-{{ auth.id }}" class="activate-auth">
-            <div class="main-color-08em">현재 활성화 된 인증</div>
+            <div class="main-color-08em v1">현재 활성화 된 인증</div>
             <div class="gray-08em">[ 인증시간 ]</div>
             <div>{{auth.start | date:"m월 d일"}} {{auth.start | time:"H:i"}} ~ {{auth.end | date:"m월 d일"}} {{auth.end | time:"H:i"}}</div>
             <div class="activate-auth-bottom">

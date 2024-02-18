@@ -51,12 +51,6 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount.providers.kakao',
 ]
 
-ELASTICSEARCH_DSL = {
-    'default': {
-        'hosts': 'http://localhost:9200',
-    },
-} 
-
 # 백앤드에서 인증처리 관련
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',    

@@ -132,13 +132,9 @@ def close_authentication(request, room_id, auth_id):
     try:
         room = Room.objects.get(pk=room_id)
         auth = Authentication.objects.get(pk=auth_id)
-        print(room.cert_required)
         if room.cert_required:
-            print("in function")
             participated_users = auth.participated.all()
-            print("참가함 : ", participated_users)
             non_participated_members = room.members.exclude(pk__in=[user.pk for user in participated_users])
-            print("참가 안함 : ", non_participated_members)
             for member in non_participated_members:
                 member.fuel = loss_fever(member.fuel)
                 member.save()
@@ -175,7 +171,7 @@ def loss_fever(fever):
 
 def take_penalty(user_info: UserActivityInfo, room: Room, penalty):
     if user_info.deposit_left < penalty:
-        expel_from_room(room, user_info.user)
+        expel_from_room(room, user_info.user, user_info)
         room.penalty_bank += user_info.deposit_left
         room.save()
     else:
@@ -184,12 +180,17 @@ def take_penalty(user_info: UserActivityInfo, room: Room, penalty):
         room.penalty_bank += penalty
         room.save()
 
-def expel_from_room(room: Room, user):
+def expel_from_room(room: Room, user, user_info):
     goal = Goal.objects.filter(user=user).get(belonging_group_id=room.pk)
     goal.belonging_group_id = None
     goal.is_in_group = False
     goal.save()
     room.members.remove(user)
+    user_info.delete()
+    if user == room.master:
+        new_master = room.activity_infos.all().order_by('-authentication_count').first().user
+        room.master = new_master
+        room.save()
 
 #현황(인증로그) 창으로 이동
 def show_log(request, room_id):
@@ -253,7 +254,12 @@ def withdraw_from_room(request):
         
         target = room.members.get(pk=user_id)
         room.members.remove(target)
+
+        # 자의적 탈퇴 => 보증금 환급 안함
+        user_info= room.activity_infos.all().get(user=target)
+        room.penalty_bank += user_info.deposit_left
         room.save()
+        user_info.delete()
 
         #Goal을 리셋하는 작업
         target_goal = Goal.objects.filter(user__pk=user_id).get(belonging_group_id=room_id)

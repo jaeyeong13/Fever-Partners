@@ -21,6 +21,12 @@ DATABASES = {
     }
 }
 
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'http://localhost:9200',
+    },
+} 
+
 SOCIALACCOUNT_PROVIDERS = {
     'naver': {'APP': {
                         'client_id': env("NAVER_CLIENT_ID"),

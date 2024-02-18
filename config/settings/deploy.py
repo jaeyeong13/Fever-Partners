@@ -24,6 +24,12 @@ DATABASES = {
     }
 }
 
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'http://211.48.38.29:9200',
+    },
+} 
+
 SOCIALACCOUNT_PROVIDERS = {
     'naver': {'APP': {
                         'client_id': read_secret("NAVER_CLIENT_ID"),

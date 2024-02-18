@@ -1,10 +1,9 @@
 {% load static %}
 {% block content %}
-   
     {% for member in members.all %}
         <div id="member-{{ member.pk }}" class="member-card">
             <div class="member-info">
-                {% if user.profile_image %}
+                {% if member.profile_image %}
                 <img
                 src="/media/{{member.profile_image}}"
                 alt="프로필 이미지"

@@ -153,7 +153,7 @@ def recommend_group(request, goal_id):
     must_not_queries.append(user_master_mismatch_query)
 
     final_query = Q('bool', must=must_queries, should=should_queries, must_not=must_not_queries)
-    s = Search(index='rooms_local').query(final_query)
+    s = Search(index='rooms').query(final_query)
     s = s.sort({'_score': {'order': 'desc'}})
     response = s.execute()
     hit_scores = {hit.meta.id : hit.meta.score for hit in response if hit.meta.id not in is_pending}

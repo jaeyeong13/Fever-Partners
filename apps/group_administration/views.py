@@ -13,6 +13,7 @@ from django.db.models import Sum
 from django.utils import timezone
 
 from django.contrib.auth.decorators import login_required
+from apps.group_activity.models import UserActivityInfo
 
 # 이 부분 나중에 수정되어야 함
 @room_admin_required
@@ -53,8 +54,16 @@ def expel_member(request):
         target_goal.save()
 
         room.members.remove(member)
+        user_info = room.activity_infos.all().get(user=member)
+        # 강퇴시 전액 환급
+        member.coin += room.deposit
+        member.save()
+        room.penalty_bank -= (room.deposit - user_info.deposit_left)
+        room.save()
+        user_info.delete()
         return JsonResponse({'message': '멤버가 성공적으로 삭제되었습니다.'}, status=200)
-    except Exception:
+    except Exception as e:
+        print(e)
         return HttpResponse(status=400)
 
 @require_http_methods(["POST"]) 
