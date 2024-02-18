@@ -20,18 +20,20 @@
                     />
                     {% endif %}
                     <div class="member-intro-text">
-                        <h3><span class='member-field-span'>닉네임 </span>{{ member.user.nickname }}</h3>
+                        <h3><span class='member-field-span'></span>👑{{ member.user.nickname }}👑</h3>
                         <div><span class='member-field-span'>목표 </span>{{ member.goal.title }}</div>
+                        <div class="d3"><span class='member-field-span '>Fever&nbsp; </span>{{ member.user.fuel }}<img class="fever-gif" style="width:20px; height:20px;" src="{% static 'image/fire.gif' %}" alt="GIF 이미지">
                         {% if member.user_info.room.cert_required %}
-                            <div><span class='member-field-span'>보증금 </span>{{member.user_info.deposit_left}}🪙</div>
+                            <span class='member-field-span'>&nbsp;&nbsp;&nbsp;보증금 </span>{{member.user_info.deposit_left}}🪙
                         {% endif %}
+                    </div>
                     </div>
                 </div>
             {% else %}
                 <div class="group-member-intro">
                     {% if member.user.profile_image.url != '' %}
                     <img
-                        src="/media/{{member.profile_image}}"
+                        src="/media/{{member.user.profile_image}}"
                         alt="프로필 이미지"
                         class="profile-image-group"
                     />
@@ -43,8 +45,14 @@
                     />
                     {% endif %}
                     <div class="member-intro-text">
-                        <h3>닉네임: {{ member.user.nickname }}</h3>
-                        <div>목표: {{member.goal.title}}</div>
+                        <h3><span class='member-field-span'></span> {{ member.user.nickname }}</h3>
+                        <div><span class='member-field-span'>목표</span> {{member.goal.title}}</div>
+                        <div class="d3"><span class='member-field-span '>Fever&nbsp; </span>{{ member.user.fuel }}<img class="fever-gif" style="width:20px; height:20px;" src="{% static 'image/fire.gif' %}" alt="GIF 이미지">
+                            {% if member.user_info.room.cert_required %}
+                            <span class='member-field-span'>&nbsp;&nbsp;&nbsp;보증금 </span>{{member.user_info.deposit_left}}🪙
+                        {% endif %}
+                        </div>
+
                     </div>
                 </div>
             {% endif %}
