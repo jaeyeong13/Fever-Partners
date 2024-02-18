@@ -31,13 +31,26 @@
         
             <div class="suggest-join-group">
                 <p class="fs15em-bold"><span class="main-color-text">{{ alarm.alarm_from.nickname }}</span> 님의 그룹가입 신청</p>
-                <p><span class="main-color-text">{{alarm.goal.title}}</span> 을 목표로 하는 {{alarm_from.nickname}}님이 {{alarm.room.title}}에 가입하기를 희망합니다.</p>
+                <p><span class="main-color-text">{{alarm.goal.title}}</span> 을 목표로 하는 <span class="main-color-text">{{alarm.alarm_from.nickname}}</span>님이<br> <span class="main-color-text">{{alarm.room.title}}</span>에 가입하기를 희망합니다.</p>
+                <p>fever: <span class="main-color-text">{{alarm.goal.user.fuel}}</span>
+                <p>태그: <span class="main-color-text">
+                    {% for tag in alarm.goal.tags.all %}
+                    {{tag}}
+                    {% endfor %}
+                </span></p>
+                <p>활동태그: <span class="main-color-text">
+                    {% for tag in alarm.goal.activityTags.all %}
+                    {{tag}}
+                    {% endfor %}
+                </span></p>
                 <div class="horizontal-btns">
-                    <button onclick="acceptRequest({{alarm.id}})" class="white-main-btn">수락</button>
-                    <form method="POST" action="{% url 'alarm:reject_request' alarm.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="white-main-btn">거절</button>
-                    </form>
+                    <div>
+                        <button onclick="acceptRequest({{alarm.id}})" class="white-main-btn">수락</button>
+                        <form method="POST" action="{% url 'alarm:reject_request' alarm.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="white-main-btn">거절</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
