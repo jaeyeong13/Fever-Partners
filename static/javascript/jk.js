@@ -76,9 +76,19 @@ function loadContentManage(url) {
     })
     .then(data => {
         document.getElementById('group-admin-content').innerHTML = data;
+        runScriptsInContent(data);
     })
     .catch(error => {
         console.error('Error during fetch operation:', error);
+    });
+}
+
+function runScriptsInContent(htmlContent) {
+    const scripts = Array.from(new DOMParser().parseFromString(htmlContent, 'text/html').querySelectorAll('script'));
+    scripts.forEach(script => {
+        const newScript = document.createElement('script');
+        newScript.text = script.text;
+        document.body.appendChild(newScript);
     });
 }
 

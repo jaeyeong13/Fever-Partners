@@ -549,9 +549,9 @@ function SubmitAchievementReport(goal_id) {
   }
 }
 
-function displaySearchResults(results) {
+function displaySearchResults(display, results) {
   if (results.length === 0) {
-    searchResultsDiv.innerHTML = '<p>일치하는 사용자가 없습니다.</p>';
+    display.innerHTML = '<p>일치하는 사용자가 없습니다.</p>';
     return;
   }
   const userList = results.map(user => 
@@ -560,7 +560,7 @@ function displaySearchResults(results) {
       <button class="direct-invitation-button" onclick="suggestDirectJoin(${user.room_id}, ${user.id})">가입제안</button>
     </div>
   `).join('');
-  searchResultsDiv.innerHTML = userList;
+  display.innerHTML = userList;
 }
 
 function suggestDirectJoin(room_id, userId) {
@@ -641,38 +641,6 @@ function getTempInfoFromSession(infoName) {
   const tempInfo = sessionStorage.getItem(infoName);
   sessionStorage.removeItem(infoName);
   return tempInfo;
-}
-
-// 유저 직접 초대 관련
-const nicknameInput = document.getElementById('nickname');
-const searchResultsDiv = document.getElementById('searchResults');
-const roomHidden = document.getElementById('invitation-roomId-hidden');
-let roomId;
-if (roomHidden){
-  roomId = roomHidden.value;
-}
-
-if (nicknameInput){
-  nicknameInput.addEventListener('input', () => {
-    const nickname = nicknameInput.value.trim();
-    if (nickname !== '') {
-      fetch(`/group_admin/search/${roomId}?nickname=${nickname}`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('서버 오류 발생');
-          }
-          return response.json();
-        })
-        .then(data => {
-          displaySearchResults(data);
-        })
-        .catch(error => {
-          console.error('검색 중 오류 발생:', error);
-        });
-    } else {
-      searchResultsDiv.innerHTML = '';
-    }
-  });
 }
 
 function checkGoalStatus() {
