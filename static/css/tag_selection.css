@@ -3,7 +3,11 @@
     --gray: #838383;
     --red: #EB0000;
     --green: #00AD26;
-  }
+    :root --main-color: #db4455;
+    --white-color: #ffffff;
+    --gray2-color: #A9A9A9;
+    --font-color: #6b6b6b;
+}
 /* Tag에 대한 일반 설정 부분(추후 충돌날 수 있음) */
 
 a {
@@ -37,20 +41,19 @@ input[type="radio"]:focus + label {
 
 /* 추후 삭제될 부분 */
 
-
 .warning {
     color: red;
     font-size: 12px;
 }
 
-.goal-header{
+.goal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 5vh;
 }
 
-.goal-header-w{
+.goal-header-w {
     width: 90vw;
 }
 
@@ -58,15 +61,16 @@ input[type="radio"]:focus + label {
     font-weight: bold;
     font-size: 0.8em;
     color: black;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--gray2-color);
+    padding: 5px 0;
 }
 
-.choice-on-off{
+.choice-on-off {
     display: flex;
     gap: 15vw;
 }
 
-.choice-on-off > label{
+.choice-on-off > label {
     font-size: 20px;
     font-weight: bold;
 }
@@ -76,18 +80,18 @@ input[type="radio"]:focus + label {
     justify-content: center;
 }
 
-#goal-setting-container{
+#goal-setting-container {
     display: flex;
     width: 90vw;
     height: 90vh;
     flex-direction: column;
 }
 
-.main-color-text{
-    color:var(--main-color);
+.main-color-text {
+    color: var(--main-color);
 }
 
-.goal-form-setting{
+.goal-form-setting {
     display: flex;
     flex-direction: column;
     gap: 0.8vh;
@@ -96,6 +100,7 @@ input[type="radio"]:focus + label {
 #tag-container {
     display: flex;
     width: 100%;
+    height: 20vh;
 }
 
 #tag-container > div:nth-of-type(1) {
@@ -121,11 +126,36 @@ input[type="radio"]:focus + label {
     color: #8B8B8B;
 }
 
-#acttag-container{
+#acttag-container {
     font-size: 20px;
     font-weight: bold;
+    display: flex;
+    gap: 10px;
+}
+.g-btn {
+    display: flex;
+    justify-content: flex-end;
+}
+.goal-btn {
+    border: none;
+    width: 130px;
+    height: 40px;
+}
+label {
+    color: var(--font-color);
+}
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
 
-.goal-btn{
+textarea {
     width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
 }

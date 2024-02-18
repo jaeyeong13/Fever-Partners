@@ -53,6 +53,9 @@
                       {% if not goal.is_completed %}
                           <a class="ac-btn" href="{%url "goal_management:create_achievement_report" goal.pk %}">목표 달성 보고</a>
                       {% endif %}
+                      {% if goal.is_in_group == False %}
+                      <a class="ac-btn" href="{%url "goal_management:recommendation_page" goal.pk %}">그룹추천</a>
+                      {% endif %}
                   </div>
     </div>
         {% endfor %}

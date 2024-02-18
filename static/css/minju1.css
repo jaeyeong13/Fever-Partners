@@ -1,8 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap');
 :root {
     --main-color: #db4455;
     --white-color: #ffffff;
     --gray-color: #A9A9A9;
     --font-color: #6b6b6b;
+}
+body, html {
+    font-family: "IBM Plex Sans KR", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 body {
     width: 100%;
