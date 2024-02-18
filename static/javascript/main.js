@@ -390,6 +390,7 @@ function WithdrawalConfirm(user_id, room_id) {
   };
   Swal.fire({
     title: "정말로 탈퇴하겠습니까?",
+    text: "자의적으로 탈퇴할 시 보증금을 반환받을 수 없습니다!",
     icon: "question",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
@@ -846,5 +847,17 @@ function acceptDirectRequest(alarmId) {
   })
   .catch(error => {
       console.error(error);
+  });
+}
+
+function checkRoomActive(roomId) {
+  fetch(window.location.origin + "/group/check_status/" + roomId)
+  .then(response => {
+    if (response.ok) {
+      window.location.href = window.location.origin + "/group_activity/main/" + roomId
+    }
+    else {
+      NotActiveYetModal()
+    }
   });
 }

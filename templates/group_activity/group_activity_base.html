@@ -57,7 +57,7 @@
       </div>
       <div id="group-select-activity-list">
         <a href="{%url 'group_activity:member_list' room_id%}" onclick="changeTab('member', event, {{room_id}})" class="selected-group-tab">멤버</a>
-        <a href="{% url 'group_activity:activate' room_id %}" onclick="changeTab('activate', event, {{room_id}})" >인증 공간</a>
+        <a href="{% url 'group_activity:activate' room_id %}" onclick="changeTab('activate', event, {{room_id}})" id="auth-space">인증 공간</a>
         <a href="{% url 'group_activity:show_log' room_id %}" onclick="changeTab('show_log', event, {{room_id}})">활동 현황</a>
         <a href="{% url 'free_board:list' room_id %}">게시판</a>
       </div>
@@ -90,9 +90,17 @@
     //그룹탭 들어오면 기본 페이지 실행
     function initializeAct() {
       var room_id = {{ room_id }};
-      document.addEventListener('DOMContentLoaded', function () {
-          defaultActivate(room_id);
-      });
+      var previousPage = document.referrer;
+      
+      if (previousPage.includes(window.location.origin + '/group_activity/auth/')) {
+          document.addEventListener('DOMContentLoaded', function () {
+              authActivate(room_id)
+          });
+      } else {
+          document.addEventListener('DOMContentLoaded', function () {
+              defaultActivate(room_id);
+          });
+      }
     }
 
     initializeAct()

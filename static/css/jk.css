@@ -240,9 +240,13 @@ body, html {
 
 #member-list-text{
   color: var(--main-color);
-  font-size: 2.5em;
+  font-size: 2em;
   font-weight: bold;
-  text-shadow: 0.05em 0.05em 5px var(--gray);
+  text-shadow: 0.05em 0.05em 2px var(--gray);
+}
+
+.member-field-span {
+  color: var(--main-color);
 }
 
 .group-member-intro{
@@ -297,8 +301,11 @@ body, html {
 }
 
 .big-btn{
-  height: 5em;
+  height: 4em;
   margin-top: 5em;
+  font-family: "IBM Plex Sans KR", sans-serif;
+  font-size: 1em;
+  font-weight: bold;
 }
 
 

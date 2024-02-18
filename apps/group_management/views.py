@@ -175,3 +175,10 @@ def check_user_goal(request):
         return HttpResponse(status=204)
     else:
         return HttpResponse(status=400)
+    
+def check_room_status(request, room_id):
+    room = Room.objects.get(pk=room_id)
+    if room.is_active:
+        return HttpResponse(status=204)
+    else:
+        return HttpResponse(status=400)

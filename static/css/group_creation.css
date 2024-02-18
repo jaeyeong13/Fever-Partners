@@ -37,3 +37,23 @@
 .toggle-checkbox:checked + .toggle-label:before {
     content: 'YES';
 }
+
+.room-horizontal-div {
+    display: flex;
+    gap: 6vw;
+}
+.room-horizontal-div > label {
+    background-color: rgba(219, 68, 85, 0.8);
+    color: white;
+    width: 14vw;
+    height: 3vh;
+    text-align: center;
+    line-height: 3vh;
+    border-radius: 12px;
+    margin-top: 2vh;
+}
+
+.room-horizontal-div > input[type="radio"]:checked + label {
+    color: white;
+    box-shadow: 2px 2px 1px black;
+}

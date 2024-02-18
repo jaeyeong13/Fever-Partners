@@ -42,6 +42,7 @@ button {
     display: flex;
     justify-content: space-between;
     margin: 0 7vw;
+    margin-bottom: 3vh;
     padding: 1vh 8vw;
     background-color: rgba(219, 68, 85, 0.05);
     border-radius: 15vw;

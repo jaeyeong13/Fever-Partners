@@ -8,6 +8,7 @@ import json
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_http_methods
 from apps.group_activity.models import UserActivityInfo
+from django.db.models import Case, When, Value, IntegerField
 
 #room 중복되는 건 추후에 제거 할 예정
 def show_activity_main(request, room_id):
@@ -195,17 +196,22 @@ def show_log(request, room_id):
     return render(request, 'group_activity/show_log.html', ctx)
 
 def show_member_list(request, room_id):
-    member_dict = {}
+    member_list = []
     room = Room.objects.get(id=room_id)
-    for member in room.members.all():
+    members_ordered = room.members.annotate(
+    is_master=Case(
+        When(id=room.master_id, then=Value(0)),
+        default=Value(1),
+        output_field=IntegerField(),
+    )).order_by('is_master')
+    for member in members_ordered.all():
         target_goal = member.goal.all().get(belonging_group_id=room_id)
         target_user_info = member.activity_infos.get(room=room)
-        print(target_user_info)
-        member_dict[member] = {'goal':target_goal, 'user_info':target_user_info}
+        member_list.append({'user':member, 'goal':target_goal, 'user_info':target_user_info})
 
     cnt = {
         'room_id': room_id,
-        'member_dict': member_dict,
+        'member_list': member_list,
         'room': room,
     }
 

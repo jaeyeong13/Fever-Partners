@@ -2,12 +2,12 @@
 {% block content %}
 
     <div id="group-member-list">
-        {% for member, goal in member_goal_pairs.items %}
-            <p id="member-list-text">멤버 list</p>
-
-            {% if member == room.master %}
+        <p id="member-list-text">멤버 리스트</p>
+        {% for member in member_list %}
+            
+            {% if member.user == room.master %}
                 <div class="group-master-intro">
-                    {% if member.profile_image.url != '' %}
+                    {% if member.user.profile_image.url != '' %}
                     <img
                         src="/media/{{member.profile_image}}/"
                         alt="프로필 이미지"
@@ -21,13 +21,16 @@
                     />
                     {% endif %}
                     <div class="member-intro-text">
-                        <h3>닉네임: {{ member.nickname }}</h3>
-                        <div>목표: {{goal.title}}</div>
+                        <h3><span class='member-field-span'>닉네임 </span>{{ member.user.nickname }}</h3>
+                        <div><span class='member-field-span'>목표 </span>{{ member.goal.title }}</div>
+                        {% if member.user_info.room.cert_required %}
+                            <div><span class='member-field-span'>보증금 </span>{{member.user_info.deposit_left}}🪙</div>
+                        {% endif %}
                     </div>
                 </div>
             {% else %}
                 <div class="group-member-intro">
-                    {% if member.profile_image.url != '' %}
+                    {% if member.user.profile_image.url != '' %}
                     <img
                         src="/media/{{member.profile_image}}/"
                         alt="프로필 이미지"
@@ -41,8 +44,8 @@
                     />
                     {% endif %}
                     <div class="member-intro-text">
-                        <h3>닉네임: {{ member.nickname }}</h3>
-                        <div>목표: {{goal.title}}</div>
+                        <h3>닉네임: {{ member.user.nickname }}</h3>
+                        <div>목표: {{member.goal.title}}</div>
                     </div>
                 </div>
             {% endif %}

@@ -54,6 +54,16 @@ function defaultActivate(roomId) {
     loadContent('../member_list/'+roomId);
   }
 
+function authActivate(roomId) {
+    loadContent(window.location.origin + '/group_activity/activate/'+roomId);
+    var links = document.querySelectorAll('#group-select-activity-list a');
+    links.forEach(function(link) {
+    link.classList.remove('selected-group-tab');
+    });
+    const authSpaceTab = document.getElementById('auth-space');
+    authSpaceTab.classList.add('selected-group-tab');
+}
+
 
 //그룹 관리 탭 ajax
 function loadContentManage(url) {
