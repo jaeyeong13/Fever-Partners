@@ -137,7 +137,7 @@ def recommend_member(request, room_id):
 
     final_query = Q('bool', must=must_queries, should=should_queries, must_not=must_not_queries)
     
-    s = Search(index='goals').query(final_query)
+    s = Search(index='goals_local').query(final_query)
     s = s.sort({'_score': {'order': 'desc'}})
     response = s.execute()
     hit_scores = {hit.meta.id: hit.meta.score for hit in response if hit.meta.id not in is_pending}

@@ -5,14 +5,14 @@
 {% for auth in memberAuthentication %}
 <div class="v_d_wrap">
   <div class="v_d">
-    <p><span>{{ auth.user.nickname }}</span> 님의 활동 인증 요청</p>
+    <a onclick="loadAuth({{auth.pk}})"><span>{{ auth.user.nickname }}</span> 님의 활동 인증 요청</a>
     {% comment %} <p>{{ auth.content }}</p>
     <img src="{{ auth.image.url }}" alt="인증 이미지"> {% endcomment %}
     <div class="v_d_b">
-      <a href="{% url 'group_activity:accept_auth_log' auth.id %}">
+      <a onclick="acceptAuth({{auth.id}},{{auth.room.pk}})">
           <i class="ri-checkbox-circle-line y"></i> <!-- 수락 아이콘 -->
       </a>
-      <a href="{% url 'group_activity:refuse_auth_log' auth.id %}">
+      <a onclick="refuseAuth({{auth.id}},{{auth.room.pk}})">
           <i class="ri-close-circle-line n"></i> <!-- 거절 아이콘 -->
       </a>
   </div>

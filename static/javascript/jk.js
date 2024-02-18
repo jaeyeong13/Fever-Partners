@@ -178,3 +178,23 @@ function closeAuth(roomId, authId) {
       }
     });
 }
+
+function acceptAuth(authId, roomId) {
+    closeModal()
+    fetch(window.location.origin + "/group_activity/accept_auth_log/" + authId)
+    .then(response => {
+        if (response.ok) {
+            loadContentManage(window.location.origin + '/group_activity/verify/'+roomId);
+        }
+    })
+} 
+
+function refuseAuth(authId, roomId) {
+    closeModal()
+    fetch(window.location.origin + "/group_activity/refuse_auth_log/" + authId)
+    .then(response => {
+        if (response.ok) {
+            loadContentManage(window.location.origin + '/group_activity/verify/'+roomId);
+        }
+    })
+} 

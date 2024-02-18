@@ -87,12 +87,13 @@
     </div>
   </body>
   <script>
+
     //그룹탭 들어오면 기본 페이지 실행
     function initializeAct() {
       var room_id = {{ room_id }};
       var previousPage = document.referrer;
       
-      if (previousPage.includes(window.location.origin + '/group_activity/auth/')) {
+      if (previousPage.includes(window.location.origin + '/group_activity/auth/') || previousPage.includes(window.location.origin + '/group_activity/authentication/')) {
           document.addEventListener('DOMContentLoaded', function () {
               authActivate(room_id)
           });

@@ -50,8 +50,62 @@
       </div>
     </a>
   </div>
+  <div id="myModal" class="modal" onclick="closeModal()">
+    <div class="modal-content" id="modalContent" onclick="event.stopPropagation()">
+    </div>
+  </div>
+  <style>
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+    .modal-content {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fefefe;
+      padding: 20px;
+      border-radius: 10px;
+      z-index: 1001;
+    }
+  </style>
 </body>
 <script>
+
+  var modal = document.getElementById("myModal");
+  var modalContent = document.getElementById("modalContent");
+
+  function openModal() {
+    modal.style.display = "block";
+  }
+  function closeModal() {
+    modal.style.display = "none";
+  }
+
+  function loadAuth(authId) {
+    fetch(window.location.origin + '/group_activity/auth_detail/' + authId)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('컨텐츠 로딩 중 오류 발생');
+        }
+        return response.text();
+      })
+      .then(html => {
+        modalContent.innerHTML = html;
+        openModal();
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
   document.addEventListener("DOMContentLoaded", function() {
     var links = document.getElementsByTagName("a");
   

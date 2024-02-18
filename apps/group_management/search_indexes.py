@@ -5,7 +5,7 @@ from .models import Room
 @registry.register_document
 class RoomDocument(Document):
     class Index:
-        name = 'rooms'
+        name = 'rooms_local'
 
     members = fields.NestedField(properties={
         'id': fields.IntegerField(),

@@ -89,6 +89,13 @@ def verify(request, room_id):
     }
     return render(request, 'group_activity/verifying_auth.html', ctx)
 
+def load_auth_detail(request, auth_id):
+    memberAuth = MemberAuthentication.objects.get(pk=auth_id)
+    cnt = {
+        'auth':memberAuth,
+    }
+    return render(request, 'group_administration/auth_detail.html', cnt)
+
 #인증 수락을 눌렀을 때
 def accept_auth_log(request, member_auth_id):
     memberAuthentication = MemberAuthentication.objects.get(id=member_auth_id)
@@ -103,7 +110,7 @@ def accept_auth_log(request, member_auth_id):
     memberAuthentication.is_completed = True
     memberAuthentication.save()
 
-    return redirect('group_administration:group_admin_main', memberAuthentication.room.id)
+    return HttpResponse(status=204)
 
 #인증 거절을 눌렀을 때
 def refuse_auth_log(request, member_auth_id):
@@ -118,7 +125,7 @@ def refuse_auth_log(request, member_auth_id):
     memberAuthentication.is_completed = True
     memberAuthentication.save()
 
-    return redirect('group_administration:group_admin_main', memberAuthentication.room.id)
+    return HttpResponse(status=204)
 
 @require_http_methods(["DELETE"])
 def close_authentication(request, room_id, auth_id):

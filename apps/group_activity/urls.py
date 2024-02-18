@@ -16,4 +16,5 @@ urlpatterns = [
     path('permission_check', permission_check, name='permission_check'),
     path('withdraw_from_room', withdraw_from_room, name='withdraw_from_room'),
     path('close_auth/<int:room_id>/<int:auth_id>', close_authentication, name='close_auth'),
+    path('auth_detail/<int:auth_id>', load_auth_detail)
 ]

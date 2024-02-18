@@ -89,6 +89,7 @@ body, html {
   display: flex;
   align-items: center;
   border-bottom: 2px solid black;
+  color: rgb(219, 68, 85) !important;
 }
 
 #group-activity-content {
@@ -659,4 +660,26 @@ input[type="number" i] {
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box;
+}
+
+/* 인증 detail 모달 */
+.auth-detail-img {
+  height: auto;
+  max-height: 70vh;
+  width: 70vw; 
+}
+.auth-detail-title {
+  font-size: 6vw;
+  margin-bottom: 3vh;
+}
+.auth-detail-span {
+  color: #db4455;
+}
+.auth-detail-btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2vh;
+  gap: 8vw;
+  font-size: 8vw;
 }
