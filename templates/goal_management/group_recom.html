@@ -68,46 +68,51 @@
                         </p>
                         <p>
                             <span>인증</span>
-                            {% if room.cert_required %}O{% else %}X{% endif %}
+                            {% if room.cert_required %}필수{% else %}선택{% endif %}
+                            {% if room.cert_required %}
+                                <span>벌금</span>
+                                {{room.penalty_value}}🪙
+                                <span>보증금</span>
+                                {{room.deposit}}🪙
+                            {% endif %}
                         </p>
                         <button
                             class="join-button"
                             onclick="applyForAdmission(this,'{{room.title}}',{{room.master.id}},{{room.id}},{{goal.id}})">가입신청</button>
                     </div>
                 </div>
-            {% endfor %}
-        </div>
-        <div class="footer">
-            <a
-                href="{% url 'group_management:group_list' %}"
-                class="footer-link"
-                style="display: flex;">
-                <div class="footer-item">
-                    <i class="fa-solid fa-user-group footer-icon"></i>
-                    <a href="{% url 'group_management:group_list' %}" class="footer-text">내 그룹</a>
-                </div>
-            </a>
-            <a
-                href="{% url 'goal_management:goal_list' %}"
-                class="footer-link"
-                style="display: flex;">
-                <div class="footer-item">
-                    <i class="fa-solid fa-bullseye footer-icon"></i>
-                    <a href="{% url 'goal_management:goal_list' %}" class="footer-text">내 목표</a>
-                </div>
-            </a>
-            <a
-                href="{% url 'goal_management:achievement_report_list'%}"
-                class="footer-link"
-                style="display: flex;">
-                <div class="footer-item">
-                    <i class="ri-file-list-3-line footer-icon"></i>
+                {% endfor %}
+                <div class="footer">
+                    <a
+                        href="{% url 'group_management:group_list' %}"
+                        class="footer-link"
+                        style="display: flex;">
+                        <div class="footer-item">
+                            <i class="fa-solid fa-user-group footer-icon"></i>
+                            <a href="{% url 'group_management:group_list' %}" class="footer-text">내 그룹</a>
+                        </div>
+                    </a>
+                    <a
+                        href="{% url 'goal_management:goal_list' %}"
+                        class="footer-link"
+                        style="display: flex;">
+                        <div class="footer-item">
+                            <i class="fa-solid fa-bullseye footer-icon"></i>
+                            <a href="{% url 'goal_management:goal_list' %}" class="footer-text">내 목표</a>
+                        </div>
+                    </a>
                     <a
                         href="{% url 'goal_management:achievement_report_list'%}"
-                        class="footer-text">달성보고</a>
-                    <!-- 이 부분 이름은 나중에 수정 필요 -->
+                        class="footer-link"
+                        style="display: flex;">
+                        <div class="footer-item">
+                            <i class="ri-file-list-3-line footer-icon"></i>
+                            <a
+                                href="{% url 'goal_management:achievement_report_list'%}"
+                                class="footer-text">달성보고</a>
+                            <!-- 이 부분 이름은 나중에 수정 필요 -->
+                        </div>
+                    </a>
                 </div>
-            </a>
-        </div>
-    </body>
-</html>
+            </body>
+        </html>

@@ -717,6 +717,7 @@ function suggestJoin(button, userNickname, userId, roomId, goalId) {
                   });
               } else {
                   button.disabled = true;
+                  button.classList.add('applied');
               }
           }).catch(error => {
               Swal.fire({
