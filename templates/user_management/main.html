@@ -7,17 +7,18 @@
     <title>Fever Partners</title>
     <script src="{%static 'javascript/main.js'%}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
-    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'css/jiwoo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
     <script src="https://kit.fontawesome.com/aa0228ade6.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/2.5.0/remixicon.css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="main_container">
         <div class="main_container_top_part">
             <div class="main_container_header">
-                <span style="margin-top: 0.5rem; margin-left: 0.5rem;">
-                    <img src="{% static 'image/logo.png' %}" alt="">
+                <span style="margin-top: 0.5rem; margin-left: 1rem;">
+                    <img src="{% static 'image/main_logo.png' %}" alt="">
                 </span>
                 <span class="header_icons">
                     {% if user.is_authenticated %}
@@ -47,8 +48,8 @@
                         </p>
                     </div>
                     <div style="margin-top: 4rem; flex-direction: column;">
-                        <p style="font-size: 0.9rem; width: 70%; margin-bottom: 5px;">My Fuel Gage</p>
-                        <progress value="{{ user.fuel }}" max="100"></progress>
+                        <p style="font-size: 0.9rem; width: 70%; margin-bottom: 5px;">My Fever Gage</p>
+                        <progress value="{{user.fuel}}" max="100"></progress>
                     </div>
                 </div>
             </div>

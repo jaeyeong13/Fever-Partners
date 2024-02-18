@@ -781,7 +781,7 @@ function acceptRequest(alarmId) {
   })
   .then(response => {
       if (response.ok) {
-        window.location.href = window.location.origin + '/show_alarms';
+        window.location.href = window.location.origin + '/alarm/show_alarms';
       } else {
           if (response.status === 400) {
               Swal.fire({
@@ -824,7 +824,7 @@ function acceptDirectRequest(alarmId) {
   })
   .then(response => {
       if (response.ok) {
-        window.location.href = window.location.origin + '/show_alarms';
+        window.location.href = window.location.origin + '/alarm/show_alarms';
       } else {
           if (response.status === 400) {
               Swal.fire({
