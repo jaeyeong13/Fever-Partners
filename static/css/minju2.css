@@ -370,3 +370,12 @@ a.ac-btn:hover {
 .nickcss {
     font-size: larger;
 }
+.group-wrap1 {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 10vh;
+}
