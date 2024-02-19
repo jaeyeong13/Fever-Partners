@@ -26,13 +26,13 @@
         <div id="signup_method">
             <div>
                 <span>
-                    <img src="{% static 'image/email.png' %}" alt="" style="height: 1.2rem; width: auto; margin-left: 0.5rem;">
+                    <img src="{% static 'image/email.png' %}" alt="" style="height: 1.2rem; width: auto; margin-left: 1.3rem;">
                 </span>
                 <a href="{% url 'user_management:signup_email' %}">이메일로 시작하기</a>
             </div>
             <div>
                 <span>
-                    <img src="{% static 'image/naver.png' %}" alt="" style="height: 1.2rem; width: auto; margin-left: 0.5rem;">
+                    <img src="{% static 'image/naver.png' %}" alt="" style="height: 1.2rem; width: auto; margin-left: 1.3rem;">
                 </span>
                 <form action="{% provider_login_url 'naver'%}" method="POST">
                     {% csrf_token %}
@@ -41,7 +41,7 @@
             </div>
             <div>
                 <span>
-                    <img src="{% static 'image/google.webp' %}" alt="" style="height: 1.2rem; width: auto; margin-left: 0.5rem;">
+                    <img src="{% static 'image/google.webp' %}" alt="" style="height: 1.2rem; width: auto; margin-left: 1.3rem;">
                 </span>
                 <form action="{% provider_login_url 'google'%}" method="POST">
                     {% csrf_token %}
@@ -50,7 +50,7 @@
             </div>
             <div>
                 <span>
-                    <img src="{% static 'image/kakao.png' %}" alt="" style="height: 1.2rem; width: auto; margin-left: 0.7rem;">
+                    <img src="{% static 'image/kakao.png' %}" alt="" style="height: 1.2rem; width: auto; margin-left: 1.6rem;">
                 </span>
                 <form action="{% provider_login_url 'kakao'%}" method="POST">
                     {% csrf_token %}
