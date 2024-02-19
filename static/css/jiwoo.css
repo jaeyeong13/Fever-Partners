@@ -154,14 +154,14 @@ body, html {
 }
 
 #signup_method {
-    width: 50vw;
+    width: 70vw;
 }
 
 #signup_method div {
-    border: solid 1px black;
-    margin-top: 1rem;
+    border: solid 1px rgb(62, 62, 62);
+    margin-top: 1.2rem;
     height: 2rem;
-    width:50wh;
+    padding: 5px 0;
 }
 
 #signup_method div form {
@@ -173,7 +173,7 @@ body, html {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 5%;
+    border-radius: 10px;
 }
 
 #signup_method a {
@@ -194,7 +194,6 @@ body, html {
     height: 100%;
     font-size: 1rem;
 }
-
 #return_login {
     height: 30vh;
 }
