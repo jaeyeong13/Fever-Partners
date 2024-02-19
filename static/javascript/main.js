@@ -61,11 +61,18 @@ function validateForm() {
     }
 
     // 유효성 검사 통과 여부 반환 : false이면 폼 제출X
-    return tagSelectionWarning.innerHTML === '' &&
-        activityTypeWarning.innerHTML === '' &&
-        goalTitleWarning.innerHTML === '' &&
-        goalDetailsWarning.innerHTML === '' &&
-        meetingPreferenceWarning.innerHTML === '';
+    if (tagSelectionWarning.innerHTML === '' &&
+    activityTypeWarning.innerHTML === '' &&
+    goalTitleWarning.innerHTML === '' &&
+    goalDetailsWarning.innerHTML === '' &&
+    meetingPreferenceWarning.innerHTML === '') {
+      const btn = document.getElementById('goal-creation-submit')
+      btn.disabled = true;
+      btn.value = "처리 중...";
+      return true;
+    } else {
+      return false;
+    }
 }
 
 const certRequired = document.getElementById("cert_required");
@@ -144,15 +151,21 @@ function validateGroupForm() {
       }
   }
   // 유효성 검사 통과 여부 반환 : false이면 폼 제출X
-  return goalWarning.innerHTML === '' &&
-      titleWarning.innerHTML === '' &&
-      detailWarning.innerHTML === '' &&
-      penaltyWarning.innerHTML === '' &&
-      certDetailWarning.innerHTML === '' &&
-      durationWarning.innerHTML === '' &&
-      depositWarning.innerHTML === '';
+  if (goalWarning.innerHTML === '' &&
+  titleWarning.innerHTML === '' &&
+  detailWarning.innerHTML === '' &&
+  penaltyWarning.innerHTML === '' &&
+  certDetailWarning.innerHTML === '' &&
+  durationWarning.innerHTML === '' &&
+  depositWarning.innerHTML === '') {
+    const btn = document.getElementById('group-create-submit');
+    btn.disabled = true;
+    btn.value = "처리 중...";
+    return true;
+  } else {
+    return false;
+  }
 }
-
 
 function getCookie(name) {
   let cookieValue = null;
