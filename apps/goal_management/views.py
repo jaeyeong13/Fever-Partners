@@ -180,9 +180,9 @@ def suggest_join(request, goal_id):
         return HttpResponse(status=400)
 
 def show_achievement_report_list(request):
-    reports = AchievementReport.objects.all()
+    reports = AchievementReport.objects.all().order_by('-id')  # id는 보고서가 생성된 순서를 나타내는 것으로 가정합니다.
     cnt = {
-        'reports':reports, 
+        'reports': reports, 
     }
     return render(request, 'goal_management/achievement_report_main.html', cnt)
 
