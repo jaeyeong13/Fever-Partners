@@ -109,7 +109,6 @@ input[type="radio"]:focus + label {
     flex-direction: column;
     gap: 1vh;
     margin-top: 2vh;
-    height: 25vh;
     font-size: 20px;
     font-weight: bold;
 }
