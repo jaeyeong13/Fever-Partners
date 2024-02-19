@@ -32,7 +32,7 @@
                     <div>
                         <a class="ac-btn" href="{% url 'group_activity:main_page' room.pk %}">그룹</a>
                         {% if room.closing_date < current_time %}
-                        {% if user == room.user.master %}
+                        {% if user.pk == room.master.pk %}
                             <a class="ac-btn" onclick="GroupClosureConfirm({{room.pk}})">활동종료</a>
                         {% endif %}
                         {% endif %}
