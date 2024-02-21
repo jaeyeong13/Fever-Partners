@@ -1,5 +1,5 @@
 # 🔥Fever Partners🔥
-![FeverPartners 로고](https://github.com/jaeyeong13/Fever-Partners/assets/141209201/9d0fb114-eb8f-4f2c-90dd-308f05d7e92b)
+<img src="https://github.com/jaeyeong13/Fever-Partners/assets/141209201/9d0fb114-eb8f-4f2c-90dd-308f05d7e92b" width="100" height="100"/>
 ## 여러분의 자기계발과 도전을 돕는 플랫폼
 
 
