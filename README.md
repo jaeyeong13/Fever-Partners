@@ -1,5 +1,7 @@
 # 🔥Fever Partners🔥
-<img src="https://github.com/jaeyeong13/Fever-Partners/assets/141209201/9d0fb114-eb8f-4f2c-90dd-308f05d7e92b" width="200" height="200">
+<p align="center">
+  <img src="https://github.com/jaeyeong13/Fever-Partners/assets/141209201/9d0fb114-eb8f-4f2c-90dd-308f05d7e92b" width="200" height="200">
+</p>
 
 ## 여러분의 자기계발과 도전을 돕는 플랫폼
 
