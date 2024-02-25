@@ -16,7 +16,11 @@
 <br>
 
 ## 🛠️기술 스택
-- HTML, CSS, VanillaJS(+SweetAlert2, Flatpickr), Django, Elastic Search
+- HTML
+- CSS
+- VanillaJS(+SweetAlert2, Flatpickr)
+- Django
+- Elastic Search
 <br>
 
 ## 🛳️배포 환경
