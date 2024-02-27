@@ -1,5 +1,5 @@
-# [🔥Fever Partners🔥](https://feverpartners.store)
-(제목을 클릭하면 사이트로 바로 연결됩니다.)
+# [🔥Fever Partners🔥](https://drive.google.com/file/d/1V4wpZgPj1blQX0MGPUcZQif1iptCBBuc/view?usp=sharing)
+(제목을 클릭하면 시연 영상 녹화본으로 바로 연결됩니다.)
 <p align="center">
   <img src="https://github.com/jaeyeong13/Fever-Partners/assets/141209201/9d0fb114-eb8f-4f2c-90dd-308f05d7e92b" width="200" height="200">
 </p>
